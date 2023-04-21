@@ -1,7 +1,9 @@
-const email = "Manuelforneri@hotmail.com ";
+class ProductManage {
+  #precioBase = 10;
 
-if (email === "Manuelforneri@hotmail.com") {
-  console.log("son iguales");
-} else {
-  console.log("no son iguales");
+  constructor() {
+    this.product = [];
+  }
+  getEvents() {}
+  addProduct() {}
 }
