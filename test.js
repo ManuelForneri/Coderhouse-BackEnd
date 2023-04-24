@@ -1,9 +1,26 @@
+function validateNewProductCode(products, code) {
+  for (let i = 0; i < products.length; i++) {
+    if (products[i].code === code) {
+      return false;
+    }
+  }
+  return true;
+}
+
 class ProductManage {
   constructor() {
     this.products = [];
   }
   getProducts() {
     return this.products;
+  }
+  getProductById(id) {
+    for (let i = 0; i < this.products.length; i++) {
+      if (this.products[i].id === id) {
+        return this.products[i];
+      }
+    }
+    return "Not found";
   }
   addProduct(title, description, price, thumbnail, code, stock) {
     if (title == "") {
@@ -16,6 +33,8 @@ class ProductManage {
       console.log("Revise que todos los campos esten completos");
     } else if (code == null) {
       console.log("Revise que todos los campos esten completos");
+    } else if (validateNewProductCode(this.products, code) == false) {
+      console.log("Ya hay un producto con este codigo");
     } else if (stock == null) {
       console.log("Revise que todos los campos esten completos");
     } else {
@@ -39,22 +58,24 @@ class ProductManage {
     }
   }
 }
-
 const ProductM = new ProductManage();
+console.log(ProductM.getProducts());
+
 ProductM.addProduct(
-  "Reloj casio",
-  "Reloj de Dama, con malla de acero",
-  10000,
-  "",
-  "133",
-  3
-);
-ProductM.addProduct(
-  "Reloj Lemon",
-  "Reloj de Caballero, con malla de acero",
-  12000,
-  "../assets/relojCaballero.jpg",
-  "234",
-  3
+  "producto prueba",
+  "Este es un producto prueba",
+  200,
+  "Sin imagen",
+  "abc123",
+  25
 );
 console.log(ProductM.getProducts());
+ProductM.addProduct(
+  "producto prueba",
+  "Este es un producto prueba",
+  200,
+  "Sin imagen",
+  "abc123",
+  25
+);
+console.log(ProductM.getProductById(2));
