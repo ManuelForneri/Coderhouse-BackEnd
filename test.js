@@ -1,10 +1,33 @@
 function validateNewProductCode(products, code) {
   for (let i = 0; i < products.length; i++) {
     if (products[i].code === code) {
-      return false;
+      return true;
     }
   }
-  return true;
+  return false;
+}
+function validateNewProduct(
+  title,
+  description,
+  price,
+  thumbnail,
+  code,
+  stock,
+  products
+) {
+  let flagError = false;
+  if (!title || !description || !price || !thumbnail || !code || !stock) {
+    console.log("Los parámetros no pueden estar vacíos");
+    flagError = true;
+  } else if (isNaN(price) || isNaN(stock)) {
+    console.log("El precio y el stock tienen que ser de tipo numerico");
+    flagError = true;
+  } else if (validateNewProductCode(products, code)) {
+    console.log("Ya hay un producto con este codigo");
+    flagError = true;
+  }
+
+  return flagError;
 }
 
 class ProductManage {
@@ -23,20 +46,16 @@ class ProductManage {
     return "Not found";
   }
   addProduct(title, description, price, thumbnail, code, stock) {
-    if (title == "") {
-      console.log("Revise que todos los campos esten completos");
-    } else if (description == "") {
-      console.log("Revise que todos los campos esten completos");
-    } else if (price == null) {
-      console.log("Revise que todos los campos esten completos");
-    } else if (thumbnail == "") {
-      console.log("Revise que todos los campos esten completos");
-    } else if (code == null) {
-      console.log("Revise que todos los campos esten completos");
-    } else if (validateNewProductCode(this.products, code) == false) {
-      console.log("Ya hay un producto con este codigo");
-    } else if (stock == null) {
-      console.log("Revise que todos los campos esten completos");
+    let flag = validateNewProduct(
+      title,
+      description,
+      price,
+      thumbnail,
+      code,
+      stock,
+      this.products
+    );
+    if (flag) {
     } else {
       let idMax = 0;
       this.products.forEach((prod) => {
@@ -79,3 +98,22 @@ ProductM.addProduct(
   25
 );
 console.log(ProductM.getProductById(2));
+
+/*
+
+if (title == "") {
+      console.log("Revise que todos los campos esten completos");
+    } else if (description == "") {
+      console.log("Revise que todos los campos esten completos");
+    } else if (price == null) {
+      console.log("Revise que todos los campos esten completos");
+    } else if (thumbnail == "") {
+      console.log("Revise que todos los campos esten completos");
+    } else if (code == null) {
+      console.log("Revise que todos los campos esten completos");
+    } else if (validateNewProductCode(this.products, code) == false) {
+      console.log("Ya hay un producto con este codigo");
+    } else if (stock == null) {
+      console.log("Revise que todos los campos esten completos");
+    } else {
+*/
