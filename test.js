@@ -45,6 +45,7 @@ class ProductManage {
     }
     return "Not found";
   }
+  updateProduct() {}
   addProduct(title, description, price, thumbnail, code, stock) {
     let flag = validateNewProduct(
       title,
