@@ -1,3 +1,5 @@
+const fs = require("fs");
+
 function validateNewProductCode(products, code) {
   for (let i = 0; i < products.length; i++) {
     if (products[i].code === code) {
@@ -75,6 +77,15 @@ class ProductManage {
         stock,
       };
       this.products.push(productCrated);
+      let productFile = JSON.stringify(this.products);
+
+      fs.writeFile("test.txt", productFile, (err) => {
+        if (err) {
+          console.log("error al escribir el archivo");
+        } else {
+          console.log("archivo escrito correctamente");
+        }
+      });
     }
   }
 }
@@ -99,6 +110,14 @@ ProductM.addProduct(
   25
 );
 console.log(ProductM.getProductById(2));
+ProductM.addProduct(
+  "producto prueba 2",
+  "Este es un producto prueba",
+  2000,
+  "Sin imagen",
+  "abc124",
+  2
+);
 
 /*
 
