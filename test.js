@@ -110,30 +110,3 @@ ProductM.addProduct(
   25
 );
 console.log(ProductM.getProductById(2));
-ProductM.addProduct(
-  "producto prueba 2",
-  "Este es un producto prueba",
-  2000,
-  "Sin imagen",
-  "abc124",
-  2
-);
-
-/*
-
-if (title == "") {
-      console.log("Revise que todos los campos esten completos");
-    } else if (description == "") {
-      console.log("Revise que todos los campos esten completos");
-    } else if (price == null) {
-      console.log("Revise que todos los campos esten completos");
-    } else if (thumbnail == "") {
-      console.log("Revise que todos los campos esten completos");
-    } else if (code == null) {
-      console.log("Revise que todos los campos esten completos");
-    } else if (validateNewProductCode(this.products, code) == false) {
-      console.log("Ya hay un producto con este codigo");
-    } else if (stock == null) {
-      console.log("Revise que todos los campos esten completos");
-    } else {
-*/
