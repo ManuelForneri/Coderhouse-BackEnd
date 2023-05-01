@@ -35,6 +35,17 @@ function validateNewProduct(
 class ProductManage {
   constructor() {
     this.products = [];
+    this.LoadProducts();
+  }
+  LoadProducts() {
+    try {
+      const data = fs.readFileSync("test.txt", "utf-8");
+      if (data) {
+        this.products = JSON.parse(data);
+      }
+    } catch (err) {
+      console.log(`Error al leer el archivo: ${err.message}`);
+    }
   }
   getProducts() {
     return this.products;
@@ -60,7 +71,8 @@ class ProductManage {
     );
     if (flag) {
     } else {
-      let idMax = 0;
+      console.log(this.products.length);
+      let idMax = this.products.length;
       this.products.forEach((prod) => {
         if (prod.id > idMax) {
           idMax = prod.id;
@@ -97,7 +109,7 @@ ProductM.addProduct(
   "Este es un producto prueba",
   200,
   "Sin imagen",
-  "abc123",
+  "abc127",
   25
 );
 console.log(ProductM.getProducts());
@@ -106,7 +118,7 @@ ProductM.addProduct(
   "Este es un producto prueba",
   200,
   "Sin imagen",
-  "abc123",
+  "abc128",
   25
 );
 console.log(ProductM.getProductById(2));
