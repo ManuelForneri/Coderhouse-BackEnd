@@ -1,7 +1,4 @@
-const { rejects } = require("assert");
 const fs = require("fs");
-const { resolve } = require("path");
-const { title } = require("process");
 
 function validateNewProductCode(products, code) {
   for (let i = 0; i < products.length; i++) {
@@ -53,14 +50,11 @@ class ProductManage {
   getProducts() {
     return this.products;
   }
-  getProductById(id) {
-    for (let i = 0; i < this.products.length; i++) {
-      if (this.products[i].id === id) {
-        return this.products[i];
-      }
-    }
-    return "Not found";
+  getProductById(idSearch) {
+    const products = this.getProducts();
+    return console.table(products.find((product) => product.id === idSearch));
   }
+
   addProduct(title, description, price, thumbnail, code, stock) {
     let flag = validateNewProduct(
       title,
@@ -73,7 +67,6 @@ class ProductManage {
     );
     if (flag) {
     } else {
-      console.log(this.products.length);
       let idMax = this.products.length;
       this.products.forEach((prod) => {
         if (prod.id > idMax) {
@@ -93,11 +86,11 @@ class ProductManage {
       this.products.push(productCrated);
       let productFile = JSON.stringify(this.products);
 
-      fs.writeFile("test.txt", productFile, (err) => {
+      fs.writeFileSync("test.txt", productFile, (err) => {
         if (err) {
-          console.log("error al escribir el archivo (addProducts)");
+          return console.log("error al escribir el archivo (addProducts)");
         } else {
-          console.log("archivo escrito correctamente (addProducts)");
+          return console.log("archivo escrito correctamente (addProducts)");
         }
       });
     }
@@ -114,7 +107,7 @@ class ProductManage {
 
       let productFile = JSON.stringify(this.products);
 
-      fs.writeFile("test.txt", productFile, (err) => {
+      fs.writeFileSync("test.txt", productFile, (err) => {
         if (err) {
           console.log("error al escribir el archivo (updateProducts)");
         } else {
@@ -137,19 +130,19 @@ class ProductManage {
       );
 
       let productFile = JSON.stringify(this.products);
-      new Promise((resolve, rejects) => {
-        fs.writeFile("test.txt", productFile, (err) => {
-          if (err) {
-            rejects("error al escribir el archivo (deletedProducts)");
-          } else {
-            resolve("archivo escrito correctamente (deletedProducts)");
-          }
-        });
-        console.log("Producto eliminado correctamente");
+
+      fs.writeFileSync("test.txt", productFile, (err) => {
+        if (err) {
+          rejects("error al escribir el archivo (deletedProducts)");
+        } else {
+          resolve("archivo escrito correctamente (deletedProducts)");
+        }
       });
+      console.log("Producto eliminado correctamente");
     }
   }
 }
+
 const ProductM = new ProductManage();
 console.log(ProductM.getProducts());
 
@@ -170,7 +163,8 @@ ProductM.addProduct(
   "abc128",
   25
 );
-console.log(ProductM.getProductById(2));
+console.log(ProductM.getProducts());
+ProductM.getProductById(2);
 
 ProductM.updateProduct(1, { title: "Update title" });
 console.log(ProductM.removeProduct(2));
