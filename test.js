@@ -52,7 +52,12 @@ class ProductManage {
   }
   getProductById(idSearch) {
     const products = this.getProducts();
-    return console.table(products.find((product) => product.id === idSearch));
+    let searchedProduct = products.find((product) => product.id === idSearch);
+    if (searchedProduct === undefined) {
+      return console.log("Not found");
+    } else {
+      return console.table(searchedProduct);
+    }
   }
 
   addProduct(title, description, price, thumbnail, code, stock) {
