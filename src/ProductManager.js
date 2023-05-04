@@ -39,7 +39,7 @@ class ProductManage {
   }
   LoadProducts() {
     try {
-      const data = fs.readFileSync("test.txt", "utf-8");
+      const data = fs.readFileSync("products.txt", "utf-8");
       if (data) {
         this.products = JSON.parse(data);
       }
@@ -91,7 +91,7 @@ class ProductManage {
       this.products.push(productCrated);
       let productFile = JSON.stringify(this.products);
 
-      fs.writeFileSync("test.txt", productFile, (err) => {
+      fs.writeFileSync("products.txt", productFile, (err) => {
         if (err) {
           return console.log("error al escribir el archivo (addProducts)");
         } else {
@@ -112,7 +112,7 @@ class ProductManage {
 
       let productFile = JSON.stringify(this.products);
 
-      fs.writeFileSync("test.txt", productFile, (err) => {
+      fs.writeFileSync("products.txt", productFile, (err) => {
         if (err) {
           console.log("error al escribir el archivo (updateProducts)");
         } else {
@@ -136,7 +136,7 @@ class ProductManage {
 
       let productFile = JSON.stringify(this.products);
 
-      fs.writeFileSync("test.txt", productFile, (err) => {
+      fs.writeFileSync("products.txt", productFile, (err) => {
         if (err) {
           rejects("error al escribir el archivo (deletedProducts)");
         } else {
