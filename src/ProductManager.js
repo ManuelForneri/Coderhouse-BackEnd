@@ -32,12 +32,12 @@ function validateNewProduct(
   return flagError;
 }
 
-class ProductManage {
+class ProductManager {
   constructor() {
     this.products = [];
     this.LoadProducts();
   }
-  LoadProducts() {
+  async LoadProducts() {
     try {
       const data = fs.readFileSync("products.txt", "utf-8");
       if (data) {
@@ -147,29 +147,90 @@ class ProductManage {
     }
   }
 }
+module.exports = ProductManager;
 
-const ProductM = new ProductManage();
+const ProductM = new ProductManager();
 console.log(ProductM.getProducts());
 
 ProductM.addProduct(
-  "producto prueba",
+  "Producto 1",
   "Este es un producto prueba",
-  200,
+  2000,
   "Sin imagen",
-  "abc127",
+  "#1",
   25
 );
-console.log(ProductM.getProducts());
 ProductM.addProduct(
-  "producto prueba",
+  "Producto 2",
+  "Este es un producto prueba",
+  3500,
+  "Sin imagen",
+  "#2",
+  2
+);
+ProductM.addProduct(
+  "Producto 3",
+  "Este es un producto prueba",
+  22000,
+  "Sin imagen",
+  "#3",
+  5
+);
+ProductM.addProduct(
+  "Producto 4",
+  "Este es un producto prueba",
+  2500,
+  "Sin imagen",
+  "#4",
+  10
+);
+ProductM.addProduct(
+  "Producto 5",
   "Este es un producto prueba",
   200,
   "Sin imagen",
-  "abc128",
-  25
+  "#5",
+  250
 );
-console.log(ProductM.getProducts());
-ProductM.getProductById(2);
+ProductM.addProduct(
+  "Producto 6",
+  "Este es un producto prueba",
+  2000,
+  "Sin imagen",
+  "#6",
+  100
+);
+ProductM.addProduct(
+  "Producto 7",
+  "Este es un producto prueba",
+  20000,
+  "Sin imagen",
+  "#7",
+  3
+);
+ProductM.addProduct(
+  "Producto 8",
+  "Este es un producto prueba",
+  20,
+  "Sin imagen",
+  "#8",
+  30
+);
+ProductM.addProduct(
+  "Producto 9",
+  "Este es un producto prueba",
+  1000,
+  "Sin imagen",
+  "#9",
+  40
+);
+ProductM.addProduct(
+  "Producto 10",
+  "Este es un producto prueba",
+  120,
+  "Sin imagen",
+  "#10",
+  35
+);
 
-ProductM.updateProduct(1, { title: "Update title" });
-console.log(ProductM.removeProduct(2));
+console.log(ProductM.getProducts());
