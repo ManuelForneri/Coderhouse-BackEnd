@@ -1,4 +1,4 @@
-const fs = require("fs");
+import fs from "fs";
 
 function validateNewProductCode(products, code) {
   for (let i = 0; i < products.length; i++) {
@@ -8,23 +8,22 @@ function validateNewProductCode(products, code) {
   }
   return false;
 }
-function validateNewProduct(
-  title,
-  description,
-  price,
-  thumbnail,
-  code,
-  stock,
-  products
-) {
+function validateNewProduct(newProduct, products) {
   let flagError = false;
-  if (!title || !description || !price || !thumbnail || !code || !stock) {
+  if (
+    !newProduct.title ||
+    !newProduct.description ||
+    !newProduct.price ||
+    !newProduct.thumbnail ||
+    !newProduct.code ||
+    !newProduct.stock
+  ) {
     console.log("Los parámetros no pueden estar vacíos");
     flagError = true;
-  } else if (isNaN(price) || isNaN(stock)) {
+  } else if (isNaN(newProduct.price) || isNaN(newProduct.stock)) {
     console.log("El precio y el stock tienen que ser de tipo numerico");
     flagError = true;
-  } else if (validateNewProductCode(products, code)) {
+  } else if (validateNewProductCode(products, newProduct.code)) {
     console.log("Ya hay un producto con este codigo");
     flagError = true;
   }
@@ -32,7 +31,7 @@ function validateNewProduct(
   return flagError;
 }
 
-class ProductManager {
+export class ProductManager {
   constructor() {
     this.products = [];
     this.LoadProducts();
@@ -60,16 +59,8 @@ class ProductManager {
     }
   }
 
-  addProduct(title, description, price, thumbnail, code, stock) {
-    let flag = validateNewProduct(
-      title,
-      description,
-      price,
-      thumbnail,
-      code,
-      stock,
-      this.products
-    );
+  addProduct(newProduct) {
+    let flag = validateNewProduct(newProduct, this.products);
     if (flag) {
     } else {
       let idMax = this.products.length;
@@ -120,6 +111,7 @@ class ProductManager {
         }
       });
       console.log("Producto Actualizado correctamente");
+      return searchedProduct;
     }
   }
 
@@ -147,7 +139,6 @@ class ProductManager {
     }
   }
 }
-module.exports = ProductManager;
 
 const ProductM = new ProductManager();
 console.log(ProductM.getProducts());
