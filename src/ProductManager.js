@@ -112,11 +112,9 @@ export class ProductManager {
       (product) => product.id == idSearch
     );
     if (searchedProduct === undefined) {
-      console.log("No se encontro ningun producto con esas caracteristicas");
+      return false;
     } else {
-      this.products = this.products.filter(
-        (product) => product.id !== idSearch
-      );
+      this.products = this.products.filter((product) => product.id != idSearch);
 
       let productFile = JSON.stringify(this.products);
 
@@ -127,93 +125,10 @@ export class ProductManager {
           resolve("archivo escrito correctamente (deletedProducts)");
         }
       });
-      console.log("Producto eliminado correctamente");
+      return true;
     }
   }
 }
 
 const ProductM = new ProductManager();
-console.log(ProductM.getProducts());
-
-/* ProductM.addProduct(
-  "Producto 1",
-  "Este es un producto prueba",
-  2000,
-  "Sin imagen",
-  "#1",
-  25
-);
-ProductM.addProduct(
-  "Producto 2",
-  "Este es un producto prueba",
-  3500,
-  "Sin imagen",
-  "#2",
-  2
-);
-ProductM.addProduct(
-  "Producto 3",
-  "Este es un producto prueba",
-  22000,
-  "Sin imagen",
-  "#3",
-  5
-);
-ProductM.addProduct(
-  "Producto 4",
-  "Este es un producto prueba",
-  2500,
-  "Sin imagen",
-  "#4",
-  10
-);
-ProductM.addProduct(
-  "Producto 5",
-  "Este es un producto prueba",
-  200,
-  "Sin imagen",
-  "#5",
-  250
-);
-ProductM.addProduct(
-  "Producto 6",
-  "Este es un producto prueba",
-  2000,
-  "Sin imagen",
-  "#6",
-  100
-);
-ProductM.addProduct(
-  "Producto 7",
-  "Este es un producto prueba",
-  20000,
-  "Sin imagen",
-  "#7",
-  3
-);
-ProductM.addProduct(
-  "Producto 8",
-  "Este es un producto prueba",
-  20,
-  "Sin imagen",
-  "#8",
-  30
-);
-ProductM.addProduct(
-  "Producto 9",
-  "Este es un producto prueba",
-  1000,
-  "Sin imagen",
-  "#9",
-  40
-);
-ProductM.addProduct(
-  "Producto 10",
-  "Este es un producto prueba",
-  120,
-  "Sin imagen",
-  "#10",
-  35
-);*/
-
 console.log(ProductM.getProducts());

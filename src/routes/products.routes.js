@@ -63,6 +63,16 @@ productsRouter.put("/:id", (req, res) => {
 
 productsRouter.delete("/:id", (req, res) => {
   const idRemove = req.params.id;
-  ProductM.removeProduct(idRemove);
-  return res.status(200).json({ status: "success", msg: "Productos " });
+  let msj = ProductM.removeProduct(idRemove);
+  if (!msj) {
+    return res.status(400).json({
+      status: "error",
+      msg: "no se encontro ningun producto con ese id",
+    });
+  } else {
+    return res.status(200).json({
+      status: "success",
+      msg: "Se elimino correctamente el procuto con  el id : " + idRemove,
+    });
+  }
 });
