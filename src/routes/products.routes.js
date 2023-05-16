@@ -1,9 +1,8 @@
-import express from "express";
 import { Router } from "express";
-const router = Router();
-export const productsRouter = express.Router();
+export const productsRouter = Router();
 
 //import { products } from "../utils.js";
+
 import { ProductManager } from "../productManager.js";
 const ProductM = new ProductManager();
 
@@ -40,7 +39,7 @@ productsRouter.get("/:id", (req, res) => {
   }
 });
 
-productsRouter.post("/", (req, res) => {
+productsRouter.post("/", async (req, res) => {
   const newProduct = req.body;
   ProductM.addProduct(newProduct);
   return res
@@ -51,27 +50,19 @@ productsRouter.post("/", (req, res) => {
 productsRouter.put("/:id", (req, res) => {
   const idSearch = req.params.id;
   const updateProduct = req.body;
-  ProductM.updateProduct(idSearch, updateProduct);
+  console.log(idSearch);
+  console.log(updateProduct);
+  let upProd = ProductM.updateProduct(idSearch, updateProduct);
 
-  /*
-  let products = ProductM.getProducts();
-  const searchedProduct = products.find((product) => product.id == idSearch);
-  if (searchedProduct === undefined) {
-    console.log("No se encontro ningun producto con esas caracteristicas");
-  } else {
-    Object.assign(searchedProduct, updateProduct);
-  }
-  */
   return res.status(200).json({
     status: "succes",
     msg: "Producto modificado correctamente",
+    data: upProd,
   });
 });
 
 productsRouter.delete("/:id", (req, res) => {
-  const id = req.params.id;
-  products = products.filter((p) => p.id != id);
-  return res
-    .status(200)
-    .json({ status: "success", msg: "Productos ", data: products });
+  const idRemove = req.params.id;
+  ProductM.removeProduct(idRemove);
+  return res.status(200).json({ status: "success", msg: "Productos " });
 });

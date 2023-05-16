@@ -70,16 +70,8 @@ export class ProductManager {
         }
       });
       idMax++;
-      const productCrated = {
-        id: idMax,
-        title,
-        description,
-        price,
-        thumbnail,
-        code,
-        stock,
-      };
-      this.products.push(productCrated);
+      newProduct.id = idMax;
+      this.products.push(newProduct);
       let productFile = JSON.stringify(this.products);
 
       fs.writeFileSync("products.txt", productFile, (err) => {
@@ -94,7 +86,7 @@ export class ProductManager {
 
   updateProduct(idSearch, updateProduct) {
     const searchedProduct = this.products.find(
-      (product) => product.id === idSearch
+      (product) => product.id == idSearch
     );
     if (searchedProduct === undefined) {
       console.log("No se encontro ningun producto con esas caracteristicas");
@@ -117,7 +109,7 @@ export class ProductManager {
 
   removeProduct(idSearch) {
     const searchedProduct = this.products.find(
-      (product) => product.id === idSearch
+      (product) => product.id == idSearch
     );
     if (searchedProduct === undefined) {
       console.log("No se encontro ningun producto con esas caracteristicas");
@@ -143,7 +135,7 @@ export class ProductManager {
 const ProductM = new ProductManager();
 console.log(ProductM.getProducts());
 
-ProductM.addProduct(
+/* ProductM.addProduct(
   "Producto 1",
   "Este es un producto prueba",
   2000,
@@ -222,6 +214,6 @@ ProductM.addProduct(
   "Sin imagen",
   "#10",
   35
-);
+);*/
 
 console.log(ProductM.getProducts());
