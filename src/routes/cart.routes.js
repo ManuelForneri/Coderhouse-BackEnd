@@ -47,8 +47,8 @@ cartRouter.post("/", async (req, res) => {
 
 cartRouter.post("/:cid/product/:pid", (req, res) => {
   const { cid, pid } = req.params;
-  const { quantity } = req.body ? req.body : 1;
-  const updateCart = CartM.addProductCart(cid, pid, quantity);
+
+  const updateCart = CartM.addProductCart(cid, pid);
   if (!updateCart) {
     return res
       .status(404)
@@ -62,10 +62,10 @@ cartRouter.post("/:cid/product/:pid", (req, res) => {
   }
 });
 
-cartRouter.delete("/:id", (req, res) => {
-  const idRemove = req.params.id;
-  let msj = CartM.removeProductCart(idRemove);
-  if (!msj) {
+cartRouter.delete("/:cid/product/:pid", (req, res) => {
+  const { cid, pid } = req.params;
+  let deletedProductCart = CartM.removeProductCart(cid, pid);
+  if (!deletedProductCart) {
     return res.status(400).json({
       status: "error",
       msg: "no se encontro ningun producto con ese id",
@@ -73,7 +73,8 @@ cartRouter.delete("/:id", (req, res) => {
   } else {
     return res.status(200).json({
       status: "success",
-      msg: "Se elimino correctamente el procuto con  el id : " + idRemove,
+      msg: "Se elimino correctamente el procuto con  el id : " + cid,
+      data: deletedProductCart,
     });
   }
 });

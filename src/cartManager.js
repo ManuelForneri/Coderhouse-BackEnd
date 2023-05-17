@@ -76,23 +76,41 @@ export class CartManager {
     return cartSearched;
   }
 
-  removeProduct(idSearch) {
-    const searchedCart = this.carts.find((cart) => cart.id == idSearch);
-    if (searchedCart === undefined) {
-      return false;
-    } else {
-      this.carts = this.carts.filter((cart) => cart.id != idSearch);
-
-      let cartsFile = JSON.stringify(this.carts);
-
-      fs.writeFileSync("products.txt", cartsFile, (err) => {
-        if (err) {
-          rejects("error al escribir el archivo (deletedCarts)");
-        } else {
-          resolve("archivo escrito correctamente (deletedCarts)");
-        }
-      });
-      return true;
+  removeProductCart(cartId, productId) {
+    const carts = this.getCarts();
+    const cartSearched = carts.find((cart) => cart.id == cartId);
+    if (!cartSearched) {
+      throw new Error(`Carrito con el ID ${cartId} no encontrado`);
     }
+    const existProduct = cartSearched.products.find(
+      (product) => product.id == productId
+    );
+    if (existProduct == false) {
+      return "El producto no existe en su carrito";
+    } else {
+      existProduct.quantity -= 1;
+    }
+    let cartFilter = [];
+    carts.forEach((item) => {
+      // Obtener la lista de productos
+      let products = item.products;
+
+      // Filtrar los productos cuyo quantity no sea igual a 0
+      products = products.filter((product) => product.quantity !== 0);
+
+      // Actualizar la lista de productos en el carrito
+      item.products = products;
+      cartFilter = item;
+    });
+
+    let cartsFile = JSON.stringify(cartFilter);
+    fs.writeFileSync("carts.txt", cartsFile, (err) => {
+      if (err) {
+        return console.log("error al escribir el archivo (addProductCart)");
+      } else {
+        return console.log("archivo escrito correctamente (addProductCart)");
+      }
+    });
+    return cartFilter;
   }
 }
