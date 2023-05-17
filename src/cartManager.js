@@ -91,18 +91,12 @@ export class CartManager {
       existProduct.quantity -= 1;
     }
     let cartFilter = [];
-    carts.forEach((item) => {
-      // Obtener la lista de productos
-      let products = item.products;
-
-      // Filtrar los productos cuyo quantity no sea igual a 0
-      products = products.filter((product) => product.quantity !== 0);
-
-      // Actualizar la lista de productos en el carrito
-      item.products = products;
-      cartFilter = item;
-    });
-
+    //No pude hacer funcionar que se borre el producto cuando llegue a 0
+    if (existProduct.quantity === 0) {
+      cartFilter = carts.cartId.products.filter((p) => p.id != productId);
+    } else {
+      cartFilter = this.carts;
+    }
     let cartsFile = JSON.stringify(cartFilter);
     fs.writeFileSync("carts.txt", cartsFile, (err) => {
       if (err) {
