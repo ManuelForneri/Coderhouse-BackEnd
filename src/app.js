@@ -12,8 +12,8 @@ app.get("/", (req, res) => {
 });
 
 //TODOS MIS ENDPOINTS
-app.use("/products", productsRouter);
-app.use("/cart", cartRouter);
+app.use("/api/products", productsRouter);
+app.use("/api/carts", cartRouter);
 
 app.get("*", (req, res) => {});
 app.listen(port, () => {
