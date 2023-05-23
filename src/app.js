@@ -25,6 +25,21 @@ const httpServer = app.listen(port, () => {
 
 const socketServer = new Server(httpServer);
 
+//BACK MANDA MENSAJES AL FRONT
+socketServer.on("connection", (socket) => {
+  setInterval(() => {
+    socket.emit("msg_back_front", {
+      msg: "hola mundo desde el back " + Date.now(),
+      from: "Server",
+    });
+  }, 5000);
+
+  //BACK ATAJA MENSAJES DEL FRONT
+  socket.on("msg_front_back", (msg) => {
+    console.log(msg);
+  });
+});
+
 app.get("/", (req, res) => {
   res.send("Bienvenidos");
 });
