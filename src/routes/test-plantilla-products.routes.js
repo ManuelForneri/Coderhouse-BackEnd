@@ -1,8 +1,12 @@
 import express from "express";
 export const testPlantillaProducts = express.Router();
+import { ProductManager } from "../ProductManager.js";
+const ProductM = new ProductManager();
 
 testPlantillaProducts.get("/", (req, res) => {
-  return res.status(200).render("test-plantilla-products", {});
+  const title = "Listado de productos";
+  let products = ProductM.getProducts();
+  return res.status(200).render("test-plantilla-products", { title, products });
 });
 
 //import { products } from "../utils.js";
