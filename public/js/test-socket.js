@@ -1,14 +1,26 @@
 const socket = io();
 
-//FRONT MANDA MENSAJES AL BACK
-setInterval(() => {
-  socket.emit("msg_front_back", {
-    msg: "hola mundo desde el front " + Date.now(),
-    from: "Usuario Anonimo",
-  });
-}, 5000);
+const formProducts = document.getElementById("form-products");
+const inputTitle = document.getElementById("form-title");
+const inputDescription = document.getElementById("form-description");
+const inputPrice = document.getElementById("form-price");
+const inputCode = document.getElementById("form-code");
+const inputStock = document.getElementById("form-stock");
+const inputThumbnail = document.getElementById("form-thumbnail");
 
-//FRONT ATAJA LOS MENSAJES DEL BACK
-socket.on("msg_back_front", (msg) => {
-  console.log(msg);
+socket.on("products", (products) => {
+  console.log(products);
+});
+
+formProducts.addEventListener("submit", (e) => {
+  e.preventDefault();
+  const newProduct = {
+    title: inputTitle.value,
+    description: inputDescription.value,
+    price: inputPrice.value,
+    code: inputCode.value,
+    stock: inputStock.value,
+    thumbnail: inputThumbnail.value,
+  };
+  socket.emit("new-product", newProduct);
 });

@@ -34,7 +34,6 @@ function validateNewProduct(newProduct, products) {
 export class ProductManager {
   constructor() {
     this.products = [];
-    this.LoadProducts();
   }
   async LoadProducts() {
     try {
@@ -47,6 +46,7 @@ export class ProductManager {
     }
   }
   getProducts() {
+    this.LoadProducts();
     return this.products;
   }
   getProductById(idSearch) {

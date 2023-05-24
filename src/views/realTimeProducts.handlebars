@@ -1,0 +1,62 @@
+<h1>{{title}}</h1>
+<div style="display: flex;">
+  <div class="products-container-realtime">
+
+    {{#each products}}
+      <div class="card-realtime">
+        <div>Id: {{this.id}} </div>
+        <div>Titulo:{{this.title}} </div>
+        <div>Precio: {{this.price}} </div>
+        <div>Descripcion: {{this.description}}</div>
+        <div>Imagen: {{this.thumbnail}}</div>
+        <div>Codigo: {{this.code}} </div>
+        <div>Stock: {{this.stock}}</div>
+
+      </div>
+
+    {{/each}}
+  </div>
+  <form id="form-products">
+
+    <input
+      id="form-title"
+      placeholder="Titulo "
+      class="input-style"
+      type="text"
+    />
+    <input
+      id="form-description"
+      placeholder="Descripcion"
+      class="input-style"
+      type="text"
+    />
+    <input
+      id="form-price"
+      placeholder="Precio"
+      class="input-style"
+      type="number"
+    />
+    <input
+      id="form-code "
+      placeholder="Codigo"
+      class="input-style"
+      type="text"
+    />
+    <input
+      id="form-stock "
+      placeholder="Stock"
+      class="input-style"
+      type="number"
+    />
+    <input
+      id="form-thumbnail "
+      placeholder="URL Imagen"
+      class="input-style"
+      type="text"
+    />
+
+    <input type="submit" value="Crear producto" class="form-button" />
+  </form>
+</div>
+<script src="/socket.io/socket.io.js"></script>
+<script src="/js/test-socket.js"></script>

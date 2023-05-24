@@ -2,10 +2,12 @@ import express from "express";
 import handlebars from "express-handlebars";
 import { Server } from "socket.io";
 import { cartRouter } from "./routes/cart.routes.js";
-import { productsRouter } from "./routes/products.routes.js";
-import { testPlantillaProducts } from "./routes/test-plantilla-products.routes.js";
-import { testSocketRouter } from "./routes/test-sockets.routes.js";
+import { home } from "./routes/home.routes.js";
+import { realTimeProducts } from "./routes/realtimeproducts.routes.js";
 import { __dirname } from "./utils.js";
+import { productsRouter } from "./routes/products.routes.js";
+import { ProductManager } from "./ProductManager.js";
+const ProductM = new ProductManager();
 
 const app = express();
 const port = 8080;
@@ -25,29 +27,25 @@ const httpServer = app.listen(port, () => {
 
 const socketServer = new Server(httpServer);
 
-//BACK MANDA MENSAJES AL FRONT
+//Recibiendo los datos del nuevo producto
 socketServer.on("connection", (socket) => {
-  setInterval(() => {
-    socket.emit("msg_back_front", {
-      msg: "hola mundo desde el back " + Date.now(),
-      from: "Server",
-    });
-  }, 5000);
-
-  //BACK ATAJA MENSAJES DEL FRONT
-  socket.on("msg_front_back", (msg) => {
-    console.log(msg);
+  console.log("Cliente conectado " + socket.id);
+  socket.on("new-product", async (newProduct) => {
+    try {
+      await ProductM.addProduct(newProduct);
+      const newProductsList = ProductM.getProducts();
+      socketServer.emit("products", { newProductsList });
+    } catch (error) {
+      console.log(error);
+    }
   });
-});
-
-app.get("/", (req, res) => {
-  res.send("Bienvenidos");
 });
 
 //TODOS MIS ENDPOINTS
 app.use("/api/products", productsRouter);
 app.use("/api/carts", cartRouter);
+
 //ENDPOINTS CON PLANTILLAS DE HANDLEBARS
-app.use("/test-plantilla-products", testPlantillaProducts);
-app.use("/test-socket", testSocketRouter);
+app.use("/", home);
+app.use("/realtimeproducts", realTimeProducts);
 app.get("*", (req, res) => {});
