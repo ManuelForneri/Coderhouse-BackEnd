@@ -34,6 +34,7 @@ function validateNewProduct(newProduct, products) {
 export class ProductManager {
   constructor() {
     this.products = [];
+    this.LoadProducts();
   }
   async LoadProducts() {
     try {
