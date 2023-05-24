@@ -34,7 +34,7 @@ socketServer.on("connection", (socket) => {
     try {
       await ProductM.addProduct(newProduct);
       const newProductsList = ProductM.getProducts();
-      socketServer.emit("products", { newProductsList });
+      socketServer.emit("products", newProductsList);
     } catch (error) {
       console.log(error);
     }

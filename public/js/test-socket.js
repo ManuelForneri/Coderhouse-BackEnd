@@ -7,9 +7,24 @@ const inputPrice = document.getElementById("form-price");
 const inputCode = document.getElementById("form-code");
 const inputStock = document.getElementById("form-stock");
 const inputThumbnail = document.getElementById("form-thumbnail");
+const dinamicListProducts = document.getElementById("dinamic-list-products");
 
-socket.on("products", (products) => {
-  console.log(products);
+socket.on("products", (newProductsList) => {
+  console.log(newProductsList);
+  let newProducts = "";
+  newProductsList.map((p) => {
+    newProducts += `<div class="card-realtime">
+        <div>Id: ${p.id} </div>
+        <div>Titulo: ${p.title} </div>
+        <div>Precio: ${p.price} </div>
+        <div>Descripcion: ${p.description} </div>
+        <div>Imagen: ${p.thumbnail} </div>
+        <div>Codigo: ${p.code} </div>
+        <div>Stock: ${p.stock} </div>
+      </div>
+      `;
+  });
+  dinamicListProducts.innerHTML = newProducts;
 });
 
 formProducts.addEventListener("submit", (e) => {
