@@ -4,6 +4,7 @@ import { Server } from "socket.io";
 import { cartRouter } from "./routes/cart.routes.js";
 import { home } from "./routes/home.routes.js";
 import { realTimeProducts } from "./routes/realtimeproducts.routes.js";
+import { realTimeChat } from "./routes/realtimechat.routes.js";
 import { __dirname } from "./utils.js";
 import { productsRouter } from "./routes/products.routes.js";
 import { ProductManager } from "./ProductManager.js";
@@ -32,12 +33,17 @@ socketServer.on("connection", (socket) => {
   console.log("Cliente conectado " + socket.id);
   socket.on("new-product", async (newProduct) => {
     try {
-      await ProductM.addProduct(newProduct);
+      ProductM.addProduct(newProduct);
       const newProductsList = ProductM.getProducts();
       socketServer.emit("products", newProductsList);
     } catch (error) {
       console.log(error);
     }
+  });
+});
+socketServer.on("connection", (socket) => {
+  socket.on("msg_front_to_back", (msg) => {
+    console.log(msg);
   });
 });
 
@@ -48,4 +54,6 @@ app.use("/api/carts", cartRouter);
 //ENDPOINTS CON PLANTILLAS DE HANDLEBARS
 app.use("/", home);
 app.use("/realtimeproducts", realTimeProducts);
+app.use("/chat", realTimeChat);
+
 app.get("*", (req, res) => {});
