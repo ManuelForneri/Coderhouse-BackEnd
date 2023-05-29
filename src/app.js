@@ -41,9 +41,12 @@ socketServer.on("connection", (socket) => {
     }
   });
 });
+let msgs = [];
 socketServer.on("connection", (socket) => {
   socket.on("msg_front_to_back", (msg) => {
+    msgs.push(msg);
     console.log(msg);
+    socketServer.emit("new_msgs", msgs);
   });
 });
 

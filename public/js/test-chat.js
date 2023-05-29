@@ -20,5 +20,14 @@ sendButton.addEventListener("click", () => {
     user: userName,
   });
   chatBox.value = "";
-  alert("hizo click en enviar");
+});
+
+//front ataja los mensajes
+socket.on("new_msgs", (msgs) => {
+  const msgsContainer = document.getElementById("chat-msg");
+  let formato = "";
+  msgs.forEach((msg) => {
+    formato = formato + "<p>" + msg.user + " : " + msg.msg + "</p>";
+  });
+  msgsContainer.innerHTML = formato;
 });
