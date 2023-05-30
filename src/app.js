@@ -59,4 +59,6 @@ app.use("/", home);
 app.use("/realtimeproducts", realTimeProducts);
 app.use("/chat", realTimeChat);
 
-app.get("*", (req, res) => {});
+app.get("*", (req, res) => {
+  return res.status(404).render();
+});
