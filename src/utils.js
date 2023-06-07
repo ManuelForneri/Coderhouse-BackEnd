@@ -21,7 +21,10 @@ export const uploader = multer({ storage });
 export async function connectMongo() {
   try {
     await connect(
-      "mongodb+srv://manuelforneri:120110keko@elabuelotessoredb.pj5hwdc.mongodb.net/?retryWrites=true&w=majority"
+      "mongodb+srv://manuelforneri:120110keko@elabuelotessoredb.pj5hwdc.mongodb.net/?retryWrites=true&w=majority",
+      {
+        dbName: "ecommerce",
+      }
     );
     console.log("plug to mongo!");
   } catch (e) {
