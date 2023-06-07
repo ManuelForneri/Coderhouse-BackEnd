@@ -1,3 +1,4 @@
+import { connect } from "mongoose";
 import path from "path";
 import { fileURLToPath } from "url";
 export const __filename = fileURLToPath(import.meta.url);
@@ -14,3 +15,17 @@ const storage = multer.diskStorage({
   },
 });
 export const uploader = multer({ storage });
+
+//conectando a mongo
+
+export async function connectMongo() {
+  try {
+    await connect(
+      "mongodb+srv://manuelforneri:120110keko@elabuelotessoredb.pj5hwdc.mongodb.net/?retryWrites=true&w=majority"
+    );
+    console.log("plug to mongo!");
+  } catch (e) {
+    console.log(e);
+    throw "can not connect to the db";
+  }
+}

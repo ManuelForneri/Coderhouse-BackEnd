@@ -2,12 +2,14 @@ import express from "express";
 import handlebars from "express-handlebars";
 import { Server } from "socket.io";
 import { cartRouter } from "./routes/cart.routes.js";
+import { usersRouter } from "./routes/users.routes.js";
 import { home } from "./routes/home.routes.js";
-import { realTimeProducts } from "./routes/realtimeproducts.routes.js";
 import { realTimeChat } from "./routes/realtimechat.routes.js";
-import { __dirname } from "./utils.js";
-import { productsRouter } from "./routes/products.routes.js";
+import { realTimeProducts } from "./routes/realtimeproducts.routes.js";
+import { __dirname, connectMongo } from "./utils.js";
+
 import { ProductManager } from "./ProductManager.js";
+import { productsRouter } from "./routes/products.routes.js";
 const ProductM = new ProductManager();
 
 const app = express();
@@ -16,6 +18,8 @@ const port = 8080;
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
+
+connectMongo();
 
 //config del motor de plantillas
 app.engine("handlebars", handlebars.engine());
@@ -53,7 +57,7 @@ socketServer.on("connection", (socket) => {
 //TODOS MIS ENDPOINTS
 app.use("/api/products", productsRouter);
 app.use("/api/carts", cartRouter);
-
+app.use("/api/users", usersRouter);
 //ENDPOINTS CON PLANTILLAS DE HANDLEBARS
 app.use("/", home);
 app.use("/realtimeproducts", realTimeProducts);
