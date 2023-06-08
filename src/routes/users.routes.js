@@ -69,12 +69,20 @@ usersRouter.put("/:id", async (req, res) => {
 usersRouter.delete("/:id", async (req, res) => {
   try {
     const { id } = req.params;
-    const deleted = await UserModel.deleteOne({ _id: id });
-    return res.status(200).json({
-      status: "success",
-      msg: "user deleted",
-      data: {},
-    });
+    const result = await UserModel.deleteOne({ _id: id });
+    if (result?.deletedCount > 0) {
+      return res.status(200).json({
+        status: "success",
+        msg: "user deleted",
+        data: {},
+      });
+    } else {
+      return res.status(404).json({
+        status: "error",
+        msg: "user not found",
+        data: {},
+      });
+    }
   } catch (e) {
     console.log(e);
     return res.status(500).json({
