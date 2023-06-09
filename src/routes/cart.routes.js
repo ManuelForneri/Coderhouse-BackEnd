@@ -3,7 +3,7 @@ export const cartRouter = Router();
 
 //import { products } from "../utils.js";
 
-import { CartManager } from "../CartManager.js";
+import { CartManager } from "../DAO/cartManager.js";
 const CartM = new CartManager();
 
 cartRouter.get("/", (req, res) => {

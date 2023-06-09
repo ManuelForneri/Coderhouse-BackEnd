@@ -1,5 +1,4 @@
 import { connect } from "mongoose";
-//conectando a mongo
 
 export async function connectMongo() {
   try {

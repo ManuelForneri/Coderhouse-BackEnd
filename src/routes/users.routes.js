@@ -1,5 +1,5 @@
 import express from "express";
-import { UserModel } from "../models/users.model.js";
+import { UserModel } from "../DAO/models/users.model.js";
 export const usersRouter = express.Router();
 
 usersRouter.get("/", async (req, res) => {

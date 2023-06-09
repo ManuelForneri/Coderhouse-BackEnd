@@ -1,3 +1,4 @@
+//@ts-check
 import express from "express";
 import handlebars from "express-handlebars";
 import { __dirname } from "./config.js";
@@ -6,7 +7,6 @@ import { home } from "./routes/home.routes.js";
 import { realTimeChat } from "./routes/realtimechat.routes.js";
 import { realTimeProducts } from "./routes/realtimeproducts.routes.js";
 import { usersRouter } from "./routes/users.routes.js";
-
 import { productsRouter } from "./routes/products.routes.js";
 import { connectMongo } from "./utils/dbConnection.js";
 import { connectSocketServer } from "./utils/socketServer.js";
@@ -30,15 +30,13 @@ const httpServer = app.listen(port, () => {
 });
 connectSocketServer(httpServer);
 
-//TODOS MIS ENDPOINTS
 app.use("/api/products", productsRouter);
 app.use("/api/carts", cartRouter);
 app.use("/api/users", usersRouter);
-//ENDPOINTS CON PLANTILLAS DE HANDLEBARS
 app.use("/", home);
 app.use("/realtimeproducts", realTimeProducts);
 app.use("/chat", realTimeChat);
 
 app.get("*", (req, res) => {
-  return res.status(404).render();
+  return res.status(404).send("not found");
 });

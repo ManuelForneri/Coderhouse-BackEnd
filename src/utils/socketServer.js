@@ -1,6 +1,6 @@
 import { Server } from "socket.io";
 
-import { ProductManager } from "../ProductManager.js";
+import { ProductManager } from "../DAO/ProductManager.js";
 const ProductM = new ProductManager();
 
 export function connectSocketServer(httpServer) {

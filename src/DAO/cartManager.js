@@ -91,7 +91,7 @@ export class CartManager {
       existProduct.quantity -= 1;
     }
     let cartFilter = [];
-    //No pude hacer funcionar que se borre el producto cuando llegue a 0
+
     if (existProduct.quantity === 0) {
       cartFilter = carts.cartId.products.filter((p) => p.id != productId);
     } else {

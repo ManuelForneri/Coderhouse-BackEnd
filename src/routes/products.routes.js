@@ -3,7 +3,7 @@ export const productsRouter = Router();
 
 //import { products } from "../utils.js";
 
-import { ProductManager } from "../ProductManager.js";
+import { ProductManager } from "../DAO/ProductManager.js";
 const ProductM = new ProductManager();
 
 productsRouter.get("/", (req, res) => {
