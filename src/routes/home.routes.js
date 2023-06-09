@@ -1,6 +1,6 @@
 import express from "express";
-export const home = express.Router();
 import { ProductManager } from "../ProductManager.js";
+export const home = express.Router();
 const ProductM = new ProductManager();
 
 home.get("/", (req, res) => {

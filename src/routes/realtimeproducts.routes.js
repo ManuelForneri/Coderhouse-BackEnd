@@ -1,6 +1,6 @@
 import express from "express";
-export const realTimeProducts = express.Router();
 import { ProductManager } from "../ProductManager.js";
+export const realTimeProducts = express.Router();
 const ProductM = new ProductManager();
 
 realTimeProducts.get("/", (req, res) => {
