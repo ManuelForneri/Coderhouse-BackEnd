@@ -4,7 +4,15 @@ export const usersRouter = express.Router();
 
 usersRouter.get("/", async (req, res) => {
   try {
-    const users = await UserModel.find({});
+    const users = await UserModel.find(
+      {},
+      {
+        _id: true,
+        firstName: true,
+        lastName: true,
+        email: true,
+      }
+    );
     return res.status(200).json({
       status: "success",
       msg: "listado de usuarios",
@@ -29,7 +37,12 @@ usersRouter.post("/", async (req, res) => {
     return res.status(201).json({
       status: "success",
       msg: "user created",
-      data: userCreated,
+      data: {
+        id: userCreated._id,
+        firstName: userCreated.firstName,
+        lastName: userCreated.lastName,
+        email: userCreated.email,
+      },
     });
   } catch (e) {
     console.log(e);
