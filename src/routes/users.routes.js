@@ -1,18 +1,11 @@
 import express from "express";
 import { UserModel } from "../DAO/models/users.model.js";
+import { UServives } from "../services/users.service.js";
 export const usersRouter = express.Router();
 
 usersRouter.get("/", async (req, res) => {
   try {
-    const users = await UserModel.find(
-      {},
-      {
-        _id: true,
-        firstName: true,
-        lastName: true,
-        email: true,
-      }
-    );
+    const users = await UServives.getAll();
     return res.status(200).json({
       status: "success",
       msg: "listado de usuarios",
@@ -33,7 +26,8 @@ usersRouter.post("/", async (req, res) => {
   try {
     const { firstName, lastName, email } = req.body;
 
-    const userCreated = await UserModel.create({ firstName, lastName, email });
+    const userCreated = await UServives.create({ firstName, lastName, email });
+
     return res.status(201).json({
       status: "success",
       msg: "user created",
@@ -98,7 +92,7 @@ usersRouter.put("/:id", async (req, res) => {
 usersRouter.delete("/:id", async (req, res) => {
   try {
     const { id } = req.params;
-    const result = await UserModel.deleteOne({ _id: id });
+    const result = await UServives.delete(id);
     if (result?.deletedCount > 0) {
       return res.status(200).json({
         status: "success",

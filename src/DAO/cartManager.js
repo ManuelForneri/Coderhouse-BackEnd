@@ -1,5 +1,7 @@
 import fs from "fs";
 
+const cartsFile = "../data/carts.txt";
+
 export class CartManager {
   constructor() {
     this.carts = [];
@@ -7,7 +9,7 @@ export class CartManager {
   }
   async LoadCarts() {
     try {
-      const data = fs.readFileSync("carts.txt", "utf-8");
+      const data = fs.readFileSync(cartsFile, "utf-8");
       if (data) {
         this.carts = JSON.parse(data);
       }
@@ -41,7 +43,7 @@ export class CartManager {
     const newCart = { id: idMax, products: [] };
     this.carts.push(newCart);
     let cartsFile = JSON.stringify(this.carts);
-    fs.writeFileSync("carts.txt", cartsFile, (err) => {
+    fs.writeFileSync(cartsFile, cartsFile, (err) => {
       if (err) {
         return console.log("error al escribir el archivo (addCart)");
       } else {
@@ -66,7 +68,7 @@ export class CartManager {
       cartSearched.products.push({ id: productId, quantity: 1 });
     }
     let cartsFile = JSON.stringify(this.carts);
-    fs.writeFileSync("carts.txt", cartsFile, (err) => {
+    fs.writeFileSync(cartsFile, cartsFile, (err) => {
       if (err) {
         return console.log("error al escribir el archivo (addProductCart)");
       } else {
@@ -98,7 +100,7 @@ export class CartManager {
       cartFilter = this.carts;
     }
     let cartsFile = JSON.stringify(cartFilter);
-    fs.writeFileSync("carts.txt", cartsFile, (err) => {
+    fs.writeFileSync(cartsFile, cartsFile, (err) => {
       if (err) {
         return console.log("error al escribir el archivo (addProductCart)");
       } else {
