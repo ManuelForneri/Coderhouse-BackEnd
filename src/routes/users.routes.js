@@ -16,14 +16,14 @@ usersRouter.get("/", async (req, res) => {
     return res.status(200).json({
       status: "success",
       msg: "listado de usuarios",
-      data: users,
+      payload: users,
     });
   } catch (e) {
     console.log(e);
     return res.status(500).json({
       status: "error",
       msg: "something went wrong :(",
-      data: {},
+      payload: {},
     });
   }
 });
@@ -37,7 +37,7 @@ usersRouter.post("/", async (req, res) => {
     return res.status(201).json({
       status: "success",
       msg: "user created",
-      data: {
+      payload: {
         id: userCreated._id,
         firstName: userCreated.firstName,
         lastName: userCreated.lastName,
@@ -49,31 +49,47 @@ usersRouter.post("/", async (req, res) => {
     return res.status(500).json({
       status: "error",
       msg: "something went wrong :(",
-      data: {},
+      payload: {},
     });
   }
 });
 
 //actualizar usuario
 usersRouter.put("/:id", async (req, res) => {
-  const { id } = req.params;
-  const { firstName, lastName, email } = req.body;
   try {
-    const userUptaded = await UserModel.updateOne(
-      { _id: id },
-      { firstName, lastName, email }
-    );
-    return res.status(201).json({
-      status: "success",
-      msg: "user uptaded",
-      data: userUptaded,
-    });
+    const { id } = req.params;
+    const { firstName, lastName, email } = req.body;
+    try {
+      const userUptaded = await UserModel.updateOne(
+        { _id: id },
+        { firstName, lastName, email }
+      );
+      if (userUptaded.matchedCount > 0) {
+        return res.status(201).json({
+          status: "success",
+          msg: "user update",
+          payload: {},
+        });
+      } else {
+        return res.status(404).json({
+          status: "error",
+          msg: "user not found",
+          payload: {},
+        });
+      }
+    } catch (e) {
+      return res.status(500).json({
+        status: "error",
+        msg: "db server error while updating user",
+        payload: {},
+      });
+    }
   } catch (e) {
     console.log(e);
     return res.status(500).json({
       status: "error",
       msg: "something went wrong :(",
-      data: {},
+      payload: {},
     });
   }
 });
@@ -87,13 +103,13 @@ usersRouter.delete("/:id", async (req, res) => {
       return res.status(200).json({
         status: "success",
         msg: "user deleted",
-        data: {},
+        payload: {},
       });
     } else {
       return res.status(404).json({
         status: "error",
         msg: "user not found",
-        data: {},
+        payload: {},
       });
     }
   } catch (e) {
@@ -101,7 +117,7 @@ usersRouter.delete("/:id", async (req, res) => {
     return res.status(500).json({
       status: "error",
       msg: "something went wrong :(",
-      data: {},
+      payload: {},
     });
   }
 });

@@ -29,12 +29,12 @@ cartRouter.get("/:id", (req, res) => {
     return res.status(200).json({
       status: "success",
       msg: "Carrito buscado",
-      data: cartSerched,
+      payload: cartSerched,
     });
   } else {
     return res
       .status(404)
-      .json({ status: "error", msg: "El carrito no existe", data: {} });
+      .json({ status: "error", msg: "El carrito no existe", payload: {} });
   }
 });
 
@@ -42,7 +42,7 @@ cartRouter.post("/", async (req, res) => {
   let newCart = CartM.createCart();
   return res
     .status(201)
-    .json({ status: "succes", msg: "Cart creado", data: newCart });
+    .json({ status: "succes", msg: "Cart creado", payload: newCart });
 });
 
 cartRouter.post("/:cid/product/:pid", (req, res) => {
@@ -52,12 +52,12 @@ cartRouter.post("/:cid/product/:pid", (req, res) => {
   if (!updateCart) {
     return res
       .status(404)
-      .json({ status: "error", msg: "El carrito no existe", data: {} });
+      .json({ status: "error", msg: "El carrito no existe", payload: {} });
   } else {
     return res.status(200).json({
       status: "succes",
       msg: "Producto añadido correctamente",
-      data: updateCart,
+      payload: updateCart,
     });
   }
 });
@@ -74,7 +74,7 @@ cartRouter.delete("/:cid/product/:pid", (req, res) => {
     return res.status(200).json({
       status: "success",
       msg: "Se elimino correctamente el procuto con  el id : " + cid,
-      data: deletedProductCart,
+      payload: deletedProductCart,
     });
   }
 });

@@ -30,12 +30,12 @@ productsRouter.get("/:id", (req, res) => {
     return res.status(200).json({
       status: "success",
       msg: "Producto buscado",
-      data: productSerched,
+      payload: productSerched,
     });
   } else {
     return res
       .status(404)
-      .json({ status: "error", msg: "El producto no existe", data: {} });
+      .json({ status: "error", msg: "El producto no existe", payload: {} });
   }
 });
 
@@ -44,7 +44,7 @@ productsRouter.post("/", async (req, res) => {
   ProductM.addProduct(newProduct);
   return res
     .status(201)
-    .json({ status: "succes", msg: "Producto creado", data: newProduct });
+    .json({ status: "succes", msg: "Producto creado", payload: newProduct });
 });
 
 productsRouter.put("/:id", (req, res) => {
@@ -57,7 +57,7 @@ productsRouter.put("/:id", (req, res) => {
   return res.status(200).json({
     status: "succes",
     msg: "Producto modificado correctamente",
-    data: upProd,
+    payload: upProd,
   });
 });
 
