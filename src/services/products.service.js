@@ -48,6 +48,7 @@ class productServives {
     const result = await ProductModel.deleteOne({ _id: id });
     return result;
   }
+
   async update(id, firstName, lastName, email) {
     const userUptaded = await ProductModel.updateOne(
       { _id: id },

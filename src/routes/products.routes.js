@@ -67,7 +67,7 @@ productsRouter.post("/", async (req, res) => {
 
     return res.status(201).json({
       status: "success",
-      msg: "user created",
+      msg: "product created",
       payload: {
         id: productCreated._id,
         title: productCreated.title,
@@ -102,18 +102,29 @@ productsRouter.put("/:id", (req, res) => {
   });
 });
 
-productsRouter.delete("/:id", (req, res) => {
-  const idRemove = req.params.id;
-  let msj = ProductM.removeProduct(idRemove);
-  if (!msj) {
-    return res.status(400).json({
+productsRouter.delete("/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const result = await PServives.delete(id);
+    if (result?.deletedCount > 0) {
+      return res.status(200).json({
+        status: "success",
+        msg: "product deleted",
+        payload: {},
+      });
+    } else {
+      return res.status(404).json({
+        status: "error",
+        msg: "product not found",
+        payload: {},
+      });
+    }
+  } catch (e) {
+    console.log(e);
+    return res.status(500).json({
       status: "error",
-      msg: "no se encontro ningun producto con ese id",
-    });
-  } else {
-    return res.status(200).json({
-      status: "success",
-      msg: "Se elimino correctamente el procuto con  el id : " + idRemove,
+      msg: "something went wrong :(",
+      payload: {},
     });
   }
 });
