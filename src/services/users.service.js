@@ -23,5 +23,12 @@ class userServives {
     const result = await UserModel.deleteOne({ _id: id });
     return result;
   }
+  async update(id, firstName, lastName, email) {
+    const userUptaded = await UserModel.updateOne(
+      { _id: id },
+      { firstName, lastName, email }
+    );
+    return userUptaded;
+  }
 }
 export const UServives = new userServives();

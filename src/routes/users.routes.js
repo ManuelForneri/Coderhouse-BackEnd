@@ -1,5 +1,4 @@
 import express from "express";
-import { UserModel } from "../DAO/models/users.model.js";
 import { UServives } from "../services/users.service.js";
 export const usersRouter = express.Router();
 
@@ -54,9 +53,11 @@ usersRouter.put("/:id", async (req, res) => {
     const { id } = req.params;
     const { firstName, lastName, email } = req.body;
     try {
-      const userUptaded = await UserModel.updateOne(
-        { _id: id },
-        { firstName, lastName, email }
+      const userUptaded = await UServives.update(
+        id,
+        firstName,
+        lastName,
+        email
       );
       if (userUptaded.matchedCount > 0) {
         return res.status(201).json({

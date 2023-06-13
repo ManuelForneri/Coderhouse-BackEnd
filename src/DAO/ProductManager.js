@@ -1,6 +1,6 @@
 import fs from "fs";
 
-const productsFile = "../data/products.txt";
+const productsFile = "products.txt";
 
 function validateNewProductCode(products, code) {
   for (let i = 0; i < products.length; i++) {
@@ -36,7 +36,7 @@ function validateNewProduct(newProduct, products) {
 export class ProductManager {
   constructor() {
     this.products = [];
-    this.LoadProducts();
+    //this.LoadProducts();
   }
   async LoadProducts() {
     try {

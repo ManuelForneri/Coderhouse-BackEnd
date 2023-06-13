@@ -1,11 +1,11 @@
 import fs from "fs";
 
-const cartsFile = "../data/carts.txt";
+const cartsFile = "carts.txt";
 
 export class CartManager {
   constructor() {
     this.carts = [];
-    this.LoadCarts();
+    //this.LoadCarts();
   }
   async LoadCarts() {
     try {
