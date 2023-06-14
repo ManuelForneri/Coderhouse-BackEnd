@@ -1,67 +1,110 @@
 import { Router } from "express";
 export const cartRouter = Router();
 
-//import { products } from "../utils.js";
+import { CServives } from "../services/carts.service.js";
+import { PServives } from "../services/products.service.js";
 
-import { CartManager } from "../DAO/cartManager.js";
-const CartM = new CartManager();
-
-cartRouter.get("/", (req, res) => {
-  let carts = CartM.getCarts();
-  const query = req.query;
-  console.log(query);
-  if (!!query.limit) {
-    let limit = parseInt(query.limit);
-    let cartsLimits = [];
-    for (let i = 0; i < limit; i++) {
-      cartsLimits.push(carts[i]);
+cartRouter.get("/", async (req, res) => {
+  try {
+    const query = req.query;
+    if (!query.limit) {
+      const carts = await CServives.getLimit(query.limit);
+      return res.status(200).json({
+        status: "success",
+        msg: "listado de Carritos",
+        payload: carts,
+      });
+    } else {
+      const carts = await CServives.getAll();
+      return res.status(200).json({
+        status: "success",
+        msg: "listado de Carritos",
+        payload: carts,
+      });
     }
-    res.json(cartsLimits);
-  } else {
-    res.json(carts);
+  } catch (e) {
+    console.log(e);
+    return res.status(500).json({
+      status: "error",
+      msg: "something went wrong :(",
+      payload: {},
+    });
   }
 });
 
-cartRouter.get("/:id", (req, res) => {
-  const idSearch = req.params.id;
-  let cartSerched = CartM.getCartById(idSearch);
-  if (!!cartSerched) {
-    return res.status(200).json({
-      status: "success",
-      msg: "Carrito buscado",
-      payload: cartSerched,
-    });
-  } else {
+cartRouter.get("/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const cartFound = await CServives.getCartById(id);
+
+    if (cartFound) {
+      return res
+        .status(201)
+        .json({ status: "success", msg: "cart found", payload: cartFound });
+    } else {
+      return res
+        .status(400)
+        .json({ status: "error", msg: "The indicated cart was not found" });
+    }
+  } catch (error) {
+    console.log(error);
     return res
-      .status(404)
-      .json({ status: "error", msg: "El carrito no existe", payload: {} });
+      .status(500)
+      .json({ status: "error", msg: "Internal Server Error" });
   }
 });
 
 cartRouter.post("/", async (req, res) => {
-  let newCart = CartM.createCart();
-  return res
-    .status(201)
-    .json({ status: "succes", msg: "Cart creado", payload: newCart });
-});
-
-cartRouter.post("/:cid/product/:pid", (req, res) => {
-  const { cid, pid } = req.params;
-
-  const updateCart = CartM.addProductCart(cid, pid);
-  if (!updateCart) {
-    return res
-      .status(404)
-      .json({ status: "error", msg: "El carrito no existe", payload: {} });
-  } else {
-    return res.status(200).json({
-      status: "succes",
-      msg: "Producto añadido correctamente",
-      payload: updateCart,
+  try {
+    const cartCreated = await CServives.create({});
+    return res.status(201).json({
+      status: "success",
+      msg: "Cart created",
+      payload: cartCreated,
+    });
+  } catch (e) {
+    return res.status(500).json({
+      status: "error",
+      msg: "something went wrong :(",
+      payload: {},
     });
   }
 });
 
+cartRouter.post("/:cid/product/:pid", async (req, res) => {
+  try {
+    const cid = req.params.cid;
+    const pid = req.params.pid;
+    const productById = await PServives.getProductById(pid);
+
+    if (productById) {
+      const createdProduct = await CServives.addProductToCart({ cid, pid });
+      if (createdProduct) {
+        return res.status(201).json({
+          status: "success",
+          msg: "product added to cart",
+          payload: createdProduct,
+        });
+      } else {
+        return res.status(400).json({
+          status: "error",
+          msg: "The product was not added to the cart",
+        });
+      }
+    } else {
+      return res
+        .status(400)
+        .json({ status: "error", msg: "No product found to add to cart" });
+    }
+  } catch (error) {
+    return res.status(500).json({
+      status: "error",
+      msg: "could not add product to cart",
+      error: error.message,
+    });
+  }
+});
+/*
 cartRouter.delete("/:cid/product/:pid", (req, res) => {
   const { cid, pid } = req.params;
   let deletedProductCart = CartM.removeProductCart(cid, pid);
@@ -78,3 +121,4 @@ cartRouter.delete("/:cid/product/:pid", (req, res) => {
     });
   }
 });
+*/

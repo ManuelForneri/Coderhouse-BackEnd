@@ -13,7 +13,7 @@ class productServives {
         code: true,
         stock: true,
       }
-    );
+    ).lean();
     return products;
   }
   async getLimit(limit) {
@@ -28,8 +28,19 @@ class productServives {
         code: true,
         stock: true,
       }
-    ).limit(limit);
+    )
+      .limit(limit)
+      .lean();
     return products;
+  }
+  async getProductById(pid) {
+    const producById = await ProductModel.findOne(
+      { _id: pid },
+      {
+        __v: false,
+      }
+    );
+    return producById;
   }
 
   async create({ title, description, price, thumbnail, code, stock }) {
@@ -49,10 +60,10 @@ class productServives {
     return result;
   }
 
-  async update(id, firstName, lastName, email) {
+  async update(id, title, description, price, thumbnail, code, stock) {
     const userUptaded = await ProductModel.updateOne(
       { _id: id },
-      { firstName, lastName, email }
+      { title, description, price, thumbnail, code, stock }
     );
     return userUptaded;
   }

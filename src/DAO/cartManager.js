@@ -5,7 +5,7 @@ const cartsFile = "carts.txt";
 export class CartManager {
   constructor() {
     this.carts = [];
-    this.LoadCarts();
+    //this.LoadCarts();
   }
   async LoadCarts() {
     try {

@@ -1,9 +1,7 @@
+//@ts-check
 import { Server } from "socket.io";
-import { ProductManager } from "../DAO/ProductManager.js";
 import { MessageModel } from "../DAO/models/messages.model.js";
-
-const ProductM = new ProductManager();
-
+import { PServives } from "../services/products.service.js";
 export function connectSocketServer(httpServer) {
   const socketServer = new Server(httpServer);
 
@@ -28,8 +26,16 @@ export function connectSocketServer(httpServer) {
     console.log("Cliente conectado " + socket.id);
     socket.on("new-product", async (newProduct) => {
       try {
-        ProductM.addProduct(newProduct);
-        const newProductsList = ProductM.getProducts();
+        await PServives.create(
+          newProduct.title,
+
+          newProduct.description,
+          newProduct.price,
+          newProduct.thumbnail,
+          newProduct.code,
+          newProduct.stock
+        );
+        const newProductsList = await PServives.getAll();
         socketServer.emit("products", newProductsList);
       } catch (error) {
         console.log(error);

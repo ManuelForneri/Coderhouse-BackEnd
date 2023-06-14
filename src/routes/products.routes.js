@@ -1,11 +1,7 @@
 import { Router } from "express";
 export const productsRouter = Router();
 
-//import { products } from "../utils.js";
-
-import { ProductManager } from "../DAO/ProductManager.js";
 import { PServives } from "../services/products.service.js";
-const ProductM = new ProductManager();
 
 productsRouter.get("/", async (req, res) => {
   try {
@@ -14,14 +10,14 @@ productsRouter.get("/", async (req, res) => {
       const products = await PServives.getLimit(query.limit);
       return res.status(200).json({
         status: "success",
-        msg: "listado de usuarios",
+        msg: "listado de Productos",
         payload: products,
       });
     } else {
       const products = await PServives.getAll();
       return res.status(200).json({
         status: "success",
-        msg: "listado de usuarios",
+        msg: "listado de Productos",
         payload: products,
       });
     }
@@ -35,20 +31,27 @@ productsRouter.get("/", async (req, res) => {
   }
 });
 
-productsRouter.get("/:id", (req, res) => {
-  const id = req.params.id;
-  let products = ProductM.getProducts();
-  const productSerched = products.find((p) => p.id == id);
-  if (!!productSerched) {
-    return res.status(200).json({
-      status: "success",
-      msg: "Producto buscado",
-      payload: productSerched,
-    });
-  } else {
+productsRouter.get("/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const productFound = await PServives.getProductById(id);
+
+    if (productFound) {
+      return res.status(201).json({
+        status: "success",
+        msg: "Product found",
+        payload: productFound,
+      });
+    } else {
+      return res
+        .status(400)
+        .json({ status: "error", msg: "The indicated product was not found" });
+    }
+  } catch (error) {
+    console.log(error);
     return res
-      .status(404)
-      .json({ status: "error", msg: "El producto no existe", payload: {} });
+      .status(500)
+      .json({ status: "error", msg: "Internal Server Error" });
   }
 });
 
@@ -88,18 +91,48 @@ productsRouter.post("/", async (req, res) => {
   }
 });
 
-productsRouter.put("/:id", (req, res) => {
-  const idSearch = req.params.id;
-  const updateProduct = req.body;
-  console.log(idSearch);
-  console.log(updateProduct);
-  let upProd = ProductM.updateProduct(idSearch, updateProduct);
-
-  return res.status(200).json({
-    status: "succes",
-    msg: "Producto modificado correctamente",
-    payload: upProd,
-  });
+productsRouter.put("/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { title, description, price, thumbnail, code, stock } = req.body;
+    try {
+      const productUptaded = await PServives.update(
+        id,
+        title,
+        description,
+        price,
+        thumbnail,
+        code,
+        stock
+      );
+      if (productUptaded.matchedCount > 0) {
+        return res.status(201).json({
+          status: "success",
+          msg: "product update",
+          payload: {},
+        });
+      } else {
+        return res.status(404).json({
+          status: "error",
+          msg: "product not found",
+          payload: {},
+        });
+      }
+    } catch (e) {
+      return res.status(500).json({
+        status: "error",
+        msg: "db server error while updating product",
+        payload: {},
+      });
+    }
+  } catch (e) {
+    console.log(e);
+    return res.status(500).json({
+      status: "error",
+      msg: "something went wrong :(",
+      payload: {},
+    });
+  }
 });
 
 productsRouter.delete("/:id", async (req, res) => {
