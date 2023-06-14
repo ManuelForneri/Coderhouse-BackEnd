@@ -1,4 +1,3 @@
-//@ts-check
 import { Server } from "socket.io";
 import { MessageModel } from "../DAO/models/messages.model.js";
 import { PServives } from "../services/products.service.js";
@@ -28,7 +27,6 @@ export function connectSocketServer(httpServer) {
       try {
         await PServives.create(
           newProduct.title,
-
           newProduct.description,
           newProduct.price,
           newProduct.thumbnail,
