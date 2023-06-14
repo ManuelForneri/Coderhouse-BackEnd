@@ -14,7 +14,7 @@ socket.on("products", (newProductsList) => {
   let newProducts = "";
   newProductsList.map((p) => {
     newProducts += `<div class="card-realtime">
-        <div>Id: ${p.id} </div>
+        <div>Id: ${p._id} </div>
         <div>Titulo: ${p.title} </div>
         <div>Precio: ${p.price} </div>
         <div>Descripcion: ${p.description} </div>

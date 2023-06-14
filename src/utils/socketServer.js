@@ -25,14 +25,14 @@ export function connectSocketServer(httpServer) {
     console.log("Cliente conectado " + socket.id);
     socket.on("new-product", async (newProduct) => {
       try {
-        await PServives.create(
-          newProduct.title,
-          newProduct.description,
-          newProduct.price,
-          newProduct.thumbnail,
-          newProduct.code,
-          newProduct.stock
-        );
+        await PServives.create({
+          title: newProduct.title,
+          description: newProduct.description,
+          price: newProduct.price,
+          thumbnail: newProduct.thumbnail,
+          code: newProduct.code,
+          stock: newProduct.stock,
+        });
         const newProductsList = await PServives.getAll();
         socketServer.emit("products", newProductsList);
       } catch (error) {
