@@ -1,12 +1,13 @@
 //@ts-check
 import { cartsModel } from "../DAO/models/carts.model.js";
+import { ObjectId } from "mongodb";
 
 class cartsServices {
   async getAll() {
     const carts = await cartsModel.find(
       {},
       {
-        _v: false,
+        __v: false,
       }
     );
     return carts;
@@ -51,13 +52,13 @@ class cartsServices {
         );
         if (productToUpdate) {
           await cartsModel.updateOne(
-            { _id: cid, "products.pid": pid },
+            { _id: new ObjectId(cid), "products.pid": pid },
             { $inc: { "products.$.quantity": 1 } }
           );
         }
       } else {
-        await cartsModel.findOneAndUpdate(
-          { _id: cid },
+        await cartsModel.updateOne(
+          { _id: new ObjectId(cid) },
           { $push: { products: { pid: pid, quantity: 1 } } }
         );
       }
