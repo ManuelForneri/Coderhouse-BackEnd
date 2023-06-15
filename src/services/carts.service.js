@@ -57,8 +57,8 @@ class cartsServices {
           );
         }
       } else {
-        await cartsModel.updateOne(
-          { _id: new ObjectId(cid) },
+        await cartsModel.findOneAndUpdate(
+          { _id: cid },
           { $push: { products: { pid: pid, quantity: 1 } } }
         );
       }
