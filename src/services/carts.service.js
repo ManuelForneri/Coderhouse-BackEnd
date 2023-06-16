@@ -1,6 +1,5 @@
 //@ts-check
 import { cartsModel } from "../DAO/models/carts.model.js";
-import { ObjectId } from "mongodb";
 
 class cartsServices {
   async getAll() {
