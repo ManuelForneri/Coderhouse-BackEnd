@@ -51,7 +51,7 @@ class cartsServices {
         );
         if (productToUpdate) {
           await cartsModel.updateOne(
-            { _id: new ObjectId(cid), "products.pid": pid },
+            { _id: cid, "products.pid": pid },
             { $inc: { "products.$.quantity": 1 } }
           );
         }
