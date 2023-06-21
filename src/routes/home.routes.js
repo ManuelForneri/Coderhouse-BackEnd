@@ -1,6 +1,5 @@
 import express from "express";
-import { ProductManager } from "../DAO/ProductManager.js";
-const ProductM = new ProductManager();
+
 import { PServives } from "../services/products.service.js";
 
 export const home = express.Router();
