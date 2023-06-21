@@ -1,14 +1,14 @@
 import { ProductModel } from "../DAO/models/products.model.js";
 
 class productServives {
-  async getAll(pageQuery) {
-    const products = await UserModel.paginate(
+  async getAll(query) {
+    let products = await ProductModel.paginate(
       {},
-      { limit: 10, page: pageQuery || 1 }
+      { limit: 10, page: query.page || 1 }
     );
     return products;
   }
-  async getLimit(limit) {
+  /* async getLimit(limit) {
     const products = await ProductModel.find(
       {},
       {
@@ -25,6 +25,7 @@ class productServives {
       .lean();
     return products;
   }
+  */
   async getProductById(pid) {
     const producById = await ProductModel.findOne(
       { _id: pid },

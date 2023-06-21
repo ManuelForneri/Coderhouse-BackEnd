@@ -5,9 +5,11 @@ import { PServives } from "../services/products.service.js";
 
 productsRouter.get("/", async (req, res) => {
   try {
-    const { pageQuery } = req.query;
-    const queryResult = PServives.getAll(pageQuery);
-    let products = queryResult.docs;
+    const query = req.query;
+    console.log(query);
+    const queryResult = PServives.getAll({ query });
+    console.log("resultado" + queryResult);
+    const products = queryResult.docs;
 
     const {
       totalDocs,
@@ -20,6 +22,7 @@ productsRouter.get("/", async (req, res) => {
       prevPage,
       nextPage,
     } = queryResult;
+    console.log(products);
     products = products.map((product) => {
       return {
         _id: product._id.toString(),
@@ -48,6 +51,7 @@ productsRouter.get("/", async (req, res) => {
       },
     });
   } catch (error) {
+    console.log(error);
     return res.render("error");
   }
 
