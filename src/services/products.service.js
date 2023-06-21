@@ -1,13 +1,32 @@
+import { response } from "express";
 import { ProductModel } from "../DAO/models/products.model.js";
 
 class productServives {
-  async getAll(query) {
-    let products = await ProductModel.paginate(
-      {},
-      { limit: 10, page: query.page || 1 }
-    );
-
-    return products;
+  async getAll(queryParams) {
+    const { limit = 10, page = 1, sort, query } = queryParams;
+    const filter = {};
+    let result = await ProductModel.paginate({}, { limit: limit, page: page });
+    const products = result.docs;
+    const response = {
+      status: "success",
+      msg: "listado de Productos",
+      payload: {
+        products: products,
+        totalDocs: result.totalDocs,
+        totalPages: result.totalPages,
+        page: result.page,
+        pagingCounter: result.pagingCounter,
+        hasPrevPage: result.hasPrevPage,
+        hasNextPage: result.hasNextPage,
+        prevPage: result.prevPage
+          ? `http://localhost:8080/api/products?limit=${limit}&page=${result.prevPage}`
+          : null,
+        nextPage: result.nextPage
+          ? `http://localhost:8080/api/products?limit=${limit}&page=${result.nextPage}`
+          : null,
+      },
+    };
+    return response;
   }
   /* async getLimit(limit) {
     const products = await ProductModel.find(

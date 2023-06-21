@@ -6,49 +6,23 @@ import { PServives } from "../services/products.service.js";
 productsRouter.get("/", async (req, res) => {
   try {
     const query = req.query;
-    const queryResult = await PServives.getAll(query);
-    console.log(queryResult);
-    const products = queryResult.docs;
-    console.log(typeof products);
-    const {
-      totalDocs,
-      limit,
-      totalPages,
-      page,
-      pagingCounter,
-      hasPrevPage,
-      hasNextPage,
-      prevPage,
-      nextPage,
-    } = queryResult;
+    const response = await PServives.getAll(query);
+    // let products = queryResult.docs;
 
-    let productsPage = products.map((product) => {
-      return {
-        _id: product._id.toString(),
-        title: product.title,
-        description: product.description,
-        price: product.price,
-        thumbnail: product.thumbnail,
-        code: product.code,
-        stock: product.stock,
-      };
-    });
-    return res.status(200).json({
-      status: "success",
-      msg: "listado de Productos",
-      payload: {
-        productsPage,
-        totalDocs,
-        limit,
-        totalPages,
-        page,
-        pagingCounter,
-        hasPrevPage,
-        hasNextPage,
-        prevPage,
-        nextPage,
-      },
-    });
+    // products = products.map((product) => {
+    //   return {
+    //     _id: product._id.toString(),
+    //     title: product.title,
+    //     description: product.description,
+    //     price: product.price,
+    //     thumbnail: product.thumbnail,
+    //     code: product.code,
+    //     stock: product.stock,
+    //   };
+
+    //});
+
+    return res.status(200).json(response);
   } catch (error) {
     console.log(error);
     return res.render("error");
