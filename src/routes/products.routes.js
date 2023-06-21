@@ -5,30 +5,77 @@ import { PServives } from "../services/products.service.js";
 
 productsRouter.get("/", async (req, res) => {
   try {
-    const query = req.query;
-    if (!query.limit) {
-      const products = await PServives.getLimit(query.limit);
-      return res.status(200).json({
-        status: "success",
-        msg: "listado de Productos",
-        payload: products,
-      });
-    } else {
-      const products = await PServives.getAll();
-      return res.status(200).json({
-        status: "success",
-        msg: "listado de Productos",
-        payload: products,
-      });
-    }
-  } catch (e) {
-    console.log(e);
-    return res.status(500).json({
-      status: "error",
-      msg: "something went wrong :(",
-      payload: {},
+    const { pageQuery } = req.query;
+    const queryResult = PServives.getAll(pageQuery);
+    let products = queryResult.docs;
+
+    const {
+      totalDocs,
+      limit,
+      totalPages,
+      page,
+      pagingCounter,
+      hasPrevPage,
+      hasNextPage,
+      prevPage,
+      nextPage,
+    } = queryResult;
+    products = products.map((product) => {
+      return {
+        _id: product._id.toString(),
+        title: product.title,
+        description: product.description,
+        price: product.price,
+        thumbnail: product.thumbnail,
+        code: product.code,
+        stock: product.stock,
+      };
     });
+    return res.status(200).json({
+      status: "success",
+      msg: "listado de Productos",
+      payload: {
+        products,
+        totalDocs,
+        limit,
+        totalPages,
+        page,
+        pagingCounter,
+        hasPrevPage,
+        hasNextPage,
+        prevPage,
+        nextPage,
+      },
+    });
+  } catch (error) {
+    return res.render("error");
   }
+
+  // try {
+  //   const query = req.query;
+  //   if (!query.limit) {
+  //     const products = await PServives.getLimit(query.limit);
+  //     return res.status(200).json({
+  //       status: "success",
+  //       msg: "listado de Productos",
+  //       payload: products,
+  //     });
+  //   } else {
+  //     const products = await PServives.getAll();
+  //     return res.status(200).json({
+  //       status: "success",
+  //       msg: "listado de Productos",
+  //       payload: products,
+  //     });
+  //   }
+  // } catch (e) {
+  //   console.log(e);
+  //   return res.status(500).json({
+  //     status: "error",
+  //     msg: "something went wrong :(",
+  //     payload: {},
+  //   });
+  // }
 });
 
 productsRouter.get("/:id", async (req, res) => {

@@ -1,19 +1,11 @@
 import { ProductModel } from "../DAO/models/products.model.js";
 
 class productServives {
-  async getAll() {
-    const products = await ProductModel.find(
+  async getAll(pageQuery) {
+    const products = await UserModel.paginate(
       {},
-      {
-        _id: true,
-        title: true,
-        description: true,
-        price: true,
-        thumbnail: true,
-        code: true,
-        stock: true,
-      }
-    ).lean();
+      { limit: 10, page: pageQuery || 1 }
+    );
     return products;
   }
   async getLimit(limit) {
