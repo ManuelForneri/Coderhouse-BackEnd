@@ -7,14 +7,20 @@ export const home = express.Router();
 home.get("/", async (req, res) => {
   const title = "Listado de productos";
   try {
-    const query = req.query;
-    if (!!query.limit) {
-      const products = await PServives.getLimit(query.limit);
-      return res.status(200).render("home", title, products);
-    } else {
-      const products = await PServives.getAll();
-      return res.status(200).render("home", { title, products });
-    }
+    const queryParams = req.query;
+    const response = await PServives.getAll(queryParams);
+    const products = response.payload.products.map((product) => {
+      return {
+        _id: product._id.toString(),
+        title: product.title,
+        description: product.description,
+        price: product.price,
+        thumbnail: product.thumbnail,
+        code: product.code,
+        stock: product.stock,
+      };
+    });
+    return res.status(200).render("home", { title, products, response });
   } catch (e) {
     console.log(e);
     return res.status(500).json({

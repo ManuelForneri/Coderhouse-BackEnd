@@ -18,34 +18,19 @@ class productServives {
         pagingCounter: result.pagingCounter,
         hasPrevPage: result.hasPrevPage,
         hasNextPage: result.hasNextPage,
-        prevPage: result.prevPage
+        prevPage: result.prevPage,
+        nextPage: result.nextPage,
+        prevPageURL: result.prevPage
           ? `http://localhost:8080/api/products?limit=${limit}&page=${result.prevPage}`
           : null,
-        nextPage: result.nextPage
+        nextPageURL: result.nextPage
           ? `http://localhost:8080/api/products?limit=${limit}&page=${result.nextPage}`
           : null,
       },
     };
     return response;
   }
-  /* async getLimit(limit) {
-    const products = await ProductModel.find(
-      {},
-      {
-        _id: true,
-        title: true,
-        description: true,
-        price: true,
-        thumbnail: true,
-        code: true,
-        stock: true,
-      }
-    )
-      .limit(limit)
-      .lean();
-    return products;
-  }
-  */
+
   async getProductById(pid) {
     const producById = await ProductModel.findOne(
       { _id: pid },

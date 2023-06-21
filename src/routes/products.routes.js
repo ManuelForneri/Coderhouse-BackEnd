@@ -5,22 +5,8 @@ import { PServives } from "../services/products.service.js";
 
 productsRouter.get("/", async (req, res) => {
   try {
-    const query = req.query;
-    const response = await PServives.getAll(query);
-    // let products = queryResult.docs;
-
-    // products = products.map((product) => {
-    //   return {
-    //     _id: product._id.toString(),
-    //     title: product.title,
-    //     description: product.description,
-    //     price: product.price,
-    //     thumbnail: product.thumbnail,
-    //     code: product.code,
-    //     stock: product.stock,
-    //   };
-
-    //});
+    const queryParams = req.query;
+    const response = await PServives.getAll(queryParams);
 
     return res.status(200).json(response);
   } catch (error) {
