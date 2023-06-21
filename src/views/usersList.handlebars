@@ -1,0 +1,22 @@
+<h1>Listado de Usuarios</h1>
+<div>
+  <ul>
+    {{#each users}}
+      <hr />
+      <li>{{this._id}}</li>
+      <li>{{this.firstName}}</li>
+      <li>{{this.lastName}}</li>
+      <li>{{this.email}}</li>
+      <hr />
+    {{/each}}
+  </ul>
+  <div>
+    {{#if hasPrevPage}}
+      <a href="/html/users?pageQuery={{prevPage}}">⬅️anterior</a>
+    {{/if}}
+    <span>Pagina {{page}} de {{totalPages}}</span>
+    {{#if hasNextPage}}
+      <a href="/html/users?pageQuery={{nextPage}}">siguiente➡️</a>
+    {{/if}}
+  </div>
+</div>

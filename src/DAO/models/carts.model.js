@@ -1,17 +1,15 @@
 //@ts-check
 import { Schema, model } from "mongoose";
 
-const prodCartModel = new Schema(
+const prodCartSchema = new Schema(
   {
     pid: { type: String, required: true },
     quantity: { type: Number, required: true },
   },
   { _id: false }
 );
+const cartsSchema = new Schema({
+  products: { type: [prodCartSchema], required: true },
+});
 
-export const cartsModel = model(
-  "carts",
-  new Schema({
-    products: { type: [prodCartModel], required: true },
-  })
-);
+export const cartsModel = model("carts", cartsSchema);

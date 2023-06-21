@@ -7,6 +7,7 @@ import { home } from "./routes/home.routes.js";
 import { realTimeChat } from "./routes/realtimechat.routes.js";
 import { realTimeProducts } from "./routes/realtimeproducts.routes.js";
 import { usersRouter } from "./routes/users.routes.js";
+import { usersHtmlRouter } from "./routes/users.html.routes.js";
 import { productsRouter } from "./routes/products.routes.js";
 import { connectMongo } from "./utils/dbConnection.js";
 import { connectSocketServer } from "./utils/socketServer.js";
@@ -30,10 +31,11 @@ const httpServer = app.listen(port, () => {
 });
 connectSocketServer(httpServer);
 
+app.use("/", home);
 app.use("/api/products", productsRouter);
 app.use("/api/carts", cartRouter);
 app.use("/api/users", usersRouter);
-app.use("/", home);
+app.use("/html/users", usersHtmlRouter);
 app.use("/realtimeproducts", realTimeProducts);
 app.use("/chat", realTimeChat);
 

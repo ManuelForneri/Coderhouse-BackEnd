@@ -7,7 +7,6 @@ export const home = express.Router();
 
 home.get("/", async (req, res) => {
   const title = "Listado de productos";
-
   try {
     const query = req.query;
     if (!!query.limit) {
