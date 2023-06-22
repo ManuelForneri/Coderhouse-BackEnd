@@ -1,5 +1,6 @@
 import { response } from "express";
 import { ProductModel } from "../DAO/models/products.model.js";
+import { ObjectId } from "mongodb";
 
 class productServives {
   async getAll(queryParams) {
@@ -38,6 +39,7 @@ class productServives {
         __v: false,
       }
     );
+    producById._id = ObjectId.toString();
     return producById;
   }
 

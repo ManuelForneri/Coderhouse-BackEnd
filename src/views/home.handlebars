@@ -20,10 +20,11 @@
         href="/?page={{response.payload.prevPage}}&limit={{limit}}"
       >⬅️anterior</a>
     {{/if}}
-    <span>Pagina
-      {{response.payload.page}}
-      de
-      {{response.payload.totalPages}}</span>
+    {{#if response}}<span>Pagina
+        {{response.payload.page}}
+        de
+        {{response.payload.totalPages}}</span>
+    {{/if}}
     {{#if response.payload.hasNextPage}}
       <a
         href="/?page={{response.payload.nextPage}}&limit={{limit}}"
