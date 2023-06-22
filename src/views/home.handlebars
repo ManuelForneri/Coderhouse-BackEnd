@@ -16,14 +16,18 @@
 
   <div>
     {{#if response.payload.hasPrevPage}}
-      <a href="/?page={{response.payload.prevPage}}">⬅️anterior</a>
+      <a
+        href="/?page={{response.payload.prevPage}}&limit={{limit}}"
+      >⬅️anterior</a>
     {{/if}}
     <span>Pagina
       {{response.payload.page}}
       de
       {{response.payload.totalPages}}</span>
     {{#if response.payload.hasNextPage}}
-      <a href="/?page={{response.payload.nextPage}}">siguiente➡️</a>
+      <a
+        href="/?page={{response.payload.nextPage}}&limit={{limit}}"
+      >siguiente➡️</a>
     {{/if}}
   </div>
 </div>
