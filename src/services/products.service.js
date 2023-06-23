@@ -64,9 +64,16 @@ class productServives {
       if (response.payload.nextPage) {
         response.payload.nextPageURL += `&stock=${stock}`;
       }
-      response.payload.products = response.payload.products.find({
-        stock: stock,
-      });
+
+      if (stock == "asc") {
+        response.payload.products = response.payload.products.sort(
+          (a, b) => a.stock - b.stock
+        );
+      } else if (stock == "des") {
+        response.payload.products = response.payload.products.sort(
+          (a, b) => b.stock - a.stock
+        );
+      }
     }
     if (sort) {
       if (response.payload.prevPage) {
@@ -75,11 +82,11 @@ class productServives {
       if (response.payload.nextPage) {
         response.payload.nextPageURL += `&sort=${sort}`;
       }
-      if (sort == "des") {
+      if (sort == "asc") {
         response.payload.products = response.payload.products.sort(
           (a, b) => a.price - b.price
         );
-      } else if (sort == "asc") {
+      } else if (sort == "des") {
         response.payload.products = response.payload.products.sort(
           (a, b) => b.price - a.price
         );
