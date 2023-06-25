@@ -21,19 +21,18 @@ home.get("/", async (req, res) => {
         thumbnail: product.thumbnail,
         code: product.code,
         stock: product.stock,
+        category: product.category,
       };
     });
-    return res
-      .status(200)
-      .render("home", {
-        title,
-        products,
-        response,
-        limit,
-        category,
-        sort,
-        stock,
-      });
+    return res.status(200).render("home", {
+      title,
+      products,
+      response,
+      limit,
+      category,
+      sort,
+      stock,
+    });
   } catch (e) {
     console.log(e);
     return res.status(500).json({

@@ -47,14 +47,14 @@ class productServives {
     }
     if (category) {
       if (response.payload.prevPage) {
-        response.payload.prevPageURL += `category=${category}`;
+        response.payload.prevPageURL += `&category=${category}`;
       }
       if (response.payload.nextPage) {
-        response.payload.nextPageURL += `category=${category}`;
+        response.payload.nextPageURL += `&category=${category}`;
       }
-      response.payload.products = response.payload.products.find({
-        category: category,
-      });
+      response.payload.products = response.payload.products.filter(
+        (product) => product.category === category
+      );
     }
 
     if (stock) {
