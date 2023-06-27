@@ -104,21 +104,38 @@ cartRouter.post("/:cid/product/:pid", async (req, res) => {
     });
   }
 });
-/*
-cartRouter.delete("/:cid/product/:pid", (req, res) => {
-  const { cid, pid } = req.params;
-  let deletedProductCart = CartM.removeProductCart(cid, pid);
-  if (!deletedProductCart) {
-    return res.status(400).json({
+cartRouter.delete("/:cid/product/:pid", async (req, res) => {
+  try {
+    const cid = req.params.cid;
+    const pid = req.params.pid;
+
+    const productById = await PServives.getProductById(pid);
+
+    if (productById) {
+      const deletedProduct = await CServives.deleteProduct({ cid, pid });
+
+      if (deletedProduct) {
+        return res.status(200).json({
+          status: "success",
+          msg: "product removed from cart",
+          payload: deletedProduct,
+        });
+      } else {
+        return res.status(400).json({
+          status: "error",
+          msg: "The product was not removed from the cart",
+        });
+      }
+    } else {
+      return res
+        .status(400)
+        .json({ status: "error", msg: "No product found to remove from cart" });
+    }
+  } catch (error) {
+    return res.status(500).json({
       status: "error",
-      msg: "no se encontro ningun producto con ese id",
-    });
-  } else {
-    return res.status(200).json({
-      status: "success",
-      msg: "Se elimino correctamente el procuto con  el id : " + cid,
-      payload: deletedProductCart,
+      msg: "Could not remove product from cart",
+      error: error.message,
     });
   }
 });
-*/

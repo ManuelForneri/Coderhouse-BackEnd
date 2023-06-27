@@ -1,5 +1,5 @@
-//@ts-check
 import { cartsModel } from "../DAO/models/carts.model.js";
+import { ObjectId } from "mongodb";
 
 class cartsServices {
   async getAll() {
@@ -65,6 +65,36 @@ class cartsServices {
       return cartToUpdate;
     } catch (error) {
       console.error("Error updating cart:", error);
+      throw error;
+    }
+  }
+  async deleteProduct({ cid, pid }) {
+    try {
+      const findProdInCart = await cartsModel.findOne({
+        products: { $elemMatch: { pid: pid } },
+      });
+
+      if (findProdInCart) {
+        const productToUpdate = findProdInCart.products.find(
+          (product) => product.pid === pid
+        );
+        console.log(productToUpdate);
+        if (productToUpdate.quantity > 1) {
+          await cartsModel.updateOne(
+            { _id: cid, "products.pid": pid },
+            { $inc: { "products.$.quantity": -1 } }
+          );
+        } else {
+          await cartsModel.findOneAndUpdate(
+            { _id: cid },
+            { $pull: { products: { pid: pid } } }
+          );
+        }
+      }
+      const updatedCart = await cartsModel.findOne({ _id: cid });
+      return updatedCart;
+    } catch (error) {
+      console.error("Error deleting product from cart:", error);
       throw error;
     }
   }
