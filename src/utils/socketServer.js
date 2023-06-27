@@ -32,8 +32,9 @@ export function connectSocketServer(httpServer) {
           thumbnail: newProduct.thumbnail,
           code: newProduct.code,
           stock: newProduct.stock,
+          category: newProduct.category,
         });
-        const newProductsList = await PServives.getAll();
+        const newProductsList = await PServives.getProductRealTime();
         socketServer.emit("products", newProductsList);
       } catch (error) {
         console.log(error);

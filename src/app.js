@@ -31,15 +31,21 @@ const httpServer = app.listen(port, () => {
 });
 connectSocketServer(httpServer);
 
-app.use("/", home);
 app.use("/api/products", productsRouter);
 app.use("/api/carts", cartRouter);
 app.use("/api/users", usersRouter);
-
 app.use("/html/users", usersHtmlRouter);
 app.use("/realtimeproducts", realTimeProducts);
 app.use("/chat", realTimeChat);
-
+app.get("/set-cookies", (req, res) => {
+  res.cookie("cookie-test", "informacion valiosa", { maxAge: 100000 });
+  return res.json({
+    status: "Cookies",
+    msg: "cookies inyectados",
+    data: {},
+  });
+});
+app.use("/", home);
 app.get("*", (req, res) => {
   return res.status(404).send("not found");
 });

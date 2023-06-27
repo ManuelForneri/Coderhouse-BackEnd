@@ -109,7 +109,6 @@ class productServives {
     const products = await ProductModel.find(
       {},
       {
-        _id: false,
         __v: false,
       }
     );
@@ -117,7 +116,15 @@ class productServives {
     return products;
   }
 
-  async create({ title, description, price, thumbnail, code, stock }) {
+  async create({
+    title,
+    description,
+    price,
+    thumbnail,
+    code,
+    stock,
+    category,
+  }) {
     const productCreated = await ProductModel.create({
       title,
       description,
@@ -125,6 +132,7 @@ class productServives {
       thumbnail,
       code,
       stock,
+      category,
     });
     return productCreated;
   }

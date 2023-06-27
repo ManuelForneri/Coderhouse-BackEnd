@@ -7,9 +7,10 @@ realTimeProducts.get("/", async (req, res) => {
   try {
     let title = "Listado de productos en tiempo real";
     const response = await PServives.getProductRealTime();
-    console.log(response);
+
     const products = response.map((product) => {
       return {
+        _id: product._id.toString(),
         title: product.title,
         description: product.description,
         price: product.price,
