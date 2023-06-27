@@ -98,5 +98,19 @@ class cartsServices {
       throw error;
     }
   }
+
+  async deleteCart({ cid }) {
+    try {
+      const updatedCart = await cartsModel.findOneAndUpdate(
+        { _id: cid },
+        { products: [] },
+        { new: true }
+      );
+      return updatedCart;
+    } catch (error) {
+      console.error("Error deleting product from cart:", error);
+      throw error;
+    }
+  }
 }
 export const CServives = new cartsServices();

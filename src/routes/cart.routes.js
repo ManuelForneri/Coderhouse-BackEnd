@@ -139,3 +139,23 @@ cartRouter.delete("/:cid/product/:pid", async (req, res) => {
     });
   }
 });
+cartRouter.delete("/:cid", async (req, res) => {
+  try {
+    const cid = req.params.cid;
+    const cartToEmpty = await CServives.deleteCart({ cid });
+    if (cartToEmpty) {
+      return res
+        .status(200)
+        .json({ status: "success", msg: "cart removed", payload: cartToEmpty });
+    } else {
+      return res
+        .status(400)
+        .json({ status: "error", msg: "The indicated cart was not found" });
+    }
+  } catch (error) {
+    console.log(error);
+    return res
+      .status(500)
+      .json({ status: "error", msg: "Internal Server Error" });
+  }
+});
