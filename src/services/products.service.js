@@ -4,7 +4,7 @@ class productServives {
   async getAll(queryParams) {
     const { limit = 10, page = 1, sort, category, stock } = queryParams;
     console.log(queryParams);
-    const filter = {};
+
     let result = await ProductModel.paginate(
       {},
       { limit: limit, page: page, sort: sort, category: category, stock: stock }
@@ -104,6 +104,17 @@ class productServives {
     );
 
     return producById;
+  }
+  async getProductRealTime() {
+    const products = await ProductModel.find(
+      {},
+      {
+        _id: false,
+        __v: false,
+      }
+    );
+
+    return products;
   }
 
   async create({ title, description, price, thumbnail, code, stock }) {

@@ -35,6 +35,7 @@ app.use("/", home);
 app.use("/api/products", productsRouter);
 app.use("/api/carts", cartRouter);
 app.use("/api/users", usersRouter);
+
 app.use("/html/users", usersHtmlRouter);
 app.use("/realtimeproducts", realTimeProducts);
 app.use("/chat", realTimeChat);

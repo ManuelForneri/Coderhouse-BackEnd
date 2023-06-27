@@ -15,5 +15,3 @@ const productsSchema = new Schema({
 productsSchema.plugin(mongoosePaginate);
 
 export const ProductModel = model("products", productsSchema);
-
-//{"id":1,"title":"Producto 1","description":"Este es un producto prueba","price":2000,"thumbnail":"Sin imagen","code":"#1","stock":25}
