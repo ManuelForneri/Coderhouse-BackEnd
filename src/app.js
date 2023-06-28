@@ -33,35 +33,26 @@ const httpServer = app.listen(port, () => {
 });
 connectSocketServer(httpServer);
 
-app.use("/api/products", authenticate, productsRouter);
-app.use("/api/carts", authenticate, cartRouter);
-app.use("/api/users", authenticate, usersRouter);
+app.use("/api/products", /*authenticate,*/ productsRouter);
+app.use("/api/carts", /*authenticate,*/ cartRouter);
+app.use("/api/users", /*authenticate,*/ usersRouter);
 app.use("/html/users", usersHtmlRouter);
-app.use("/realtimeproducts", authenticate, realTimeProducts);
+app.use("/realtimeproducts", /*authenticate,*/ realTimeProducts);
 app.use("/chat", realTimeChat);
-app.use("/cookie", cookiesRouter);
-app.use("/api/sessions/", sessionsRouter);
-app.use("/", sessionsRouter);
-/*prueba cookies
-app.get("/set-cookies", (req, res) => {
-  res.cookie("cookie-test", "informacion valiosa", { maxAge: 100000 });
-  return res.json({
-    status: "Cookies",
-    msg: "cookies inyectados",
-    data: {},
-  });
-});
-*/
-function authenticate(req, res, next) {
-  if (!req.session.user) {
-    return res.render("errorLogin", { msg: "Error authenticate" });
-  }
-  next();
-}
+// app.use("/cookie", cookiesRouter);
+// app.use("/api/sessions/", sessionsRouter);
+// app.use("/", sessionsRouter);
 
-app.get("*", (req, res) => {
-  return res.render("errorLogin", { msg: "Error link" });
-});
+// function authenticate(req, res, next) {
+//   if (!req.session.user) {
+//     return res.render("errorLogin", { msg: "Error authenticate" });
+//   }
+//   next();
+// }
+
+// app.get("*", (req, res) => {
+//   return res.render("errorLogin", { msg: "Error link" });
+// });
 
 app.use("/", home);
 app.get("*", (req, res) => {
