@@ -13,6 +13,13 @@ class userServives {
     );
     return users;
   }
+  async getOne(username) {
+    const users = await UserModel.findOne(
+      { username: username },
+      { password: false, __v: false }
+    );
+    return users;
+  }
 
   async create({ firstName, lastName, email }) {
     const userCreated = await UserModel.create({ firstName, lastName, email });
