@@ -11,6 +11,8 @@ import { usersHtmlRouter } from "./routes/users.html.routes.js";
 import { productsRouter } from "./routes/products.routes.js";
 import { connectMongo } from "./utils/dbConnection.js";
 import { connectSocketServer } from "./utils/socketServer.js";
+import { cookiesRouter } from "./routes/cookies.routes.js";
+import { sessionsRouter } from "./routes/sessions.routes.js";
 
 const app = express();
 const port = 8080;
@@ -31,12 +33,16 @@ const httpServer = app.listen(port, () => {
 });
 connectSocketServer(httpServer);
 
-app.use("/api/products", productsRouter);
-app.use("/api/carts", cartRouter);
-app.use("/api/users", usersRouter);
+app.use("/api/products", authenticate, productsRouter);
+app.use("/api/carts", authenticate, cartRouter);
+app.use("/api/users", authenticate, usersRouter);
 app.use("/html/users", usersHtmlRouter);
-app.use("/realtimeproducts", realTimeProducts);
+app.use("/realtimeproducts", authenticate, realTimeProducts);
 app.use("/chat", realTimeChat);
+app.use("/cookie", cookiesRouter);
+app.use("/api/sessions/", sessionsRouter);
+app.use("/", sessionsRouter);
+/*prueba cookies
 app.get("/set-cookies", (req, res) => {
   res.cookie("cookie-test", "informacion valiosa", { maxAge: 100000 });
   return res.json({
@@ -45,6 +51,18 @@ app.get("/set-cookies", (req, res) => {
     data: {},
   });
 });
+*/
+function authenticate(req, res, next) {
+  if (!req.session.user) {
+    return res.render("errorLogin", { msg: "Error authenticate" });
+  }
+  next();
+}
+
+app.get("*", (req, res) => {
+  return res.render("errorLogin", { msg: "Error link" });
+});
+
 app.use("/", home);
 app.get("*", (req, res) => {
   return res.status(404).send("not found");
