@@ -20,6 +20,22 @@ class userServives {
     );
     return users;
   }
+  async authenticate(username, password) {
+    try {
+      const user = await UserModel.findOne({
+        username: username,
+        password: password,
+      });
+      if (!user) {
+        return false;
+      } else {
+        return true;
+      }
+    } catch (error) {
+      console.error("Error authenticating user:", error);
+      throw error;
+    }
+  }
 
   async create({ firstName, lastName, email }) {
     const userCreated = await UserModel.create({ firstName, lastName, email });
