@@ -38,39 +38,60 @@ const httpServer = app.listen(port, () => {
 });
 connectSocketServer(httpServer);
 
-app.use("/api/products", /*authenticate,*/ productsRouter);
-app.use("/api/carts", /*authenticate,*/ cartRouter);
-app.use("/api/users", /*authenticate,*/ usersRouter);
+app.use("/api/products", productsRouter);
+app.use("/api/carts", cartRouter);
+app.use("/api/users", usersRouter);
 app.use("/html/users", usersHtmlRouter);
-app.use("/realtimeproducts", /*authenticate,*/ realTimeProducts);
+app.use("/realtimeproducts", realTimeProducts);
 app.use("/chat", realTimeChat);
 //app.use("/cookie", cookiesRouter);
 //app.use("/api/sessions/", sessionsRouter);
 //app.use("/", sessionsRouter);
 
-// function authenticate(req, res, next) {
-//   if (!req.session.user) {
-//     return res.render("errorLogin", { msg: "Error authenticate" });
-//   }
-//   next();
-// }
-
 app.get("/session", (req, res) => {
+  console.log(req.session);
   if (req.session.cont) {
     req.session.cont++;
-    res.send("nos visitaste " + req.session.cont);
+    res.send(JSON.stringify(req.session));
   } else {
     req.session.cont = 1;
     req.session.name = "manuel";
     req.session.lastSearch = "hyperx-cloud-fligth";
 
-    res.send("nos visitaste " + 1);
+    res.send(JSON.stringify(req.session));
   }
 });
+app.get("/logout", (req, res) => {
+  req.session.destroy((err) => {
+    if (err) {
+      return res.json({ status: "Logout ERROR", body: err });
+    }
+    res.send("Logout ok!");
+  });
+});
+app.get("/login", (req, res) => {
+  const { username, password } = req.query;
+  if (username !== "pepe" || password !== "pepepass") {
+    return res.send("login failed");
+  }
+  req.session.user = username;
+  req.session.admin = false;
+  res.send("login success!");
+});
+
+app.get("/perfil", (req, res) => {
+  if (req.session && req.session.user) {
+    res.send("Mostrando todo el perfil!");
+  } else {
+    res.send("Logueate para ver la informacion del perfil");
+  }
+});
+
+app.get("/abierta", (req, res) => {
+  res.send("Data abierta al publico!");
+});
+
 app.use("/", home);
-// app.get("*", (req, res) => {
-//   return res.render("errorLogin", { msg: "Error link" });
-// });
 
 app.get("*", (req, res) => {
   return res.status(404).send("not found");
