@@ -14,14 +14,21 @@ import { connectSocketServer } from "./utils/socketServer.js";
 //import { sessionsRouter } from "./routes/sessions.routes.js";
 //import cookieParser from "cookie-parser";
 import session from "express-session";
+import FileStore from "session-file-store";
 
 const app = express();
 const port = 8080;
+const fileStore = FileStore(session);
 
 connectMongo();
 //app.use(cookieParser());
 app.use(
-  session({ secret: "un-re-secreto", resave: true, saveUninitialized: true })
+  session({
+    secret: "un-re-secreto",
+    resave: true,
+    saveUninitialized: true,
+    store: new fileStore({ path: "./src/sessions", ttl: 100, retries: 0 }),
+  })
 );
 
 app.use(express.json());
