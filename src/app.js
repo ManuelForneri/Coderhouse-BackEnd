@@ -15,6 +15,7 @@ import { connectSocketServer } from "./utils/socketServer.js";
 //import cookieParser from "cookie-parser";
 import session from "express-session";
 import FileStore from "session-file-store";
+import MongoStore from "connect-mongo";
 
 const app = express();
 const port = 8080;
@@ -27,7 +28,13 @@ app.use(
     secret: "un-re-secreto",
     resave: true,
     saveUninitialized: true,
-    store: new fileStore({ path: "./src/sessions", ttl: 100, retries: 0 }),
+    store: MongoStore.create({
+      mongoUrl:
+        "mongodb+srv://manuelforneri:120110keko@elabuelotessoredb.pj5hwdc.mongodb.net/?retryWrites=true&w=majority",
+      dbName: "ecommerce",
+      mongoOptions: { useNewUrlParser: true, useUnifiedTopology: true },
+      ttl: 15,
+    }),
   })
 );
 
