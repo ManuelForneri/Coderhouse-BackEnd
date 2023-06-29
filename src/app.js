@@ -71,15 +71,21 @@ app.get("/logout", (req, res) => {
 });
 app.get("/login", (req, res) => {
   const { username, password } = req.query;
-  if (username !== "pepe" || password !== "pepepass") {
+  if (username !== "manuel" || password !== "manuelpass") {
     return res.send("login failed");
   }
   req.session.user = username;
   req.session.admin = false;
   res.send("login success!");
 });
+function auth(req, res, next) {
+  if (req.session.user) {
+    return next();
+  }
+  return res.status(401).send("error de autorización!");
+}
 
-app.get("/perfil", (req, res) => {
+app.get("/perfil", auth, (req, res) => {
   if (req.session && req.session.user) {
     res.send("Mostrando todo el perfil!");
   } else {
