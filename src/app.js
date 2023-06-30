@@ -51,7 +51,7 @@ const httpServer = app.listen(port, () => {
   console.log(`Example app listening on port http://localhost:${port}`);
 });
 connectSocketServer(httpServer);
-
+app.use("/home", home);
 app.use("/api/products", productsRouter);
 app.use("/api/carts", cartRouter);
 app.use("/api/users", usersRouter);
@@ -110,9 +110,9 @@ app.get("/perfil", auth, (req, res) => {
 app.get("/abierta", (req, res) => {
   res.send("Data abierta al publico!");
 });
-
-app.use("/", home);
-
+app.use("/", (req, res) => {
+  return res.render("index");
+});
 app.get("*", (req, res) => {
   return res.status(404).send("not found");
 });
