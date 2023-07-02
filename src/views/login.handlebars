@@ -1,5 +1,10 @@
-<form action="submit">
-  <input type="text" name="user" id="user" />
-  <input type="password" name="password" id="password" />
+<form action="/api/sessions/login" method="post">
+  <input type="email" name="email" placeholder="Email" />
+  <input
+    type="password"
+    name="password"
+    id="password"
+    placeholder="Contraseña"
+  />
   <button type="submit">Iniciar sesion</button>
 </form>

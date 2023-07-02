@@ -11,11 +11,11 @@ import { productsRouter } from "./routes/products.routes.js";
 import { connectMongo } from "./utils/dbConnection.js";
 import { connectSocketServer } from "./utils/socketServer.js";
 //import { cookiesRouter } from "./routes/cookies.routes.js";
-//import { sessionsRouter } from "./routes/sessions.routes.js";
 //import cookieParser from "cookie-parser";
 import session from "express-session";
 import FileStore from "session-file-store";
 import MongoStore from "connect-mongo";
+import { sessionsRouter } from "./routes/sessions.routes.js";
 
 const app = express();
 const port = 8080;
@@ -51,6 +51,7 @@ const httpServer = app.listen(port, () => {
   console.log(`Example app listening on port http://localhost:${port}`);
 });
 connectSocketServer(httpServer);
+
 app.use("/home", home);
 app.use("/api/products", productsRouter);
 app.use("/api/carts", cartRouter);
@@ -59,8 +60,8 @@ app.use("/html/users", usersHtmlRouter);
 app.use("/realtimeproducts", realTimeProducts);
 app.use("/chat", realTimeChat);
 //app.use("/cookie", cookiesRouter);
-//app.use("/api/sessions/", sessionsRouter);
-//app.use("/", sessionsRouter);
+app.use("/api/sessions/", sessionsRouter);
+app.use("/", sessionsRouter);
 
 app.get("/session", (req, res) => {
   console.log(req.session);
@@ -99,6 +100,39 @@ function auth(req, res, next) {
   return res.status(401).send("error de autorización!");
 }
 
+app.get("/abierta", (req, res) => {
+  res.send("Data abierta al publico!");
+});
+
+app.get("/api/sessions/login", (req, res) => {
+  res.render("login");
+});
+
+app.post("/api/sessions/login", (req, res) => {
+  const { email, password } = req.body;
+  const exist = users.find((u) => u.email === email && u.password === password);
+  if (exist) {
+    res.redirect("/perfil");
+  } else {
+    res.send("error revise sus datos");
+  }
+});
+
+app.get("/api/sessions/register", (req, res) => {
+  res.render("register");
+});
+
+app.post("/api/sessions/register", (req, res) => {
+  const { user, email, password } = req.body;
+  const exist = users.find((u) => u.email === email);
+  if (exist) {
+    res.send("error mail ya registrado");
+  } else {
+    users.push({ user, email, password });
+  }
+  res.redirect("/api/sessions/login");
+});
+
 app.get("/perfil", auth, (req, res) => {
   if (req.session && req.session.user) {
     res.send("Mostrando todo el perfil!");
@@ -107,9 +141,6 @@ app.get("/perfil", auth, (req, res) => {
   }
 });
 
-app.get("/abierta", (req, res) => {
-  res.send("Data abierta al publico!");
-});
 app.use("/", (req, res) => {
   return res.render("index");
 });
