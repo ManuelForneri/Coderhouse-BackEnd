@@ -51,15 +51,14 @@ const httpServer = app.listen(port, () => {
 connectSocketServer(httpServer);
 
 app.use("/products", authenticate, home);
-app.use("/api/products", productsRouter);
-app.use("/api/carts", cartRouter);
-app.use("/api/users", usersRouter);
-app.use("/html/users", usersHtmlRouter);
-app.use("/realtimeproducts", realTimeProducts);
+app.use("/api/products", authenticate, productsRouter);
+app.use("/api/carts", authenticate, cartRouter);
+app.use("/api/users", authenticate, usersRouter);
+app.use("/html/users", authenticate, usersHtmlRouter);
+app.use("/realtimeproducts", authenticate, realTimeProducts);
 app.use("/chat", realTimeChat);
 app.use("/cookie", cookiesRouter);
 app.use("/api/sessions/", sessionsRouter);
-app.use("/", sessionsRouter);
 
 function authenticate(req, res, next) {
   if (!req.session.user) {

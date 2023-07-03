@@ -27,10 +27,10 @@ class userServices {
         username: username,
         password: password,
       });
-      if (!user) {
-        return false;
-      } else {
+      if (user) {
         return true;
+      } else {
+        return false;
       }
     } catch (error) {
       console.error("Error authenticating user:", error);

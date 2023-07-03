@@ -11,6 +11,7 @@ usersHtmlRouter.get("/", async (req, res) => {
       { limit: 20, page: pageQuery || 1 }
     );
     let users = queryResult.docs;
+    console.log(users);
 
     const {
       totalDocs,
@@ -26,9 +27,11 @@ usersHtmlRouter.get("/", async (req, res) => {
     users = users.map((user) => {
       return {
         _id: user._id.toString(),
-        firstName: user.firstName,
-        lastName: user.lastName,
+        first_name: user.first_name,
+        last_name: user.last_name,
+        username: user.username,
         email: user.email,
+        age: user.age,
       };
     });
     return res.status(200).render("usersList", {
