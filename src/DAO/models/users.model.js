@@ -1,12 +1,49 @@
 //@ts-check
 import { Schema, model } from "mongoose";
-import mongoosePaginate from "mongoose-paginate-v2";
 
 const userSchema = new Schema({
-  firstName: { type: String, required: true, max: 100 },
-  lastName: { type: String, required: true, max: 100 },
-  email: { type: String, required: true, max: 100, unique: true },
+  first_name: {
+    type: String,
+    required: true,
+    trim: true,
+    maxlength: 100,
+  },
+  last_name: {
+    type: String,
+    required: true,
+    trim: true,
+    maxlength: 100,
+  },
+  username: {
+    type: String,
+    required: true,
+    unique: true,
+    trim: true,
+    maxlength: 100,
+  },
+  email: {
+    type: String,
+    required: true,
+    unique: true,
+    trim: true,
+    maxlength: 100,
+  },
+  age: {
+    type: Number,
+    required: true,
+    trim: true,
+    maxlength: 100,
+  },
+  password: {
+    type: String,
+    required: true,
+    maxlength: 100,
+  },
+  role: {
+    type: String,
+    enum: ["admin", "user"],
+    default: "user",
+  },
 });
-userSchema.plugin(mongoosePaginate);
 
 export const UserModel = model("users", userSchema);

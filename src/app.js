@@ -11,18 +11,16 @@ import { usersHtmlRouter } from "./routes/users.html.routes.js";
 import { usersRouter } from "./routes/users.routes.js";
 import { connectMongo } from "./utils/dbConnection.js";
 import { connectSocketServer } from "./utils/socketServer.js";
-//import { cookiesRouter } from "./routes/cookies.routes.js";
-//import cookieParser from "cookie-parser";
+import { cookiesRouter } from "./routes/cookies.routes.js";
+import cookieParser from "cookie-parser";
 import MongoStore from "connect-mongo";
 import session from "express-session";
-import FileStore from "session-file-store";
 
 const app = express();
 const port = 8080;
-const fileStore = FileStore(session);
 
 connectMongo();
-//app.use(cookieParser());
+app.use(cookieParser());
 app.use(
   session({
     secret: "un-re-secreto",
@@ -52,95 +50,23 @@ const httpServer = app.listen(port, () => {
 });
 connectSocketServer(httpServer);
 
-app.use("/home", home);
+app.use("/products", authenticate, home);
 app.use("/api/products", productsRouter);
 app.use("/api/carts", cartRouter);
 app.use("/api/users", usersRouter);
 app.use("/html/users", usersHtmlRouter);
 app.use("/realtimeproducts", realTimeProducts);
 app.use("/chat", realTimeChat);
-//app.use("/cookie", cookiesRouter);
+app.use("/cookie", cookiesRouter);
 app.use("/api/sessions/", sessionsRouter);
 app.use("/", sessionsRouter);
 
-app.get("/session", (req, res) => {
-  console.log(req.session);
-  if (req.session.cont) {
-    req.session.cont++;
-    res.send(JSON.stringify(req.session));
-  } else {
-    req.session.cont = 1;
-    req.session.name = "manuel";
-    req.session.lastSearch = "hyperx-cloud-fligth";
-
-    res.send(JSON.stringify(req.session));
+function authenticate(req, res, next) {
+  if (!req.session.user) {
+    return res.render("errorLogin", { msg: "Error authenticate" });
   }
-});
-app.get("/logout", (req, res) => {
-  req.session.destroy((err) => {
-    if (err) {
-      return res.json({ status: "Logout ERROR", body: err });
-    }
-    res.send("Logout ok!");
-  });
-});
-app.get("/login", (req, res) => {
-  const { username, password } = req.query;
-  if (username !== "manuel" || password !== "manuelpass") {
-    return res.send("login failed");
-  }
-  req.session.user = username;
-  req.session.admin = false;
-  res.send("login success!");
-});
-function auth(req, res, next) {
-  if (req.session.user) {
-    return next();
-  }
-  return res.status(401).send("error de autorización!");
+  next();
 }
-
-app.get("/abierta", (req, res) => {
-  res.send("Data abierta al publico!");
-});
-
-app.get("/api/sessions/login", (req, res) => {
-  res.render("login");
-});
-
-app.post("/api/sessions/login", (req, res) => {
-  const { email, password } = req.body;
-  const exist = users.find((u) => u.email === email && u.password === password);
-  if (exist) {
-    res.redirect("/perfil");
-  } else {
-    res.send("error revise sus datos");
-  }
-});
-
-app.get("/api/sessions/register", (req, res) => {
-  res.render("register");
-});
-
-app.post("/api/sessions/register", (req, res) => {
-  const { user, email, password } = req.body;
-  const exist = users.find((u) => u.email === email);
-  if (exist) {
-    res.send("error mail ya registrado");
-  } else {
-    users.push({ user, email, password });
-  }
-  res.redirect("/api/sessions/login");
-});
-
-app.get("/perfil", auth, (req, res) => {
-  if (req.session && req.session.user) {
-    res.send("Mostrando todo el perfil!");
-  } else {
-    res.send("Logueate para ver la informacion del perfil");
-  }
-});
-
 app.use("/", (req, res) => {
   return res.render("index");
 });

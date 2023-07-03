@@ -1,6 +1,7 @@
+//@ts-check
 import { UserModel } from "../DAO/models/users.model.js";
 
-class userServives {
+class userServices {
   async getAll() {
     const users = await UserModel.find(
       {},
@@ -37,8 +38,15 @@ class userServives {
     }
   }
 
-  async create({ firstName, lastName, email }) {
-    const userCreated = await UserModel.create({ firstName, lastName, email });
+  async create({ first_name, last_name, username, email, age, password }) {
+    const userCreated = await UserModel.create({
+      first_name,
+      last_name,
+      username,
+      email,
+      age,
+      password,
+    });
     return userCreated;
   }
 
@@ -54,4 +62,4 @@ class userServives {
     return userUptaded;
   }
 }
-export const UServives = new userServives();
+export const UServices = new userServices();
