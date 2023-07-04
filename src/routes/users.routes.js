@@ -1,10 +1,10 @@
 import express from "express";
-import { UServives } from "../services/users.service.js";
+import { UServices } from "../services/users.service.js";
 export const usersRouter = express.Router();
 
 usersRouter.get("/", async (req, res) => {
   try {
-    const users = await UServives.getAll();
+    const users = await UServices.getAll();
     return res.status(200).json({
       status: "success",
       msg: "listado de usuarios",
@@ -20,21 +20,32 @@ usersRouter.get("/", async (req, res) => {
   }
 });
 
-//crear usuario
 usersRouter.post("/", async (req, res) => {
   try {
-    const { firstName, lastName, email } = req.body;
+    const { first_name, last_name, username, email, age, password, role } =
+      req.body;
 
-    const userCreated = await UServives.create({ firstName, lastName, email });
+    const userCreated = await UServices.create({
+      first_name,
+      last_name,
+      username,
+      email,
+      age,
+      password,
+      role,
+    });
 
     return res.status(201).json({
       status: "success",
       msg: "user created",
       payload: {
-        id: userCreated._id,
-        firstName: userCreated.firstName,
-        lastName: userCreated.lastName,
+        first_name: userCreated.first_name,
+        last_name: userCreated.last_name,
+        username: userCreated.username,
         email: userCreated.email,
+        age: userCreated.age,
+        password: userCreated.password,
+        role: userCreated.role,
       },
     });
   } catch (e) {
@@ -53,7 +64,7 @@ usersRouter.put("/:id", async (req, res) => {
     const { id } = req.params;
     const { firstName, lastName, email } = req.body;
     try {
-      const userUptaded = await UServives.update(
+      const userUptaded = await UServices.update(
         id,
         firstName,
         lastName,
@@ -89,11 +100,10 @@ usersRouter.put("/:id", async (req, res) => {
   }
 });
 
-//eliminar un usuario
 usersRouter.delete("/:id", async (req, res) => {
   try {
     const { id } = req.params;
-    const result = await UServives.delete(id);
+    const result = await UServices.delete(id);
     if (result?.deletedCount > 0) {
       return res.status(200).json({
         status: "success",

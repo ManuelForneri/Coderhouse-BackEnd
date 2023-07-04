@@ -1,11 +1,12 @@
 import express from "express";
+import { UServices } from "../services/users.service.js";
 
 export const sessionsRouter = express.Router();
 
 sessionsRouter.get("/", async (req, res) => {
   try {
     if (req.session.user) {
-      const dataUser = await userServives.getOne(req.session.user);
+      const dataUser = await UServices.getOne(req.session.user);
       const { first_name } = dataUser;
       const existUser = true;
 
@@ -31,11 +32,11 @@ sessionsRouter.get("/login", async (req, res) => {
 sessionsRouter.post("/login", async (req, res) => {
   try {
     const { username, password } = req.body;
-    const isAuthenticated = await userServives.authenticate(username, password);
+    const isAuthenticated = await UServices.authenticate(username, password);
 
     if (isAuthenticated) {
       req.session.user = username;
-      return res.redirect("/views/products");
+      return res.redirect("/products");
     } else {
       const path = req.path;
       return res.render("errorLogin", {
@@ -61,7 +62,8 @@ sessionsRouter.get("/register", (req, res) => {
 sessionsRouter.post("/register", async (req, res) => {
   try {
     const { first_name, last_name, username, email, age, password } = req.body;
-    const newUser = await userServives.create({
+    console.log(req.body);
+    const newUser = await UServices.create({
       first_name,
       last_name,
       username,
@@ -72,7 +74,7 @@ sessionsRouter.post("/register", async (req, res) => {
 
     if (newUser) {
       req.session.user = username;
-      return res.redirect("/views/products");
+      return res.redirect("/products");
     } else {
       const path = req.path;
       return res.render("errorLogin", {
@@ -97,7 +99,7 @@ sessionsRouter.get("/logout", authenticate, (req, res) => {
 
 sessionsRouter.get("/profile", authenticate, async (req, res) => {
   try {
-    const dataUser = await userServives.getOne(req.session.user);
+    const dataUser = await UServices.getOne(req.session.user);
     const { first_name, last_name, username, email, age, role } = dataUser;
 
     return res.render("profile", {
