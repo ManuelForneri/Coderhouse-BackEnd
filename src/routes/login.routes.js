@@ -7,10 +7,7 @@ loginRoutes.get("/", (req, res) => {
 });
 loginRoutes.post("/", async (req, res) => {
   const { username, password } = req.body;
-  console.log(username);
-  console.log(password);
   const userFind = await UServices.getOne(username);
-  console.log(userFind);
   if (userFind) {
     let userLogin = UServices.auth(username, password);
     if (userLogin) {

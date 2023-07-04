@@ -17,6 +17,7 @@ import { connectMongo } from "./utils/dbConnection.js";
 import { connectSocketServer } from "./utils/socketServer.js";
 import { loginRoutes } from "./routes/login.routes.js";
 import { registerRoutes } from "./routes/register.routes.js";
+import { profileRoutes } from "./routes/profile.routes.js";
 
 const app = express();
 const port = 8080;
@@ -68,13 +69,10 @@ app.use("/cookie", cookiesRouter);
 app.use("/login", loginRoutes);
 app.use("/register", registerRoutes);
 
-app.use("/perfil", authenticate, (req, res) => {
-  res.render("profile");
-});
+app.use("/perfil", authenticate, profileRoutes);
+app.use("/logout", (req, res) => {});
 
 app.use("/", (req, res) => {
-  let user = req.session.user;
-  console.log(user);
   return res.render("index");
 });
 app.get("*", (req, res) => {
