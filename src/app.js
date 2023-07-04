@@ -50,6 +50,7 @@ const httpServer = app.listen(port, () => {
 });
 connectSocketServer(httpServer);
 
+
 app.use("/products", authenticate, home);
 app.use("/api/products", authenticate, productsRouter);
 app.use("/api/carts", authenticate, cartRouter);
@@ -69,6 +70,7 @@ function authenticate(req, res, next) {
 app.use("/", (req, res) => {
   return res.render("index");
 });
+
 app.get("*", (req, res) => {
   return res.status(404).send("not found");
 });
