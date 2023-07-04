@@ -24,7 +24,7 @@ home.get("/", async (req, res) => {
         category: product.category,
       };
     });
-    return res.status(200).render("home", {
+    return res.status(200).render("products", {
       title,
       products,
       response,

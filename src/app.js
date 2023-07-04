@@ -1,26 +1,29 @@
+import MongoStore from "connect-mongo";
+import cookieParser from "cookie-parser";
 import express from "express";
 import handlebars from "express-handlebars";
+import session from "express-session";
 import { __dirname } from "./config.js";
+import { authenticate } from "./middlewares/authenticate.js";
 import { cartRouter } from "./routes/cart.routes.js";
+import { cookiesRouter } from "./routes/cookies.routes.js";
 import { home } from "./routes/home.routes.js";
 import { productsRouter } from "./routes/products.routes.js";
 import { realTimeChat } from "./routes/realtimechat.routes.js";
 import { realTimeProducts } from "./routes/realtimeproducts.routes.js";
-import { sessionsRouter } from "./routes/sessions.routes.js";
 import { usersHtmlRouter } from "./routes/users.html.routes.js";
 import { usersRouter } from "./routes/users.routes.js";
 import { connectMongo } from "./utils/dbConnection.js";
 import { connectSocketServer } from "./utils/socketServer.js";
-import { cookiesRouter } from "./routes/cookies.routes.js";
-import cookieParser from "cookie-parser";
-import MongoStore from "connect-mongo";
-import session from "express-session";
+import { loginRoutes } from "./routes/login.routes.js";
+import { registerRoutes } from "./routes/register.routes.js";
 
 const app = express();
 const port = 8080;
 
 connectMongo();
 app.use(cookieParser());
+
 app.use(
   session({
     secret: "un-re-secreto",
@@ -31,8 +34,11 @@ app.use(
         "mongodb+srv://manuelforneri:120110keko@elabuelotessoredb.pj5hwdc.mongodb.net/?retryWrites=true&w=majority",
       dbName: "ecommerce",
       mongoOptions: { useNewUrlParser: true, useUnifiedTopology: true },
-      ttl: 15,
+      ttl: 15 * 60,
     }),
+    cookie: {
+      maxAge: 15 * 60 * 1000,
+    },
   })
 );
 
@@ -50,7 +56,6 @@ const httpServer = app.listen(port, () => {
 });
 connectSocketServer(httpServer);
 
-
 app.use("/products", authenticate, home);
 app.use("/api/products", authenticate, productsRouter);
 app.use("/api/carts", authenticate, cartRouter);
@@ -59,18 +64,13 @@ app.use("/html/users", authenticate, usersHtmlRouter);
 app.use("/realtimeproducts", authenticate, realTimeProducts);
 app.use("/chat", realTimeChat);
 app.use("/cookie", cookiesRouter);
-app.use("/api/sessions/", sessionsRouter);
 
-function authenticate(req, res, next) {
-  if (!req.session.user) {
-    return res.render("errorLogin", { msg: "Error authenticate" });
-  }
-  next();
-}
+app.use("/login", loginRoutes);
+app.use("/register", registerRoutes);
+
 app.use("/", (req, res) => {
   return res.render("index");
 });
-
 app.get("*", (req, res) => {
   return res.status(404).send("not found");
 });
