@@ -68,7 +68,13 @@ app.use("/cookie", cookiesRouter);
 app.use("/login", loginRoutes);
 app.use("/register", registerRoutes);
 
+app.use("/perfil", authenticate, (req, res) => {
+  res.render("profile");
+});
+
 app.use("/", (req, res) => {
+  let user = req.session.user;
+  console.log(user);
   return res.render("index");
 });
 app.get("*", (req, res) => {

@@ -6,6 +6,7 @@ export const registerRoutes = express.Router();
 registerRoutes.get("/", (req, res) => {
   return res.render("register");
 });
+
 registerRoutes.post("/", async (req, res) => {
   let newUser = req.body;
   const resolve = await UServices.create({
@@ -21,7 +22,4 @@ registerRoutes.post("/", async (req, res) => {
   } else {
     res.render("errorRegister");
   }
-});
-registerRoutes.get("/perfil", authenticate, (req, res) => {
-  res.render("profile");
 });

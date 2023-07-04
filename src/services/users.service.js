@@ -21,7 +21,7 @@ class userServices {
     );
     return users;
   }
-  async authenticate(username, password) {
+  async auth(username, password) {
     try {
       const user = await UserModel.findOne({
         username: username,
