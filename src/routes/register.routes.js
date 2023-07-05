@@ -1,6 +1,6 @@
 import express from "express";
 import { UServices } from "../services/users.service.js";
-import { authenticate } from "../middlewares/authenticate.js";
+import { createHash } from "../utils/hashPassword.js";
 export const registerRoutes = express.Router();
 
 registerRoutes.get("/", (req, res) => {
@@ -15,7 +15,7 @@ registerRoutes.post("/", async (req, res) => {
     username: newUser.username,
     email: newUser.email,
     age: newUser.age,
-    password: newUser.password,
+    password: createHash(newUser.password),
   });
   if (resolve) {
     res.redirect("/perfil");

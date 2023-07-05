@@ -4,7 +4,7 @@ import express from "express";
 import handlebars from "express-handlebars";
 import session from "express-session";
 import { __dirname } from "./config.js";
-import { authenticate } from "./middlewares/authenticate.js";
+import { authenticate, checkAdmin } from "./middlewares/authenticate.js";
 import { cartRouter } from "./routes/cart.routes.js";
 import { cookiesRouter } from "./routes/cookies.routes.js";
 import { home } from "./routes/home.routes.js";
@@ -16,6 +16,7 @@ import { usersRouter } from "./routes/users.routes.js";
 import { connectMongo } from "./utils/dbConnection.js";
 import { connectSocketServer } from "./utils/socketServer.js";
 import { loginRoutes } from "./routes/login.routes.js";
+import { logoutRoutes } from "./routes/logout.routes.js";
 import { registerRoutes } from "./routes/register.routes.js";
 import { profileRoutes } from "./routes/profile.routes.js";
 
@@ -70,8 +71,10 @@ app.use("/login", loginRoutes);
 app.use("/register", registerRoutes);
 
 app.use("/perfil", authenticate, profileRoutes);
-app.use("/logout", (req, res) => {});
-
+app.use("/logout", authenticate, logoutRoutes);
+app.use("/admin", checkAdmin, (req, res) => {
+  res.render("admin");
+});
 app.use("/", (req, res) => {
   return res.render("index");
 });
