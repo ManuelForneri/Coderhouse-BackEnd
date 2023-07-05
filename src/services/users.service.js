@@ -1,5 +1,6 @@
 //@ts-check
 import { UserModel } from "../DAO/models/users.model.js";
+import { isValidPassword } from "../utils/hashPassword.js";
 
 class userServices {
   async getAll() {
@@ -25,9 +26,8 @@ class userServices {
     try {
       const user = await UserModel.findOne({
         username: username,
-        password: password,
       });
-      if (user) {
+      if (user && isValidPassword(password, user.password)) {
         return true;
       } else {
         return false;
