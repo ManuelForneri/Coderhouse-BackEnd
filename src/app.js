@@ -19,9 +19,24 @@ import { loginRoutes } from "./routes/login.routes.js";
 import { logoutRoutes } from "./routes/logout.routes.js";
 import { registerRoutes } from "./routes/register.routes.js";
 import { profileRoutes } from "./routes/profile.routes.js";
+import { iniPassport } from "./config/passport.config.js";
+import passport from "passport";
 
 const app = express();
 const port = 8080;
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(express.static("public"));
+
+//config del motor de plantillas
+app.engine("handlebars", handlebars.engine());
+app.set("views", __dirname + "/views");
+app.set("view engine", "handlebars");
+
+const httpServer = app.listen(port, () => {
+  console.log(`Example app listening on port http://localhost:${port}`);
+});
+connectSocketServer(httpServer);
 
 connectMongo();
 app.use(cookieParser());
@@ -43,20 +58,9 @@ app.use(
     },
   })
 );
-
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-app.use(express.static("public"));
-
-//config del motor de plantillas
-app.engine("handlebars", handlebars.engine());
-app.set("views", __dirname + "/views");
-app.set("view engine", "handlebars");
-
-const httpServer = app.listen(port, () => {
-  console.log(`Example app listening on port http://localhost:${port}`);
-});
-connectSocketServer(httpServer);
+iniPassport();
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.use("/products", authenticate, home);
 app.use("/api/products", authenticate, productsRouter);
