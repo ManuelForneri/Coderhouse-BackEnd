@@ -2,6 +2,7 @@ import passport from "passport";
 import local from "passport-local";
 import { createHash, isValidPassword } from "../utils/hashPassword.js";
 import { UserModel } from "../DAO/models/users.model.js";
+import { UServices } from "../services/users.service.js";
 const LocalStrategy = local.Strategy;
 
 export function iniPassport() {
@@ -9,7 +10,7 @@ export function iniPassport() {
     "login",
     new LocalStrategy({}, async (username, password, done) => {
       try {
-        const user = await UserModel.findOne({ username: username });
+        const user = await UServices.getOne(username);
         if (!user) {
           console.log("User Not Found with username " + username);
           return done(null, false);
@@ -34,8 +35,8 @@ export function iniPassport() {
       },
       async (req, username, password, done) => {
         try {
-          const { first_name, last_name, email, age } = req.body;
-          let user = await UserModel.findOne({ username: username });
+          const { first_name, last_name, email, age, role } = req.body;
+          let user = await UServices.getOne(username);
           if (user) {
             console.log("User already exists");
             return done(null, false);
@@ -47,6 +48,7 @@ export function iniPassport() {
             username,
             email,
             age,
+            role,
             password: createHash(password),
           };
           let userCreated = await UserModel.create(newUser);

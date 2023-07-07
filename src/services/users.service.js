@@ -18,7 +18,7 @@ class userServices {
   async getOne(username) {
     const users = await UserModel.findOne(
       { username: username },
-      { password: false, __v: false }
+      { password: true }
     );
     return users;
   }

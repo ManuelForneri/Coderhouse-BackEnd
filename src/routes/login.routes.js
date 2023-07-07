@@ -1,27 +1,27 @@
 import express from "express";
-import { UServices } from "../services/users.service.js";
+import passport from "passport";
 export const loginRoutes = express.Router();
 
 loginRoutes.get("/", (req, res) => {
   return res.render("login");
 });
-loginRoutes.post("/", async (req, res) => {
-  const { username, password } = req.body;
-  const userFind = await UServices.getOne(username);
-  if (userFind) {
-    let userLogin = UServices.auth(username, password);
-    if (userLogin) {
-      req.session.user = {
-        _id: userFind._id,
-        age: userFind.age,
-        email: userFind.email,
-        firstName: userFind.first_name,
-        lastName: userFind.last_name,
-        role: userFind.role,
-      };
-      res.redirect("/perfil");
+loginRoutes.post(
+  "/",
+  passport.authenticate("login", { failureRedirect: "/errorLogin" }),
+  async (req, res) => {
+    const user = req.body;
+    if (!user) {
+      return res.render("errorLogin");
     }
-  } else {
-    return res.render("errorLogin");
+    req.session.user = {
+      _id: user._id,
+      email: user.email,
+      first_name: user.first_name,
+      last_name: user.last_name,
+      username: user.username,
+      age: user.age,
+      role: user.role,
+    };
+    res.redirect("/perfil");
   }
-});
+);
