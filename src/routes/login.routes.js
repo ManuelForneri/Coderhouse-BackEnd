@@ -9,18 +9,18 @@ loginRoutes.post(
   "/",
   passport.authenticate("login", { failureRedirect: "/errorLogin" }),
   async (req, res) => {
-    const user = req.body;
-    if (!user) {
+    if (!req.user) {
       return res.render("errorLogin");
     }
+    console.log(req.user);
     req.session.user = {
-      _id: user._id,
-      email: user.email,
-      first_name: user.first_name,
-      last_name: user.last_name,
-      username: user.username,
-      age: user.age,
-      role: user.role,
+      _id: req.user._id,
+      email: req.user.email,
+      first_name: req.user.first_name,
+      last_name: req.user.last_name,
+      username: req.user.username,
+      age: req.user.age,
+      role: req.user.role,
     };
     res.redirect("/perfil");
   }
