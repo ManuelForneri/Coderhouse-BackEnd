@@ -25,3 +25,21 @@ loginRoutes.post(
     res.redirect("/perfil");
   }
 );
+loginRoutes.get(
+  "/github",
+  passport.authenticate("github", { scope: ["user : email"] })
+);
+
+loginRoutes.get(
+  "/githubcallback",
+  passport.authenticate("github", { failureRedirect: "/login" }),
+  (req, res) => {
+    req.session.user = req.user;
+
+    res.redirect("/perfil");
+  }
+);
+
+loginRoutes.get("/show", (req, res) => {
+  return res.send(JSON.stringify(req.session));
+});
