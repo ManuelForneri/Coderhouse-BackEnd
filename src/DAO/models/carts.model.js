@@ -9,7 +9,7 @@ const prodCartSchema = new Schema(
   { _id: false }
 );
 const cartsSchema = new Schema({
-  products: { type: [prodCartSchema], required: true },
+  products: { type: [prodCartSchema], ref: "products", required: true },
 });
 
 export const cartsModel = model("carts", cartsSchema);

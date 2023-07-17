@@ -75,10 +75,15 @@ cartRouter.post("/:cid/product/:pid", async (req, res) => {
   try {
     const cid = req.params.cid;
     const pid = req.params.pid;
+    const quantity = req.body;
     const productById = await PServives.getProductById(pid);
 
     if (productById) {
-      const createdProduct = await CServives.addProductToCart(cid, pid);
+      const createdProduct = await CServives.addProductToCart(
+        cid,
+        pid,
+        quantity
+      );
       if (createdProduct) {
         return res.status(201).json({
           status: "success",

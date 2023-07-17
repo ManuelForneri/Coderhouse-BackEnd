@@ -8,6 +8,7 @@ import { __dirname } from "./config.js";
 import { iniPassport } from "./config/passport.config.js";
 import { authenticate, checkAdmin } from "./middlewares/authenticate.js";
 import { cartRouter } from "./routes/cart.routes.js";
+import { viewsRouter } from "./routes/views.routes.js";
 import { cookiesRouter } from "./routes/cookies.routes.js";
 import { home } from "./routes/home.routes.js";
 import { loginRoutes } from "./routes/login.routes.js";
@@ -64,7 +65,7 @@ app.use(passport.session());
 
 app.use("/products", authenticate, home);
 app.use("/api/products", authenticate, productsRouter);
-app.use("/api/carts", authenticate, cartRouter);
+app.use("/api/carts", cartRouter);
 app.use("/api/users", authenticate, usersRouter);
 app.use("/html/users", authenticate, usersHtmlRouter);
 app.use("/realtimeproducts", authenticate, realTimeProducts);
@@ -76,12 +77,12 @@ app.use("/register", registerRoutes);
 
 app.use("/perfil", authenticate, profileRoutes);
 app.use("/logout", authenticate, logoutRoutes);
+
+app.use("/", viewsRouter);
 app.use("/admin", checkAdmin, (req, res) => {
   res.render("admin");
 });
-app.use("/", (req, res) => {
-  return res.render("index");
-});
+
 app.get("*", (req, res) => {
   return res.status(404).send("not found");
 });
