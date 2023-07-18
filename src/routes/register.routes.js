@@ -1,6 +1,4 @@
 import express from "express";
-import { UServices } from "../services/users.service.js";
-import { createHash } from "../utils/hashPassword.js";
 import passport from "passport";
 export const registerRoutes = express.Router();
 
@@ -16,6 +14,7 @@ registerRoutes.post(
     if (!newUser) {
       res.render("errorRegister");
     }
+
     req.session.user = {
       _id: newUser._id,
       email: newUser.email,
@@ -24,8 +23,10 @@ registerRoutes.post(
       username: newUser.username,
       age: newUser.age,
       role: "user",
+      cid: newUser.cid,
     };
     console.log(req.session.user);
+
     res.redirect("/perfil");
   }
 );

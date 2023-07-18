@@ -8,7 +8,7 @@ viewsRouter.get("/cart/:cid", async (req, res) => {
     console.log(cid);
     const cartFound = await CServives.getCartById(cid);
     console.log(cartFound);
-    return res.render("cart", { cartFound });
+    return res.render("cart", cartFound);
   } catch (e) {
     return res.render("error");
   }

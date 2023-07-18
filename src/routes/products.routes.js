@@ -13,32 +13,6 @@ productsRouter.get("/", async (req, res) => {
     console.log(error);
     return res.render("error");
   }
-
-  // try {
-  //   const query = req.query;
-  //   if (!query.limit) {
-  //     const products = await PServives.getLimit(query.limit);
-  //     return res.status(200).json({
-  //       status: "success",
-  //       msg: "listado de Productos",
-  //       payload: products,
-  //     });
-  //   } else {
-  //     const products = await PServives.getAll();
-  //     return res.status(200).json({
-  //       status: "success",
-  //       msg: "listado de Productos",
-  //       payload: products,
-  //     });
-  //   }
-  // } catch (e) {
-  //   console.log(e);
-  //   return res.status(500).json({
-  //     status: "error",
-  //     msg: "something went wrong :(",
-  //     payload: {},
-  //   });
-  // }
 });
 
 productsRouter.get("/:id", async (req, res) => {

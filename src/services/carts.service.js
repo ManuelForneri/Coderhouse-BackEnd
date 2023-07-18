@@ -1,4 +1,5 @@
 import { cartsModel } from "../DAO/models/carts.model.js";
+import { ProductModel } from "../DAO/models/products.model.js";
 
 class cartsServices {
   async getAll() {
@@ -32,38 +33,24 @@ class cartsServices {
   }
 
   async create() {
-    const cartCreated = await cartsModel.create({
-      products: [],
-    });
+    const cartCreated = await cartsModel.create({});
     return cartCreated;
   }
 
   async addProductToCart(cid, pid) {
     try {
-      const findProdInCart = await cartsModel.findOne({
-        products: { $elemMatch: { pid: pid } },
-      });
-
-      if (findProdInCart) {
-        const productToUpdate = findProdInCart.products.find(
-          (product) => product.pid === pid
-        );
-        if (productToUpdate) {
-          await cartsModel.updateOne(
-            { _id: cid, "products.pid": pid },
-            { $inc: { "products.$.quantity": 1 } }
-          );
-        }
-      } else {
-        await cartsModel.findOneAndUpdate(
-          { _id: cid },
-          { $push: { products: { pid: pid, quantity: 1 } } }
-        );
+      const cart = await cartsModel.findById(cid);
+      const product = await ProductModel.findById(pid);
+      if (!cart) {
+        throw new Error("Cart not found");
       }
-      const cartToUpdate = await cartsModel.findOne({ _id: cid });
-      return cartToUpdate;
+      if (!product) {
+        throw new Error("Product not found");
+      }
+      cart.products.push({ product: product._id, quantity: 1 });
+      await cart.save();
+      return cart;
     } catch (error) {
-      console.error("Error updating cart:", error);
       throw error;
     }
   }

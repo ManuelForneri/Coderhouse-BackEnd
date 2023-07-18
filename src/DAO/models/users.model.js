@@ -44,6 +44,11 @@ const userSchema = new Schema({
     enum: ["admin", "user"],
     default: "user",
   },
+  cid: {
+    type: Schema.Types.ObjectId,
+    ref: "carts",
+    required: true,
+  },
 });
 
 export const UserModel = model("users", userSchema);

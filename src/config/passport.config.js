@@ -5,6 +5,7 @@ import fetch from "node-fetch";
 import { UserModel } from "../DAO/models/users.model.js";
 import { UServices } from "../services/users.service.js";
 import { createHash, isValidPassword } from "../utils/hashPassword.js";
+import { CServives } from "../services/carts.service.js";
 const LocalStrategy = local.Strategy;
 
 export function iniPassport() {
@@ -43,6 +44,11 @@ export function iniPassport() {
             console.log("User already exists");
             return done(null, false);
           }
+          let userCart = await CServives.create();
+          if (!userCart) {
+            console.log("Error en crear  un carrito para el usuario");
+            return done(null, false);
+          }
 
           const newUser = {
             first_name,
@@ -52,6 +58,7 @@ export function iniPassport() {
             age,
             role,
             password: createHash(password),
+            cid: userCart._id.toString(),
           };
           let userCreated = await UserModel.create(newUser);
           console.log(userCreated);
@@ -93,12 +100,18 @@ export function iniPassport() {
 
           let user = await UserModel.findOne({ email: profile.email });
           if (!user) {
+            let userCart = await CServives.create();
+            if (!userCart) {
+              console.log("Error en crear  un carrito para el usuario");
+              return done(null, false);
+            }
             const newUser = {
               email: profile.email,
               firstName: profile._json.name || profile._json.login || "noname",
               lastName: "nolast",
               isAdmin: false,
               password: "nopass",
+              cid: userCart._id.toString(),
             };
             let userCreated = await UserModel.create(newUser);
             console.log("User Registration succesful");
