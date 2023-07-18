@@ -1,24 +1,23 @@
 <h1>Cart</h1>
 
-{{#if products.length}}
-  <table>
-    <thead>
+<table class="table">
+  <thead>
+    <tr>
+
+      <th scope="col">Titulo</th>
+      <th scope="col">Precio</th>
+      <th scope="col">Cantidad</th>
+    </tr>
+  </thead>
+  <tbody>
+
+    {{#each plainCart}}
       <tr>
-        <th>title</th>
-        <th>price</th>
-        <th>quantity</th>
+
+        <td>{{this.product.title}}</td>
+        <td>{{this.product.price}}</td>
+        <td>{{this.quantity}}</td>
       </tr>
-    </thead>
-    <tbody>
-      {{#each cart.products}}
-        <tr>
-          <td>{{this.title}}</td>
-          <td>{{this.price}}</td>
-          <td>{{this.quantity}}</td>
-        </tr>
-      {{/each}}
-    </tbody>
-  </table>
-{{else}}
-  <p>No products in the cart</p>
-{{/if}}
+    {{/each}}
+  </tbody>
+</table>

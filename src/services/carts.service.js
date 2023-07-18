@@ -47,8 +47,19 @@ class cartsServices {
       if (!product) {
         throw new Error("Product not found");
       }
-      cart.products.push({ product: product._id, quantity: 1 });
+      const findProdInCart = await cartsModel.findOne({
+        products: { $elemMatch: { product: pid } },
+      });
+      if (findProdInCart) {
+        cart = await cartsModel.updateOne(
+          { _id: cid, "products.product": pid },
+          { $inc: { "products.$.quantity": 1 } }
+        );
+      } else {
+        cart.products.push({ product: product._id, quantity: 1 });
+      }
       await cart.save();
+      console.log(cart);
       return cart;
     } catch (error) {
       throw error;
