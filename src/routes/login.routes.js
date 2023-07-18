@@ -21,6 +21,7 @@ loginRoutes.post(
       username: req.user.username,
       age: req.user.age,
       role: req.user.role,
+      cid: req.user.cid,
     };
     res.redirect("/perfil");
   }

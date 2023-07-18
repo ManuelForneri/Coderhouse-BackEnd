@@ -75,7 +75,8 @@ cartRouter.post("/:cid/product/:pid", async (req, res) => {
   try {
     const cid = req.params.cid;
     const pid = req.params.pid;
-    const quantity = req.body;
+    const { quantity = 1 } = req.body;
+    console.log(quantity);
     const productById = await PServives.getProductById(pid);
 
     if (productById) {

@@ -37,7 +37,7 @@ class cartsServices {
     return cartCreated;
   }
 
-  async addProductToCart(cid, pid) {
+  async addProductToCart(cid, pid, quantityParams) {
     try {
       const cart = await cartsModel.findById(cid);
       const product = await ProductModel.findById(pid);
@@ -50,17 +50,19 @@ class cartsServices {
       const findProdInCart = await cartsModel.findOne({
         products: { $elemMatch: { product: pid } },
       });
+
       if (findProdInCart) {
-        cart = await cartsModel.updateOne(
+        await cartsModel.updateOne(
           { _id: cid, "products.product": pid },
-          { $inc: { "products.$.quantity": 1 } }
+          { $inc: { "products.$.quantity": quantityParams } }
         );
       } else {
-        cart.products.push({ product: product._id, quantity: 1 });
+        cart.products.push({ product: product._id, quantity: quantityParams });
       }
       await cart.save();
-      console.log(cart);
-      return cart;
+      const updatedCart = await cartsModel.findById(cid);
+
+      return updatedCart;
     } catch (error) {
       throw error;
     }
