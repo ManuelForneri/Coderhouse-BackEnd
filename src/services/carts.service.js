@@ -10,6 +10,7 @@ class cartsServices {
     );
     return carts;
   }
+
   async getLimit(limit) {
     const carts = await cartsModel
       .find(
@@ -23,14 +24,13 @@ class cartsServices {
   }
 
   async getCartById(cid) {
-    const cartById = await cartsModel.findOne(
-      { _id: cid },
-      {
-        __v: false,
-      }
-    );
-    return cartById;
+    const cart = await cartsModel.findById(cid).populate("products.product");
+    if (!cart) {
+      throw new Error("Cart not found");
+    }
+    return cart;
   }
+
   async create() {
     const cartCreated = await cartsModel.create({
       products: [],
