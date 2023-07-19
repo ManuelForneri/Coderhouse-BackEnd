@@ -67,33 +67,36 @@ class cartsServices {
       throw error;
     }
   }
-  async deleteProduct({ cid, pid }) {
+  async deleteProduct(cid, pid) {
     try {
+      const cart = await cartsModel.findById(cid);
+      const product = await ProductModel.findById(pid);
+      if (!cart) {
+        throw new Error("Cart not found");
+      }
+      if (!product) {
+        throw new Error("Product not found");
+      }
+
       const findProdInCart = await cartsModel.findOne({
-        products: { $elemMatch: { pid: pid } },
+        products: { $elemMatch: { product: pid } },
       });
 
       if (findProdInCart) {
-        const productToUpdate = findProdInCart.products.find(
-          (product) => product.pid === pid
+        await cartsModel.updateOne(
+          { _id: cid, "products.product": pid },
+          {
+            $inc: { "products.$.quantity": -1 },
+          }
         );
-        console.log(productToUpdate);
-        if (productToUpdate.quantity > 1) {
-          await cartsModel.updateOne(
-            { _id: cid, "products.pid": pid },
-            { $inc: { "products.$.quantity": -1 } }
-          );
-        } else {
-          await cartsModel.findOneAndUpdate(
-            { _id: cid },
-            { $pull: { products: { pid: pid } } }
-          );
-        }
+        //no puedo hacer que cuando el producto llegue a 0 se elimine
       }
-      const updatedCart = await cartsModel.findOne({ _id: cid });
+
+      await cart.save();
+      const updatedCart = await cartsModel.findById(cid);
+
       return updatedCart;
     } catch (error) {
-      console.error("Error deleting product from cart:", error);
       throw error;
     }
   }

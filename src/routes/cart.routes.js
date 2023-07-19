@@ -114,11 +114,12 @@ cartRouter.delete("/:cid/product/:pid", async (req, res) => {
   try {
     const cid = req.params.cid;
     const pid = req.params.pid;
+    const { quantity = 1 } = req.body;
 
     const productById = await PServives.getProductById(pid);
 
     if (productById) {
-      const deletedProduct = await CServives.deleteProduct({ cid, pid });
+      const deletedProduct = await CServives.deleteProduct(cid, pid, quantity);
 
       if (deletedProduct) {
         return res.status(200).json({
