@@ -1,6 +1,6 @@
 import { Server } from "socket.io";
 import { MessageModel } from "../DAO/models/messages.model.js";
-import { PServives } from "../services/products.service.js";
+import { PServices } from "../services/products.service.js";
 export function connectSocketServer(httpServer) {
   const socketServer = new Server(httpServer);
 
@@ -25,7 +25,7 @@ export function connectSocketServer(httpServer) {
     console.log("Cliente conectado " + socket.id);
     socket.on("new-product", async (newProduct) => {
       try {
-        await PServives.create({
+        await PServices.create({
           title: newProduct.title,
           description: newProduct.description,
           price: newProduct.price,
@@ -34,7 +34,7 @@ export function connectSocketServer(httpServer) {
           stock: newProduct.stock,
           category: newProduct.category,
         });
-        const newProductsList = await PServives.getProductRealTime();
+        const newProductsList = await PServices.getProductRealTime();
         socketServer.emit("products", newProductsList);
       } catch (error) {
         console.log(error);

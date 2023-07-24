@@ -1,6 +1,6 @@
 import { ProductModel } from "../DAO/models/products.model.js";
 
-class productServives {
+class productServices {
   async getAll(queryParams) {
     const { limit = 10, page = 1, sort, category, stock } = queryParams;
     console.log(queryParams);
@@ -150,4 +150,4 @@ class productServives {
     return userUptaded;
   }
 }
-export const PServives = new productServives();
+export const PServices = new productServices();

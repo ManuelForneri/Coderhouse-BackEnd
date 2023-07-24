@@ -115,4 +115,4 @@ class cartsServices {
     }
   }
 }
-export const CServives = new cartsServices();
+export const CServices = new cartsServices();

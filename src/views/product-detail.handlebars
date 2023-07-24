@@ -1,0 +1,23 @@
+<div class="products-container">
+  <h1>Detalle del producto</h1>
+
+  {{#if findProduct}}
+
+    <div id={{id}} class="card">
+
+      <div>Titulo: {{this.title}} </div>
+      <div>Precio: {{this.price}} </div>
+      <div>Imagen: {{this.thumbnail}}</div>
+      <div>Descripcion: {{this.description}}</div>
+      <div>Codigo: {{this.code}} </div>
+      <div>Stock: {{this.stock}}</div>
+      <div>Categoria: {{this.category}}</div>
+
+    </div>
+    <a><button type="submit" class="btn btn-primary">Agregar al carrito</button></a>
+
+  {{else}}
+    <p>El producto no existe o no se encontró.</p>
+  {{/if}}
+
+</div>

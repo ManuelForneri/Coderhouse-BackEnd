@@ -2,16 +2,13 @@
   <h1>{{title}}</h1>
 
   {{#each products}}
-    <div class="card">
-      <div>Id: {{this._id}} </div>
+    <div class="card" id="{{this._id}}">
       <div>Titulo: {{this.title}} </div>
       <div>Precio: {{this.price}} </div>
-      <div>Descripcion: {{this.description}}</div>
       <div>Imagen: {{this.thumbnail}}</div>
-      <div>Codigo: {{this.code}} </div>
-      <div>Stock: {{this.stock}}</div>
-      <div>Categoria: {{this.category}}</div>
 
+      <a href="/product-details/{{this._id}}">
+        <button type="button" class="btn btn-primary">Ver Detalles</button></a>
     </div>
   {{/each}}
 

@@ -1,12 +1,12 @@
 import { Router } from "express";
 export const productsRouter = Router();
 
-import { PServives } from "../services/products.service.js";
+import { PServices } from "../services/products.service.js";
 
 productsRouter.get("/", async (req, res) => {
   try {
     const queryParams = req.query;
-    const response = await PServives.getAll(queryParams);
+    const response = await PServices.getAll(queryParams);
 
     return res.status(200).json(response);
   } catch (error) {
@@ -18,7 +18,7 @@ productsRouter.get("/", async (req, res) => {
 productsRouter.get("/:id", async (req, res) => {
   try {
     const { id } = req.params;
-    const productFound = await PServives.getProductById(id);
+    const productFound = await PServices.getProductById(id);
 
     if (productFound) {
       return res.status(201).json({
@@ -43,7 +43,7 @@ productsRouter.post("/", async (req, res) => {
   try {
     const { title, description, price, thumbnail, code, stock } = req.body;
 
-    const productCreated = await PServives.create({
+    const productCreated = await PServices.create({
       title,
       description,
       price,
@@ -80,7 +80,7 @@ productsRouter.put("/:id", async (req, res) => {
     const { id } = req.params;
     const { title, description, price, thumbnail, code, stock } = req.body;
     try {
-      const productUptaded = await PServives.update(
+      const productUptaded = await PServices.update(
         id,
         title,
         description,
@@ -122,7 +122,7 @@ productsRouter.put("/:id", async (req, res) => {
 productsRouter.delete("/:id", async (req, res) => {
   try {
     const { id } = req.params;
-    const result = await PServives.delete(id);
+    const result = await PServices.delete(id);
     if (result?.deletedCount > 0) {
       return res.status(200).json({
         status: "success",

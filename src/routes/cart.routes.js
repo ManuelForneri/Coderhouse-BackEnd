@@ -1,21 +1,21 @@
 import { Router } from "express";
 export const cartRouter = Router();
 
-import { CServives } from "../services/carts.service.js";
-import { PServives } from "../services/products.service.js";
+import { CServices } from "../services/carts.service.js";
+import { PServices } from "../services/products.service.js";
 
 cartRouter.get("/", async (req, res) => {
   try {
     const query = req.query;
     if (!query.limit) {
-      const carts = await CServives.getLimit(query.limit);
+      const carts = await CServices.getLimit(query.limit);
       return res.status(200).json({
         status: "success",
         msg: "listado de Carritos",
         payload: carts,
       });
     } else {
-      const carts = await CServives.getAll();
+      const carts = await CServices.getAll();
       return res.status(200).json({
         status: "success",
         msg: "listado de Carritos",
@@ -35,7 +35,7 @@ cartRouter.get("/", async (req, res) => {
 cartRouter.get("/:id", async (req, res) => {
   try {
     const { id } = req.params;
-    const cartFound = await CServives.getCartById(id);
+    const cartFound = await CServices.getCartById(id);
 
     if (cartFound) {
       return res
@@ -56,7 +56,7 @@ cartRouter.get("/:id", async (req, res) => {
 
 cartRouter.post("/", async (req, res) => {
   try {
-    const cartCreated = await CServives.create({});
+    const cartCreated = await CServices.create({});
     return res.status(201).json({
       status: "success",
       msg: "Cart created",
@@ -77,10 +77,10 @@ cartRouter.post("/:cid/product/:pid", async (req, res) => {
     const pid = req.params.pid;
     const { quantity = 1 } = req.body;
     console.log(quantity);
-    const productById = await PServives.getProductById(pid);
+    const productById = await PServices.getProductById(pid);
 
     if (productById) {
-      const createdProduct = await CServives.addProductToCart(
+      const createdProduct = await CServices.addProductToCart(
         cid,
         pid,
         quantity
@@ -116,10 +116,10 @@ cartRouter.delete("/:cid/product/:pid", async (req, res) => {
     const pid = req.params.pid;
     const { quantity = 1 } = req.body;
 
-    const productById = await PServives.getProductById(pid);
+    const productById = await PServices.getProductById(pid);
 
     if (productById) {
-      const deletedProduct = await CServives.deleteProduct(cid, pid, quantity);
+      const deletedProduct = await CServices.deleteProduct(cid, pid, quantity);
 
       if (deletedProduct) {
         return res.status(200).json({
@@ -149,7 +149,7 @@ cartRouter.delete("/:cid/product/:pid", async (req, res) => {
 cartRouter.delete("/:cid", async (req, res) => {
   try {
     const cid = req.params.cid;
-    const cartToEmpty = await CServives.deleteCart({ cid });
+    const cartToEmpty = await CServices.deleteCart({ cid });
     if (cartToEmpty) {
       return res
         .status(200)

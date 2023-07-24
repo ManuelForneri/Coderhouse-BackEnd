@@ -1,7 +1,7 @@
 //@ts-check
 import express from "express";
 
-import { PServives } from "../services/products.service.js";
+import { PServices } from "../services/products.service.js";
 
 export const home = express.Router();
 
@@ -11,7 +11,7 @@ home.get("/", async (req, res) => {
     const queryParams = req.query;
     const { limit, category, sort, stock } = req.query;
 
-    const response = await PServives.getAll(queryParams);
+    const response = await PServices.getAll(queryParams);
     const products = response.payload.products.map((product) => {
       return {
         _id: product._id.toString(),
@@ -61,7 +61,7 @@ home.get("/", async (req, res) => {
 home.get("/:id", async (req, res) => {
   try {
     const { id } = req.params;
-    const productFound = await PServives.getProductById(id);
+    const productFound = await PServices.getProductById(id);
     console.log(productFound);
     if (productFound) {
       return res.status(200).render("home", { productFound });

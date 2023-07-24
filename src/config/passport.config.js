@@ -5,7 +5,7 @@ import fetch from "node-fetch";
 import { UserModel } from "../DAO/models/users.model.js";
 import { UServices } from "../services/users.service.js";
 import { createHash, isValidPassword } from "../utils/hashPassword.js";
-import { CServives } from "../services/carts.service.js";
+import { CServices } from "../services/carts.service.js";
 const LocalStrategy = local.Strategy;
 
 export function iniPassport() {
@@ -44,7 +44,7 @@ export function iniPassport() {
             console.log("User already exists");
             return done(null, false);
           }
-          let userCart = await CServives.create();
+          let userCart = await CServices.create();
 
           if (!userCart) {
             console.log("Error en crear  un carrito para el usuario");
@@ -101,7 +101,7 @@ export function iniPassport() {
 
           let user = await UserModel.findOne({ email: profile.email });
           if (!user) {
-            let userCart = await CServives.create();
+            let userCart = await CServices.create();
             if (!userCart) {
               console.log("Error en crear  un carrito para el usuario");
               return done(null, false);

@@ -1,12 +1,12 @@
 //@ts-check
 import express from "express";
-import { PServives } from "../services/products.service.js";
+import { PServices } from "../services/products.service.js";
 export const realTimeProducts = express.Router();
 
 realTimeProducts.get("/", async (req, res) => {
   try {
     let title = "Listado de productos en tiempo real";
-    const response = await PServives.getProductRealTime();
+    const response = await PServices.getProductRealTime();
 
     const products = response.map((product) => {
       return {
