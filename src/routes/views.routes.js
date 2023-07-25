@@ -19,8 +19,18 @@ viewsRouter.get("/product-details/:pid", async (req, res) => {
   try {
     const { pid } = req.params;
     const productFound = await PServices.getProductById(pid);
-    console.log(productFound);
-    return res.render("product-detail");
+    const plainProduct = {
+      _id: productFound._id.toString(),
+      title: productFound.title,
+      description: productFound.description,
+      price: productFound.price,
+      thumbnail: productFound.thumbnail,
+      code: productFound.code,
+      stock: productFound.stock,
+      category: productFound.category,
+    };
+    console.log(plainProduct);
+    return res.render("product-detail", { plainProduct });
   } catch (e) {
     return res.render("error");
   }

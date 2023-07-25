@@ -1,17 +1,17 @@
 <div class="products-container">
   <h1>Detalle del producto</h1>
 
-  {{#if findProduct}}
+  {{#if plainProduct}}
 
-    <div id={{id}} class="card">
+    <div id={{plainProduct._id}} class="card">
 
-      <div>Titulo: {{this.title}} </div>
-      <div>Precio: {{this.price}} </div>
-      <div>Imagen: {{this.thumbnail}}</div>
-      <div>Descripcion: {{this.description}}</div>
-      <div>Codigo: {{this.code}} </div>
-      <div>Stock: {{this.stock}}</div>
-      <div>Categoria: {{this.category}}</div>
+      <div>Titulo: {{plainProduct.title}} </div>
+      <div>Precio: {{plainProduct.price}} </div>
+      <div>Imagen: {{plainProduct.thumbnail}}</div>
+      <div>Descripcion: {{plainProduct.description}}</div>
+      <div>Codigo: {{plainProduct.code}} </div>
+      <div>Stock: {{plainProduct.stock}}</div>
+      <div>Categoria: {{plainProduct.category}}</div>
 
     </div>
     <a><button type="submit" class="btn btn-primary">Agregar al carrito</button></a>
