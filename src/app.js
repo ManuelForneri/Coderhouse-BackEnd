@@ -22,6 +22,9 @@ import { usersHtmlRouter } from "./routes/users.html.routes.js";
 import { usersRouter } from "./routes/users.routes.js";
 import { connectMongo } from "./utils/dbConnection.js";
 import { connectSocketServer } from "./utils/socketServer.js";
+import env from "./config/enviroment.config.js";
+
+console.log(env);
 
 const app = express();
 const port = 8080;
