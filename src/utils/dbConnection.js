@@ -1,13 +1,11 @@
 import { connect } from "mongoose";
+import env from "../config/enviroment.config.js";
 
 export async function connectMongo() {
   try {
-    await connect(
-      "mongodb+srv://manuelforneri:120110keko@elabuelotessoredb.pj5hwdc.mongodb.net/?retryWrites=true&w=majority",
-      {
-        dbName: "ecommerce",
-      }
-    );
+    await connect(env.mongoUrl, {
+      dbName: "ecommerce",
+    });
     console.log("plug to mongo!");
   } catch (e) {
     console.log(e);

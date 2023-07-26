@@ -8,8 +8,8 @@
     "node": "16.x"
   },
   "scripts": {
-    "dev": "nodemon ./src/app.js",
-    "start": "node ./src/app.js"
+    "dev": "nodemon ./src/app.js --mode DEVELOPMENT",
+    "start": "node ./src/app.js --mode PRODUCTION"
   },
   "keywords": [],
   "author": "",

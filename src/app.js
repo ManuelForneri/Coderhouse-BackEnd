@@ -27,7 +27,7 @@ import env from "./config/enviroment.config.js";
 console.log(env);
 
 const app = express();
-const port = 8080;
+const port = env.port;
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
