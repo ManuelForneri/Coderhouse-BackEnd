@@ -1,18 +1,12 @@
 //@ts-check
-import { UserModel } from "../DAO/models/users.model.js";
+
+import { userModel } from "../DAO/models/users.model.js";
 import { isValidPassword } from "../utils/hashPassword.js";
 
 class userServices {
   async getAll() {
-    const users = await UserModel.find(
-      {},
-      {
-        _id: true,
-        firstName: true,
-        lastName: true,
-        email: true,
-      }
-    );
+    const users = await userModel.getAll();
+
     return users;
   }
   async getOne(username) {

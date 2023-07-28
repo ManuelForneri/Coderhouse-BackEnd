@@ -51,4 +51,4 @@ const userSchema = new Schema({
   },
 });
 
-export const UserModel = model("users", userSchema);
+export const userMongoose = model("users", userSchema);

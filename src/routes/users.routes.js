@@ -1,62 +1,12 @@
+//@ts-check
 import express from "express";
-import { UServices } from "../services/users.service.js";
+import { userController } from "../controllers/users.controller.js";
 export const usersRouter = express.Router();
 
-usersRouter.get("/", async (req, res) => {
-  try {
-    const users = await UServices.getAll();
-    return res.status(200).json({
-      status: "success",
-      msg: "listado de usuarios",
-      payload: users,
-    });
-  } catch (e) {
-    console.log(e);
-    return res.status(500).json({
-      status: "error",
-      msg: "something went wrong :(",
-      payload: {},
-    });
-  }
-});
+usersRouter.get("/", userController.getAll);
 
-usersRouter.post("/", async (req, res) => {
-  try {
-    const { first_name, last_name, username, email, age, password, role } =
-      req.body;
-
-    const userCreated = await UServices.create({
-      first_name,
-      last_name,
-      username,
-      email,
-      age,
-      password,
-      role,
-    });
-
-    return res.status(201).json({
-      status: "success",
-      msg: "user created",
-      payload: {
-        first_name: userCreated.first_name,
-        last_name: userCreated.last_name,
-        username: userCreated.username,
-        email: userCreated.email,
-        age: userCreated.age,
-        password: userCreated.password,
-        role: userCreated.role,
-      },
-    });
-  } catch (e) {
-    console.log(e);
-    return res.status(500).json({
-      status: "error",
-      msg: "something went wrong :(",
-      payload: {},
-    });
-  }
-});
+usersRouter.post("/");
+/*
 
 //actualizar usuario
 usersRouter.put("/:id", async (req, res) => {
@@ -125,4 +75,6 @@ usersRouter.delete("/:id", async (req, res) => {
       payload: {},
     });
   }
+
 });
+*/
