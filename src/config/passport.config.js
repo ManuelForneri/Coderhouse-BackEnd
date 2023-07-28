@@ -2,7 +2,7 @@ import passport from "passport";
 import GitHubStrategy from "passport-github2";
 import local from "passport-local";
 import fetch from "node-fetch";
-import { UserModel } from "../DAO/models/users.model.js";
+import { userModel } from "../DAO/models/users.model.js";
 import { UServices } from "../services/users.service.js";
 import { createHash, isValidPassword } from "../utils/hashPassword.js";
 import { CServices } from "../services/carts.service.js";
@@ -13,7 +13,7 @@ export function iniPassport() {
     "login",
     new LocalStrategy({}, async (username, password, done) => {
       try {
-        const user = await UserModel.findOne({ username });
+        const user = await userModel.getOne({ username });
         if (!user) {
           console.log("User Not Found with username " + username);
           return done(null, false);

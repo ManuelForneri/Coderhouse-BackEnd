@@ -50,5 +50,60 @@ class CartsController {
         .json({ status: "error", msg: "Internal Server Error" });
     }
   }
+  async createCart() {
+    try {
+      const cartCreated = await CServices.createCart({});
+      return res.status(201).json({
+        status: "success",
+        msg: "Cart created",
+        payload: cartCreated,
+      });
+    } catch (e) {
+      return res.status(500).json({
+        status: "error",
+        msg: "something went wrong :(",
+        payload: {},
+      });
+    }
+  }
+  async addProductInCart(res, req) {
+    try {
+      const cid = req.params.cid;
+      const pid = req.params.pid;
+      const { quantity = 1 } = req.body;
+      console.log(quantity);
+      const productById = await PServices.getProductById(pid);
+
+      if (productById) {
+        const createdProduct = await CServices.addProductToCart(
+          cid,
+          pid,
+          quantity
+        );
+        if (createdProduct) {
+          return res.status(201).json({
+            status: "success",
+            msg: "product added to cart",
+            payload: createdProduct,
+          });
+        } else {
+          return res.status(400).json({
+            status: "error",
+            msg: "The product was not added to the cart",
+          });
+        }
+      } else {
+        return res
+          .status(400)
+          .json({ status: "error", msg: "No product found to add to cart" });
+      }
+    } catch (error) {
+      return res.status(500).json({
+        status: "error",
+        msg: "could not add product to cart",
+        error: error.message,
+      });
+    }
+  }
 }
 export const cartsController = new CartsController();

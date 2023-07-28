@@ -1,5 +1,5 @@
 import { Server } from "socket.io";
-import { MessageModel } from "../DAO/models/messages.model.js";
+//import { MessageModel } from "../DAO/models/messages.model.js";
 import { PServices } from "../services/products.service.js";
 export function connectSocketServer(httpServer) {
   const socketServer = new Server(httpServer);
