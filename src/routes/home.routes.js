@@ -41,22 +41,6 @@ home.get("/", async (req, res) => {
       payload: {},
     });
   }
-
-  /*
-  let products = ProductM.getProducts();
-  const query = req.query;
-
-  if (!!query.limit) {
-    let limit = parseInt(query.limit);
-    let prodLimits = [];
-    for (let i = 0; i < limit; i++) {
-      prodLimits.push(products[i]);
-      return res.status(200).render("home", { title, prodLimits });
-    }
-  } else {
-    return res.status(200).render("home", { title, products });
-  }
-*/
 });
 home.get("/:id", async (req, res) => {
   try {
