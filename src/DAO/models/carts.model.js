@@ -1,16 +1,18 @@
-//@ts-check
-import { Schema, model } from "mongoose";
+import { cartMongoose } from "./mongoose/carts.mongoose.js";
 
-const prodCartSchema = new Schema(
-  {
-    product: { type: Schema.Types.ObjectId, ref: "products", required: true },
-    quantity: { type: Number, required: true },
-  },
-  { _id: false }
-);
-
-const cartsSchema = new Schema({
-  products: { type: [prodCartSchema], required: true },
-});
-
-export const cartsModel = model("carts", cartsSchema);
+class CartModel {
+  async getAll() {
+    try {
+      const carts = await cartMongoose.find(
+        {},
+        {
+          __v: false,
+        }
+      );
+      return carts;
+    } catch (e) {
+      throw e;
+    }
+  }
+}
+export const cartsModel = new CartModel();

@@ -1,17 +1,12 @@
+//@ts-check
 import { cartsModel } from "../DAO/models/carts.model.js";
-import { ProductModel } from "../DAO/models/products.model.js";
 
 class cartsServices {
   async getAll() {
-    const carts = await cartsModel.find(
-      {},
-      {
-        __v: false,
-      }
-    );
+    const carts = await cartsModel.getAll();
     return carts;
   }
-
+  /*
   async getLimit(limit) {
     const carts = await cartsModel
       .find(
@@ -113,6 +108,6 @@ class cartsServices {
       console.error("Error deleting product from cart:", error);
       throw error;
     }
-  }
+  }*/
 }
 export const CServices = new cartsServices();

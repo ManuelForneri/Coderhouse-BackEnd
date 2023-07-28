@@ -7,7 +7,7 @@ import passport from "passport";
 import { __dirname } from "./config.js";
 import { iniPassport } from "./config/passport.config.js";
 import { authenticate, checkAdmin } from "./middlewares/authenticate.js";
-import { cartRouter } from "./routes/cart.routes.js";
+import { cartRouter } from "./routes/carts.routes.js";
 import { viewsRouter } from "./routes/views.routes.js";
 import { cookiesRouter } from "./routes/cookies.routes.js";
 import { home } from "./routes/home.routes.js";
