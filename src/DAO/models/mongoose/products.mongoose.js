@@ -14,4 +14,4 @@ const productsSchema = new Schema({
 
 productsSchema.plugin(mongoosePaginate);
 
-export const ProductModel = model("products", productsSchema);
+export const ProductMongoose = model("products", productsSchema);

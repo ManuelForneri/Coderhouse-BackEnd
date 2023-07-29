@@ -2,18 +2,9 @@ import { Router } from "express";
 export const productsRouter = Router();
 
 import { PServices } from "../services/products.service.js";
+import { productsController } from "../controllers/products.controller.js";
 
-productsRouter.get("/", async (req, res) => {
-  try {
-    const queryParams = req.query;
-    const response = await PServices.getAll(queryParams);
-
-    return res.status(200).json(response);
-  } catch (error) {
-    console.log(error);
-    return res.render("error");
-  }
-});
+productsRouter.get("/", productsController.getAll);
 
 productsRouter.get("/:id", async (req, res) => {
   try {

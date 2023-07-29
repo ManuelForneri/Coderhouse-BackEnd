@@ -105,5 +105,68 @@ class CartsController {
       });
     }
   }
+  async deleteProductInCart(res, req) {
+    try {
+      const cid = req.params.cid;
+      const pid = req.params.pid;
+      const { quantity = 1 } = req.body;
+      //cambiar productos a nueva arquitectura
+      const productById = await PServices.getProductById(pid);
+
+      if (productById) {
+        const deletedProduct = await CServices.deleteProductInCart(
+          cid,
+          pid,
+          quantity
+        );
+
+        if (deletedProduct) {
+          return res.status(200).json({
+            status: "success",
+            msg: "product removed from cart",
+            payload: deletedProduct,
+          });
+        } else {
+          return res.status(400).json({
+            status: "error",
+            msg: "The product was not removed from the cart",
+          });
+        }
+      } else {
+        return res.status(400).json({
+          status: "error",
+          msg: "No product found to remove from cart",
+        });
+      }
+    } catch (error) {
+      return res.status(500).json({
+        status: "error",
+        msg: "Could not remove product from cart",
+        error: error.message,
+      });
+    }
+  }
+  async deleteCart() {
+    try {
+      const cid = req.params.cid;
+      const cartToEmpty = await CServices.deleteCart({ cid });
+      if (cartToEmpty) {
+        return res.status(200).json({
+          status: "success",
+          msg: "cart removed",
+          payload: cartToEmpty,
+        });
+      } else {
+        return res
+          .status(400)
+          .json({ status: "error", msg: "The indicated cart was not found" });
+      }
+    } catch (error) {
+      console.log(error);
+      return res
+        .status(500)
+        .json({ status: "error", msg: "Internal Server Error" });
+    }
+  }
 }
 export const cartsController = new CartsController();

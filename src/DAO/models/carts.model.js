@@ -68,5 +68,49 @@ class CartModel {
       throw error;
     }
   }
+  async deleteProductInCart(cid, pid) {
+    try {
+      const cart = await cartMongoose.findById(cid);
+      const product = await ProductModel.findById(pid);
+      if (!cart) {
+        throw new Error("Cart not found");
+      }
+      if (!product) {
+        throw new Error("Product not found");
+      }
+
+      const findProdInCart = await cartMongoose.findOne({
+        products: { $elemMatch: { product: pid } },
+      });
+
+      if (findProdInCart) {
+        await cartMongoose.updateOne(
+          { _id: cid, "products.product": pid },
+          {
+            $inc: { "products.$.quantity": -1 },
+          }
+        );
+      }
+
+      await cart.save();
+      const updatedCart = await cartMongoose.findById(cid);
+
+      return updatedCart;
+    } catch (error) {
+      throw error;
+    }
+  }
+  async deleteCart(cid) {
+    try {
+      const updatedCart = await cartMongoose.findOneAndUpdate(
+        { _id: cid },
+        { products: [] },
+        { new: true }
+      );
+      return updatedCart;
+    } catch (error) {
+      throw new error();
+    }
+  }
 }
 export const cartsModel = new CartModel();
