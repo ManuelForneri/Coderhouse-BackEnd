@@ -1,3 +1,5 @@
+import { ProductMongoose } from "./mongoose/products.mongoose";
+
 class ProductModel {
   async getAll() {
     const { limit = 10, page = 1, sort, category, stock } = queryParams;
@@ -92,7 +94,33 @@ class ProductModel {
     }
     return response;
   }
-  async getProductById() {}
+  async getProductById(pid) {
+    try {
+      const product = await ProductMongoose.findById(pid);
+    } catch (error) {
+      throw new error();
+    }
+  }
+  async createProduct({
+    title,
+    description,
+    price,
+    thumbnail,
+    code,
+    stock,
+    category,
+  }) {
+    const productCreated = await ProductMongoose.create({
+      title,
+      description,
+      price,
+      thumbnail,
+      code,
+      stock,
+      category,
+    });
+    return productCreated;
+  }
 }
 
 export const productModel = new ProductModel();

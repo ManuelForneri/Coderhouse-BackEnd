@@ -22,7 +22,7 @@ class productServices {
     return products;
   }
 
-  async create({
+  async createProduct({
     title,
     description,
     price,
@@ -31,7 +31,7 @@ class productServices {
     stock,
     category,
   }) {
-    const productCreated = await ProductModel.create({
+    const productCreated = await ProductModel.createProduct({
       title,
       description,
       price,
