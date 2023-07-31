@@ -22,6 +22,10 @@ class UserModel {
     );
     return user;
   }
+  async getUserById(id) {
+    const user = await userMongoose.findById({ _id: id });
+    return user;
+  }
   async create({ first_name, last_name, username, email, age, password }) {
     const userCreated = await userMongoose.create({
       first_name,

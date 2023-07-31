@@ -1,5 +1,4 @@
 //@ts-check
-
 import { userModel } from "../DAO/models/users.model.js";
 import { isValidPassword } from "../utils/hashPassword.js";
 
@@ -10,8 +9,12 @@ class userServices {
     return users;
   }
 
-  async getOne(email) {
-    const user = await userModel.getOne(email);
+  async getOne(username) {
+    const user = await userModel.getOne(username);
+    return user;
+  }
+  async getUserById(id) {
+    const user = userModel.getUserById(id);
     return user;
   }
 

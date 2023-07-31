@@ -1,18 +1,18 @@
-import { ProductModel } from "../DAO/models/mongoose/products.mongoose.js";
+import { productModel } from "../DAO/models/products.model.js";
 
 class productServices {
   async getAll(queryParams) {
-    const response = await ProductModel.getAll(queryParams);
+    const response = await productModel.getAll(queryParams);
     return response;
   }
 
   async getProductById(pid) {
-    const producById = await ProductModel.getProductById(pid);
+    const producById = await productModel.getProductById(pid);
 
     return producById;
   }
   async getProductRealTime() {
-    const products = await ProductModel.find(
+    const products = await productModel.find(
       {},
       {
         __v: false,
@@ -42,18 +42,21 @@ class productServices {
     });
     return productCreated;
   }
-
-  async delete(id) {
-    const result = await ProductModel.deleteOne({ _id: id });
-    return result;
-  }
-
-  async update(id, title, description, price, thumbnail, code, stock) {
-    const userUptaded = await ProductModel.updateOne(
-      { _id: id },
-      { title, description, price, thumbnail, code, stock }
+  async updateProduct(id, title, description, price, thumbnail, code, stock) {
+    const userUptaded = await productModel.updateProduct(
+      id,
+      title,
+      description,
+      price,
+      thumbnail,
+      code,
+      stock
     );
     return userUptaded;
+  }
+  async deleteProduct(id) {
+    const result = await productModel.deleteProduct(id);
+    return result;
   }
 }
 export const PServices = new productServices();

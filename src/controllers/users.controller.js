@@ -1,3 +1,5 @@
+import { UServices } from "../services/users.service.js";
+
 class UserController {
   async getAll(res, req) {
     try {
@@ -15,6 +17,15 @@ class UserController {
         payload: {},
       });
     }
+  }
+  //passport login
+  async getOne(username) {
+    const user = await UServices.getOne(username);
+    return user;
+  }
+  async getUserById(id) {
+    const user = await UServices.getUserById(id);
+    return user;
   }
 
   async create(res, req) {

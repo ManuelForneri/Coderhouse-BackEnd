@@ -6,6 +6,9 @@ import { userModel } from "../DAO/models/users.model.js";
 import { UServices } from "../services/users.service.js";
 import { createHash, isValidPassword } from "../utils/hashPassword.js";
 import { CServices } from "../services/carts.service.js";
+import { userController } from "../controllers/users.controller.js";
+import { userMongoose } from "../DAO/models/mongoose/users.mongoose.js";
+import { cartsController } from "../controllers/carts.controller.js";
 const LocalStrategy = local.Strategy;
 
 export function iniPassport() {
@@ -13,7 +16,7 @@ export function iniPassport() {
     "login",
     new LocalStrategy({}, async (username, password, done) => {
       try {
-        const user = await userModel.getOne({ username });
+        const user = await userModel.getOne(username);
         if (!user) {
           console.log("User Not Found with username " + username);
           return done(null, false);
@@ -44,7 +47,7 @@ export function iniPassport() {
             console.log("User already exists");
             return done(null, false);
           }
-          let userCart = await CServices.create();
+          let userCart = await cartsController.createCart();
 
           if (!userCart) {
             console.log("Error en crear  un carrito para el usuario");
@@ -61,7 +64,7 @@ export function iniPassport() {
             password: createHash(password),
             cid: userCart._id.toString(),
           };
-          let userCreated = await UserModel.create(newUser);
+          let userCreated = await userController.create(newUser);
           console.log(userCreated);
           console.log("User Registration succesful");
           return done(null, userCreated);
@@ -99,7 +102,7 @@ export function iniPassport() {
           }
           profile.email = emailDetail.email;
 
-          let user = await UserModel.findOne({ email: profile.email });
+          let user = await userMongoose.findOne({ email: profile.email });
           if (!user) {
             let userCart = await CServices.create();
             if (!userCart) {
@@ -114,7 +117,7 @@ export function iniPassport() {
               password: "nopass",
               cid: userCart._id.toString(),
             };
-            let userCreated = await UserModel.create(newUser);
+            let userCreated = await userController.create(newUser);
             console.log("User Registration succesful");
             return done(null, userCreated);
           } else {
@@ -135,7 +138,7 @@ export function iniPassport() {
   });
 
   passport.deserializeUser(async (id, done) => {
-    let user = await UserModel.findById(id);
+    let user = await userController.getUserById(id);
     done(null, user);
   });
 }

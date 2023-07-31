@@ -1,7 +1,7 @@
-import { ProductMongoose } from "./mongoose/products.mongoose";
+import { ProductMongoose } from "./mongoose/products.mongoose.js";
 
 class ProductModel {
-  async getAll() {
+  async getAll(queryParams) {
     const { limit = 10, page = 1, sort, category, stock } = queryParams;
     console.log(queryParams);
 
@@ -120,6 +120,26 @@ class ProductModel {
       category,
     });
     return productCreated;
+  }
+  async updateProduct(
+    id,
+    title,
+    description,
+    price,
+    thumbnail,
+    code,
+    stock,
+    category
+  ) {
+    const userUptaded = await ProductMongoose.updateOne(
+      { _id: id },
+      { title, description, price, thumbnail, code, stock, category }
+    );
+    return userUptaded;
+  }
+  async deleteProduct(id) {
+    const result = await ProductMongoose.deleteOne({ _id: id });
+    return result;
   }
 }
 

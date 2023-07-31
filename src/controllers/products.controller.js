@@ -1,4 +1,4 @@
-import { PServices } from "../services/products.service";
+import { PServices } from "../services/products.service.js";
 
 class ProductsController {
   async getAll(res, req) {
@@ -62,6 +62,75 @@ class ProductsController {
           stock: productCreated.stock,
         },
       });
+    } catch (e) {
+      console.log(e);
+      return res.status(500).json({
+        status: "error",
+        msg: "something went wrong :(",
+        payload: {},
+      });
+    }
+  }
+  async updateProduct(res, req) {
+    try {
+      const { id } = req.params;
+      const { title, description, price, thumbnail, code, stock } = req.body;
+      try {
+        const productUptaded = await PServices.updateProduct(
+          id,
+          title,
+          description,
+          price,
+          thumbnail,
+          code,
+          stock
+        );
+        if (productUptaded.matchedCount > 0) {
+          return res.status(201).json({
+            status: "success",
+            msg: "product update",
+            payload: {},
+          });
+        } else {
+          return res.status(404).json({
+            status: "error",
+            msg: "product not found",
+            payload: {},
+          });
+        }
+      } catch (e) {
+        return res.status(500).json({
+          status: "error",
+          msg: "db server error while updating product",
+          payload: {},
+        });
+      }
+    } catch (e) {
+      console.log(e);
+      return res.status(500).json({
+        status: "error",
+        msg: "something went wrong :(",
+        payload: {},
+      });
+    }
+  }
+  async deleteProduct(res, req) {
+    try {
+      const { id } = req.params;
+      const result = await PServices.deleteProduct(id);
+      if (result?.deletedCount > 0) {
+        return res.status(200).json({
+          status: "success",
+          msg: "product deleted",
+          payload: {},
+        });
+      } else {
+        return res.status(404).json({
+          status: "error",
+          msg: "product not found",
+          payload: {},
+        });
+      }
     } catch (e) {
       console.log(e);
       return res.status(500).json({

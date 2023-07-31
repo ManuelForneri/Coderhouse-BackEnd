@@ -50,7 +50,7 @@ class CartsController {
         .json({ status: "error", msg: "Internal Server Error" });
     }
   }
-  async createCart() {
+  async createCart(res, req) {
     try {
       const cartCreated = await CServices.createCart({});
       return res.status(201).json({
