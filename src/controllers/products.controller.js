@@ -1,7 +1,7 @@
 import { PServices } from "../services/products.service.js";
 
 class ProductsController {
-  async getAll(res, req) {
+  getAll = async (res, req) => {
     try {
       const queryParams = req.query;
       const response = await PServices.getAll(queryParams);
@@ -11,8 +11,8 @@ class ProductsController {
       console.log(error);
       return res.render("error");
     }
-  }
-  async getProductById(res, req) {
+  };
+  getProductById = async (res, req) => {
     try {
       const { id } = req.params;
       const productFound = await PServices.getProductById(id);
@@ -35,8 +35,8 @@ class ProductsController {
         .status(500)
         .json({ status: "error", msg: "Internal Server Error" });
     }
-  }
-  async createProduct(res, req) {
+  };
+  createProduct = async (res, req) => {
     try {
       const { title, description, price, thumbnail, code, stock } = req.body;
 
@@ -70,8 +70,8 @@ class ProductsController {
         payload: {},
       });
     }
-  }
-  async updateProduct(res, req) {
+  };
+  updateProduct = async (res, req) => {
     try {
       const { id } = req.params;
       const { title, description, price, thumbnail, code, stock } = req.body;
@@ -113,8 +113,8 @@ class ProductsController {
         payload: {},
       });
     }
-  }
-  async deleteProduct(res, req) {
+  };
+  deleteProduct = async (res, req) => {
     try {
       const { id } = req.params;
       const result = await PServices.deleteProduct(id);
@@ -139,6 +139,6 @@ class ProductsController {
         payload: {},
       });
     }
-  }
+  };
 }
 export const productsController = new ProductsController();

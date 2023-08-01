@@ -6,6 +6,7 @@ logoutRoutes.get("/", (req, res) => {
     if (err) {
       return res.json({ status: "Logout ERROR", body: err });
     }
+
     return res.redirect("/login");
   });
 });

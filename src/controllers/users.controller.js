@@ -1,7 +1,7 @@
 import { UServices } from "../services/users.service.js";
 
 class UserController {
-  async getAll(res, req) {
+  getAll = async (res, req) => {
     try {
       const users = await UServices.getAll();
       return res.status(200).json({
@@ -17,18 +17,18 @@ class UserController {
         payload: {},
       });
     }
-  }
+  };
   //passport login
-  async getOne(username) {
+  getOne = async (res, req) => {
     const user = await UServices.getOne(username);
     return user;
-  }
+  };
   async getUserById(id) {
     const user = await UServices.getUserById(id);
     return user;
   }
 
-  async create(res, req) {
+  create = async (res, req) => {
     try {
       const { first_name, last_name, username, email, age, password } =
         req.body;
@@ -63,9 +63,9 @@ class UserController {
         payload: {},
       });
     }
-  }
+  };
 
-  async update(res, req) {
+  update = async (res, req) => {
     try {
       const { id } = req.params;
       const { firstName, lastName, email } = req.body;
@@ -104,8 +104,8 @@ class UserController {
         payload: {},
       });
     }
-  }
-  async delete(res, req) {
+  };
+  delete = async (res, req) => {
     try {
       const { id } = req.params;
       const result = await UServices.delete(id);
@@ -130,6 +130,6 @@ class UserController {
         payload: {},
       });
     }
-  }
+  };
 }
 export const userController = new UserController();

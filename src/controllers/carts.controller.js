@@ -2,19 +2,20 @@ import { CServices } from "../services/carts.service.js";
 import { PServices } from "../services/products.service.js";
 
 class CartsController {
-  async getAll(res, req) {
+  getAll = (res, req) => {
     try {
-      const query = req.query;
-      if (!query.limit) {
-        const carts = await CServices.getLimit(query.limit);
-        return res.status(200).json({
+      let limit = req.query || 10;
+
+      if (!limit) {
+        const carts = CServices.getLimit(limit);
+        return res.json({
           status: "success",
           msg: "listado de Carritos",
           payload: carts,
         });
       } else {
-        const carts = await CServices.getAll();
-        return res.status(200).json({
+        const carts = CServices.getAll();
+        return res.status.json({
           status: "success",
           msg: "listado de Carritos",
           payload: carts,
@@ -22,51 +23,52 @@ class CartsController {
       }
     } catch (e) {
       console.log(e);
-      return res.status(500).json({
+      return res.status.json({
         status: "error",
         msg: "something went wrong :(",
         payload: {},
       });
     }
-  }
-  async getCartById(res, req) {
+  };
+  getCartById = async (res, req) => {
     try {
       const { id } = req.params;
       const cartFound = await CServices.getCartById(id);
 
       if (cartFound) {
-        return res
-          .status(201)
-          .json({ status: "success", msg: "cart found", payload: cartFound });
+        return res.status.json({
+          status: "success",
+          msg: "cart found",
+          payload: cartFound,
+        });
       } else {
-        return res
-          .status(400)
-          .json({ status: "error", msg: "The indicated cart was not found" });
+        return res.status.json({
+          status: "error",
+          msg: "The indicated cart was not found",
+        });
       }
     } catch (error) {
       console.log(error);
-      return res
-        .status(500)
-        .json({ status: "error", msg: "Internal Server Error" });
+      return res.status.json({ status: "error", msg: "Internal Server Error" });
     }
-  }
-  async createCart(res, req) {
+  };
+  createCart = async (res, req) => {
     try {
-      const cartCreated = await CServices.createCart({});
-      return res.status(201).json({
+      const cartCreated = await CServices.createCart();
+      return res.status.json({
         status: "success",
         msg: "Cart created",
         payload: cartCreated,
       });
     } catch (e) {
-      return res.status(500).json({
+      return res.status.json({
         status: "error",
         msg: "something went wrong :(",
         payload: {},
       });
     }
-  }
-  async addProductInCart(res, req) {
+  };
+  addProductInCart = async (res, req) => {
     try {
       const cid = req.params.cid;
       const pid = req.params.pid;
@@ -104,7 +106,7 @@ class CartsController {
         error: error.message,
       });
     }
-  }
+  };
   async deleteProductInCart(res, req) {
     try {
       const cid = req.params.cid;
@@ -146,7 +148,7 @@ class CartsController {
       });
     }
   }
-  async deleteCart() {
+  deleteCart = async (res, req) => {
     try {
       const cid = req.params.cid;
       const cartToEmpty = await CServices.deleteCart({ cid });
@@ -167,6 +169,6 @@ class CartsController {
         .status(500)
         .json({ status: "error", msg: "Internal Server Error" });
     }
-  }
+  };
 }
 export const cartsController = new CartsController();
