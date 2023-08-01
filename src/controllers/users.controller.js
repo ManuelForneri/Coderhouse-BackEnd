@@ -1,9 +1,9 @@
 import { UServices } from "../services/users.service.js";
 
 class UserController {
-  getAll = async (res, req) => {
+  getAll = (req, res) => {
     try {
-      const users = await UServices.getAll();
+      const users = UServices.getAll();
       return res.status(200).json({
         status: "success",
         msg: "listado de usuarios",
@@ -19,8 +19,8 @@ class UserController {
     }
   };
   //passport login
-  getOne = async (res, req) => {
-    const user = await UServices.getOne(username);
+  getOne = (req, res) => {
+    const user = UServices.getOne(username);
     return user;
   };
   async getUserById(id) {
@@ -28,12 +28,12 @@ class UserController {
     return user;
   }
 
-  create = async (res, req) => {
+  create = (req, res) => {
     try {
       const { first_name, last_name, username, email, age, password } =
         req.body;
 
-      const userCreated = await UServices.create({
+      const userCreated = UServices.create({
         first_name,
         last_name,
         username,
@@ -65,17 +65,12 @@ class UserController {
     }
   };
 
-  update = async (res, req) => {
+  update = (req, res) => {
     try {
       const { id } = req.params;
       const { firstName, lastName, email } = req.body;
       try {
-        const userUptaded = await UServices.update(
-          id,
-          firstName,
-          lastName,
-          email
-        );
+        const userUptaded = UServices.update(id, firstName, lastName, email);
         if (userUptaded.matchedCount > 0) {
           return res.status(201).json({
             status: "success",
@@ -105,10 +100,10 @@ class UserController {
       });
     }
   };
-  delete = async (res, req) => {
+  delete = (req, res) => {
     try {
       const { id } = req.params;
-      const result = await UServices.delete(id);
+      const result = UServices.delete(id);
       if (result?.deletedCount > 0) {
         return res.status(200).json({
           status: "success",

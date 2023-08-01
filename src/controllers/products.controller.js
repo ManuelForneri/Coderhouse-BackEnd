@@ -1,10 +1,11 @@
 import { PServices } from "../services/products.service.js";
 
 class ProductsController {
-  getAll = async (res, req) => {
+  getAll = (req, res) => {
     try {
       const queryParams = req.query;
-      const response = await PServices.getAll(queryParams);
+      console.log(queryParams);
+      const response = PServices.getAll(queryParams);
 
       return res.status(200).json(response);
     } catch (error) {
@@ -12,10 +13,10 @@ class ProductsController {
       return res.render("error");
     }
   };
-  getProductById = async (res, req) => {
+  getProductById = (req, res) => {
     try {
       const { id } = req.params;
-      const productFound = await PServices.getProductById(id);
+      const productFound = PServices.getProductById(id);
 
       if (productFound) {
         return res.status(201).json({
@@ -36,11 +37,11 @@ class ProductsController {
         .json({ status: "error", msg: "Internal Server Error" });
     }
   };
-  createProduct = async (res, req) => {
+  createProduct = (req, res) => {
     try {
       const { title, description, price, thumbnail, code, stock } = req.body;
 
-      const productCreated = await PServices.createProduct({
+      const productCreated = PServices.createProduct({
         title,
         description,
         price,
@@ -71,12 +72,12 @@ class ProductsController {
       });
     }
   };
-  updateProduct = async (res, req) => {
+  updateProduct = (req, res) => {
     try {
       const { id } = req.params;
       const { title, description, price, thumbnail, code, stock } = req.body;
       try {
-        const productUptaded = await PServices.updateProduct(
+        const productUptaded = PServices.updateProduct(
           id,
           title,
           description,
@@ -114,10 +115,10 @@ class ProductsController {
       });
     }
   };
-  deleteProduct = async (res, req) => {
+  deleteProduct = (req, res) => {
     try {
       const { id } = req.params;
-      const result = await PServices.deleteProduct(id);
+      const result = PServices.deleteProduct(id);
       if (result?.deletedCount > 0) {
         return res.status(200).json({
           status: "success",

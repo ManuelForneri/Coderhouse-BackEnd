@@ -2,20 +2,21 @@ import { CServices } from "../services/carts.service.js";
 import { PServices } from "../services/products.service.js";
 
 class CartsController {
-  getAll = (res, req) => {
+  getAll = async (req, res) => {
     try {
-      let limit = req.query || 10;
-
-      if (!limit) {
-        const carts = CServices.getLimit(limit);
-        return res.json({
+      const limit = req.query;
+      console.log(limit);
+      if (!!limit) {
+        const carts = await CServices.getLimit(limit);
+        return res.status(200).json({
           status: "success",
           msg: "listado de Carritos",
           payload: carts,
         });
       } else {
-        const carts = CServices.getAll();
-        return res.status.json({
+        const carts = await CServices.getAll();
+        console.log(carts);
+        return res.status(200).json({
           status: "success",
           msg: "listado de Carritos",
           payload: carts,
@@ -23,17 +24,17 @@ class CartsController {
       }
     } catch (e) {
       console.log(e);
-      return res.status.json({
+      res.status(500).json({
         status: "error",
         msg: "something went wrong :(",
         payload: {},
       });
     }
   };
-  getCartById = async (res, req) => {
+  getCartById = (req, res) => {
     try {
       const { id } = req.params;
-      const cartFound = await CServices.getCartById(id);
+      const cartFound = CServices.getCartById(id);
 
       if (cartFound) {
         return res.status.json({
@@ -52,9 +53,9 @@ class CartsController {
       return res.status.json({ status: "error", msg: "Internal Server Error" });
     }
   };
-  createCart = async (res, req) => {
+  createCart = (req, res) => {
     try {
-      const cartCreated = await CServices.createCart();
+      const cartCreated = CServices.createCart();
       return res.status.json({
         status: "success",
         msg: "Cart created",
@@ -68,20 +69,16 @@ class CartsController {
       });
     }
   };
-  addProductInCart = async (res, req) => {
+  addProductInCart = (req, res) => {
     try {
       const cid = req.params.cid;
       const pid = req.params.pid;
       const { quantity = 1 } = req.body;
       console.log(quantity);
-      const productById = await PServices.getProductById(pid);
+      const productById = PServices.getProductById(pid);
 
       if (productById) {
-        const createdProduct = await CServices.addProductToCart(
-          cid,
-          pid,
-          quantity
-        );
+        const createdProduct = CServices.addProductToCart(cid, pid, quantity);
         if (createdProduct) {
           return res.status(201).json({
             status: "success",
@@ -107,16 +104,16 @@ class CartsController {
       });
     }
   };
-  async deleteProductInCart(res, req) {
+  deleteProductInCart = (req, res) => {
     try {
       const cid = req.params.cid;
       const pid = req.params.pid;
       const { quantity = 1 } = req.body;
       //cambiar productos a nueva arquitectura
-      const productById = await PServices.getProductById(pid);
+      const productById = PServices.getProductById(pid);
 
       if (productById) {
-        const deletedProduct = await CServices.deleteProductInCart(
+        const deletedProduct = CServices.deleteProductInCart(
           cid,
           pid,
           quantity
@@ -147,11 +144,11 @@ class CartsController {
         error: error.message,
       });
     }
-  }
-  deleteCart = async (res, req) => {
+  };
+  deleteCart = (req, res) => {
     try {
       const cid = req.params.cid;
-      const cartToEmpty = await CServices.deleteCart({ cid });
+      const cartToEmpty = CServices.deleteCart({ cid });
       if (cartToEmpty) {
         return res.status(200).json({
           status: "success",

@@ -97,6 +97,7 @@ class ProductModel {
   async getProductById(pid) {
     try {
       const product = await ProductMongoose.findById(pid);
+      return product;
     } catch (error) {
       throw new error();
     }
