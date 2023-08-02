@@ -26,7 +26,7 @@ class UserModel {
     const user = await userMongoose.findById({ _id: id });
     return user;
   }
-  async create({ first_name, last_name, username, email, age, password }) {
+  async create({ first_name, last_name, username, email, age, password, cid }) {
     const userCreated = await userMongoose.create({
       first_name,
       last_name,
@@ -34,6 +34,7 @@ class UserModel {
       email,
       age,
       password,
+      cid,
     });
     return userCreated;
   }

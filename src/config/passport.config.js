@@ -48,6 +48,7 @@ export function iniPassport() {
             return done(null, false);
           }
           let userCart = await cartsController.createCart();
+          console.log("pase del carrito");
 
           if (!userCart) {
             console.log("Error en crear  un carrito para el usuario");
@@ -64,6 +65,7 @@ export function iniPassport() {
             password: createHash(password),
             cid: userCart._id.toString(),
           };
+          console.log(newUser);
           let userCreated = await userController.create(newUser);
           console.log(userCreated);
           console.log("User Registration succesful");

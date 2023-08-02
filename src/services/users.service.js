@@ -1,4 +1,3 @@
-//@ts-check
 import { userModel } from "../DAO/models/users.model.js";
 import { isValidPassword } from "../utils/hashPassword.js";
 
@@ -18,7 +17,7 @@ class userServices {
     return user;
   }
 
-  async create({ first_name, last_name, username, email, age, password }) {
+  async create({ first_name, last_name, username, email, age, password, cid }) {
     const userCreated = await userModel.create({
       first_name,
       last_name,
@@ -26,6 +25,7 @@ class userServices {
       email,
       age,
       password,
+      cid,
     });
     return userCreated;
   }

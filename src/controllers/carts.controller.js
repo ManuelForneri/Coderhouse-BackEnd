@@ -53,22 +53,14 @@ class CartsController {
       return res.status.json({ status: "error", msg: "Internal Server Error" });
     }
   };
-  createCart = (req, res) => {
+  createCart() {
     try {
       const cartCreated = CServices.createCart();
-      return res.status.json({
-        status: "success",
-        msg: "Cart created",
-        payload: cartCreated,
-      });
-    } catch (e) {
-      return res.status.json({
-        status: "error",
-        msg: "something went wrong :(",
-        payload: {},
-      });
+      return cartCreated;
+    } catch (error) {
+      throw new error();
     }
-  };
+  }
   addProductInCart = (req, res) => {
     try {
       const cid = req.params.cid;

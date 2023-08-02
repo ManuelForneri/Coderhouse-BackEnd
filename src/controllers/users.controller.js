@@ -28,10 +28,12 @@ class UserController {
     return user;
   }
 
-  create = (req, res) => {
+  create = (newUser) => {
     try {
-      const { first_name, last_name, username, email, age, password } =
-        req.body;
+      console.log("usuario nuevo en controller");
+      console.log(newUser);
+      const { first_name, last_name, username, email, age, password, cid } =
+        newUser;
 
       const userCreated = UServices.create({
         first_name,
@@ -40,28 +42,12 @@ class UserController {
         email,
         age,
         password,
+        cid,
       });
 
-      return res.status(201).json({
-        status: "success",
-        msg: "user created",
-        payload: {
-          first_name: userCreated.first_name,
-          last_name: userCreated.last_name,
-          username: userCreated.username,
-          email: userCreated.email,
-          age: userCreated.age,
-          password: userCreated.password,
-          role: userCreated.role,
-        },
-      });
+      return userCreated;
     } catch (e) {
-      console.log(e);
-      return res.status(500).json({
-        status: "error",
-        msg: "something went wrong :(",
-        payload: {},
-      });
+      throw new e();
     }
   };
 
