@@ -32,7 +32,6 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
 
-//config del motor de plantillas
 app.engine("handlebars", handlebars.engine());
 app.set("views", __dirname + "/views");
 app.set("view engine", "handlebars");
@@ -51,8 +50,7 @@ app.use(
     resave: true,
     saveUninitialized: true,
     store: MongoStore.create({
-      mongoUrl:
-        "mongodb+srv://manuelforneri:120110keko@elabuelotessoredb.pj5hwdc.mongodb.net/?retryWrites=true&w=majority",
+      mongoUrl: env.mongoUrl,
       dbName: "ecommerce",
       mongoOptions: { useNewUrlParser: true, useUnifiedTopology: true },
       ttl: 15 * 60,
