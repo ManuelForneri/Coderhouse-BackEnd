@@ -102,6 +102,15 @@ class ProductModel {
       throw new error();
     }
   }
+  getProductRealTime() {
+    const products = ProductMongoose.find(
+      {},
+      {
+        __v: false,
+      }
+    );
+    return products;
+  }
   async createProduct({
     title,
     description,

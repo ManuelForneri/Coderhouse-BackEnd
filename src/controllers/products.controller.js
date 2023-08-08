@@ -72,6 +72,28 @@ class ProductsController {
         .json({ status: "error", msg: "Internal Server Error" });
     }
   };
+  getProductRealTime = async (req, res) => {
+    try {
+      let title = "Listado de productos en tiempo real";
+      const response = await PServices.getProductRealTime();
+      console.log(response);
+      const products = response.map((product) => {
+        return {
+          _id: product._id.toString(),
+          title: product.title,
+          description: product.description,
+          price: product.price,
+          thumbnail: product.thumbnail,
+          code: product.code,
+          stock: product.stock,
+          category: product.category,
+        };
+      });
+      return res.status(200).render("realtimeproducts", { title, products });
+    } catch (error) {
+      return res.render("error");
+    }
+  };
   createProduct = (req, res) => {
     try {
       const { title, description, price, thumbnail, code, stock } = req.body;

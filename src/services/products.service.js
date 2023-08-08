@@ -12,12 +12,7 @@ class productServices {
     return producById;
   }
   async getProductRealTime() {
-    const products = await productModel.find(
-      {},
-      {
-        __v: false,
-      }
-    );
+    const products = await productModel.getProductRealTime();
 
     return products;
   }
