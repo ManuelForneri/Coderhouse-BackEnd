@@ -14,7 +14,7 @@ async function importModels() {
         products: productModel,
         users: userModel,
         carts: cartsModel,
-        tickets: ti,
+        tickets: ticketsModel,
       };
       break;
 
