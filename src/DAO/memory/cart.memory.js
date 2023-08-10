@@ -24,80 +24,51 @@ export default class CartsMemory {
     }
   }
   async addProductToCart(cid, pid, quantityParams) {
-    try {
-      const cart = await cartMongoose.getCartById(cid);
-      //cambiar a mongoose (products)
-      const product = await ProductModel.findById(pid);
-
-      if (!cart) {
-        throw new Error("Cart not found");
-      }
-      if (!product) {
-        throw new Error("Product not found");
-      }
-      const findProdInCart = await cartsModel.findOne({
-        products: { $elemMatch: { product: pid } },
-      });
-
-      if (findProdInCart) {
-        await cartMongoose.updateOne(
-          { _id: cid, "products.product": pid },
-          { $inc: { "products.$.quantity": quantityParams } }
-        );
+    const carts = this.getCarts();
+    const cartSearched = carts.find((cart) => cart.id == cid);
+    if (!cartSearched) {
+      throw new Error(`Carrito con el ID ${cid} no encontrado`);
+    }
+    const existProduct = cartSearched.products.find(
+      (product) => product.id == pid
+    );
+    if (existProduct) {
+      if (quantityParams) {
+        existProduct.quantity += quantityParams;
       } else {
-        cart.products.push({ product: product._id, quantity: quantityParams });
+        existProduct.quantity += 1;
       }
-      await cart.save();
-      const updatedCart = await cartMongoose.findById(cid);
-
-      return updatedCart;
-    } catch (error) {
-      throw error;
+    } else {
+      if (quantityParams) {
+        cartSearched.products.push({ id: productId, quantity: quantityParams });
+      } else {
+        cartSearched.products.push({ id: productId, quantity: 1 });
+      }
     }
   }
   async deleteProductInCart(cid, pid) {
-    try {
-      const cart = await cartMongoose.findById(cid);
-      const product = await ProductModel.findById(pid);
-      if (!cart) {
-        throw new Error("Cart not found");
-      }
-      if (!product) {
-        throw new Error("Product not found");
-      }
-
-      const findProdInCart = await cartMongoose.findOne({
-        products: { $elemMatch: { product: pid } },
-      });
-
-      if (findProdInCart) {
-        await cartMongoose.updateOne(
-          { _id: cid, "products.product": pid },
-          {
-            $inc: { "products.$.quantity": -1 },
-          }
-        );
-      }
-
-      await cart.save();
-      const updatedCart = await cartMongoose.findById(cid);
-
-      return updatedCart;
-    } catch (error) {
-      throw error;
+    const carts = this.getCarts();
+    const cartSearched = carts.find((cart) => cart.id == cid);
+    if (!cartSearched) {
+      throw new Error(`Carrito con el ID ${cartId} no encontrado`);
     }
-  }
-  async deleteCart(cid) {
-    try {
-      const updatedCart = await cartMongoose.findOneAndUpdate(
-        { _id: cid },
-        { products: [] },
-        { new: true }
-      );
-      return updatedCart;
-    } catch (error) {
-      throw new error();
+    const existProduct = cartSearched.products.find(
+      (product) => product.id == pid
+    );
+    if (existProduct == false) {
+      return "El producto no existe en su carrito";
+    } else {
+      existProduct.quantity -= 1;
     }
+    let cartFilter = [];
+
+    if (existProduct.quantity === 0) {
+      cartFilter = carts.cartId.products.filter((p) => p.id != pid);
+    } else {
+      cartFilter = this.carts;
+    }
+
+    return cartFilter;
   }
 }
 
