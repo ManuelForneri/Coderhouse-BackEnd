@@ -159,5 +159,8 @@ class CartsController {
         .json({ status: "error", msg: "Internal Server Error" });
     }
   };
+  purchase = (req, res) => {
+    //funcion que busque el carrito del usuario, y efectue la compra del contenido del carrito
+  };
 }
 export const cartsController = new CartsController();
