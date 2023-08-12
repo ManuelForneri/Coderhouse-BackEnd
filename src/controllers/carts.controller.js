@@ -161,6 +161,14 @@ class CartsController {
   };
   purchase = (req, res) => {
     //funcion que busque el carrito del usuario, y efectue la compra del contenido del carrito
+    //esta compra tiene que vaciar el carrito y enviar un mail que se efectuo la compra y lo que compro
+    try {
+      const cid = req.params.cid;
+
+      CServices.purchase();
+    } catch (error) {
+      throw new error();
+    }
   };
 }
 export const cartsController = new CartsController();
