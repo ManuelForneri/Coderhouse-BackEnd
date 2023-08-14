@@ -23,6 +23,7 @@ import { usersRouter } from "./routes/users.routes.js";
 import { connectMongo } from "./utils/dbConnection.js";
 import { connectSocketServer } from "./utils/socketServer.js";
 import env from "./config/enviroment.config.js";
+import cors from "cors";
 
 console.log(env);
 
@@ -63,6 +64,8 @@ app.use(
 iniPassport();
 app.use(passport.initialize());
 app.use(passport.session());
+
+app.use(cors());
 
 app.use("/products", authenticate, home);
 app.use("/api/products", authenticate, productsRouter);
