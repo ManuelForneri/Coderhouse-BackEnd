@@ -165,7 +165,8 @@ class CartsController {
     try {
       const cid = req.params.cid;
 
-      CServices.purchase();
+      let userCart = CServices.purchase(cid);
+      return res.status(200).json({ status: "succes", playload: userCart });
     } catch (error) {
       throw new error();
     }

@@ -56,5 +56,11 @@ class cartsServices {
       throw error;
     }
   }
+  async purchase(cid) {
+    let userCart = await cartsModel.getCartById(cid);
+    console.log(userCart);
+
+    return userCart;
+  }
 }
 export const CServices = new cartsServices();
