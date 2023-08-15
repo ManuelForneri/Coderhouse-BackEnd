@@ -11,13 +11,11 @@ class UserMemory {
     }
   }
   //cambiar a memory
-  //   async getOne(username) {
-  //     const user = await userMongoose.findOne(
-  //       { username: username },
-  //       { password: true }
-  //     );
-  //     return user;
-  //   }
+
+  async getOne(username) {
+    const user = this.users.find((user) => user.username === username);
+    return user;
+  }
   //   async getUserById(id) {
   //     const user = await userMongoose.findById({ _id: id });
   //     return user;
@@ -62,4 +60,4 @@ class UserMemory {
   //     }
   //   }
 }
-export const userModel = new UserModel();
+export const userMemory = new UserMemory();
