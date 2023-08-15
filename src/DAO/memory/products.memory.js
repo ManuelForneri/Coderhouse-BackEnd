@@ -16,7 +16,7 @@ export default class ProductsMemory {
     category,
   }) {
     const newProduct = {
-      id: Date.now(),
+      _id: Date.now(),
       title,
       description,
       price,
