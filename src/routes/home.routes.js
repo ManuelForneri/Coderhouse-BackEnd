@@ -1,12 +1,12 @@
 //@ts-check
 import express from "express";
-
-import { PServices } from "../services/products.service.js";
 import { productsController } from "../controllers/products.controller.js";
 
 export const home = express.Router();
 
 home.get("/", productsController.getAllRender);
+
+/*
 home.get("/:id", async (req, res) => {
   try {
     const { id } = req.params;
@@ -26,3 +26,4 @@ home.get("/:id", async (req, res) => {
       .json({ status: "error", msg: "Internal Server Error" });
   }
 });
+ */
