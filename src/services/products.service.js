@@ -26,7 +26,7 @@ class productServices {
     stock,
     category,
   }) {
-    const productCreated = await ProductModel.createProduct({
+    const productCreated = await productModel.createProduct({
       title,
       description,
       price,
