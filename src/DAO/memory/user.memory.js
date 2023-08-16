@@ -10,54 +10,54 @@ class UserMemory {
       throw e;
     }
   }
-  //cambiar a memory
 
   async getOne(username) {
     const user = this.users.find((user) => user.username === username);
     return user;
   }
-  //   async getUserById(id) {
-  //     const user = await userMongoose.findById({ _id: id });
-  //     return user;
-  //   }
-  //   async create({ first_name, last_name, username, email, age, password, cid }) {
-  //     const userCreated = await userMongoose.create({
-  //       first_name,
-  //       last_name,
-  //       username,
-  //       email,
-  //       age,
-  //       password,
-  //       cid,
-  //     });
-  //     return userCreated;
-  //   }
-  //   async delete(id) {
-  //     const result = await userMongoose.deleteOne({ _id: id });
-  //     return result;
-  //   }
-  //   async update(id, firstName, lastName, email) {
-  //     const userUptaded = await userMongoose.updateOne(
-  //       { _id: id },
-  //       { firstName, lastName, email }
-  //     );
-  //     return userUptaded;
-  //   }
+  //cambiar a memory
+  async getUserById(id) {
+    const user = this.users.find((user) => user._id === id);
+    return user;
+  }
+  async create({ first_name, last_name, username, email, age, password, cid }) {
+    const userCreated = {
+      _id: Date.now(),
+      first_name,
+      last_name,
+      username,
+      email,
+      age,
+      password,
+      cid,
+    };
+    this.users.push(userCreated);
 
-  //   async auth(username, password) {
-  //     try {
-  //       const user = await userMongoose.findOne({
-  //         username: username,
-  //       });
-  //       if (user && isValidPassword(password, user.password)) {
-  //         return true;
-  //       } else {
-  //         return false;
-  //       }
-  //     } catch (error) {
-  //       console.error("Error authenticating user:", error);
-  //       throw error;
-  //     }
-  //   }
+    return userCreated;
+  }
+  async delete(id) {
+    const searchedProduct = this.users.find((user) => user._id == id);
+    if (searchedProduct === undefined) {
+      return false;
+    } else {
+      this.users = this.users.filter((user) => user._id != id);
+
+      return true;
+    }
+  }
+
+  async auth(username, password) {
+    try {
+      const user = this.getOne(username);
+      if (user && isValidPassword(password, user.password)) {
+        return true;
+      } else {
+        return false;
+      }
+    } catch (error) {
+      console.error("Error authenticating user:", error);
+      throw error;
+    }
+  }
 }
 export const userMemory = new UserMemory();

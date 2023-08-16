@@ -1,13 +1,13 @@
 import { PServices } from "../services/products.service.js";
 
 class ProductsController {
-  getAll = (req, res) => {
+  getAll = async (req, res) => {
     try {
       const queryParams = req.query;
       console.log(queryParams);
-      const response = PServices.getAll(queryParams);
+      const response = await PServices.getAll(queryParams);
 
-      return response;
+      return res.json(response);
     } catch (error) {
       console.log(error);
       return res.render("error");
