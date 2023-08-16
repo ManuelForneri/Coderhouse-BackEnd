@@ -25,11 +25,11 @@ class TicketModel {
       .limit(limit);
     return tickets;
   }
-  async createCart() {
+  async createTicket() {
     const ticketCreated = await ticketsMongoose.create({});
     return ticketCreated;
   }
-  async getCartById(tid) {
+  async getTicketById(tid) {
     const ticket = await ticketsMongoose.findById(tid).populate("user.email");
     if (!ticket) {
       throw new Error("ticket not found");
