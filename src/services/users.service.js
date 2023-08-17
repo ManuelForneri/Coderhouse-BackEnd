@@ -1,5 +1,4 @@
 import { userModel } from "../DAO/models/users.model.js";
-import { isValidPassword } from "../utils/hashPassword.js";
 
 class userServices {
   async getAll() {
