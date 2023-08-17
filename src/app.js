@@ -72,8 +72,8 @@ app.use("/api/products", authenticate, productsRouter);
 app.use("/api/carts", cartRouter);
 app.use("/api/users", authenticate, usersRouter);
 app.use("/html/users", authenticate, usersHtmlRouter);
-app.use("/realtimeproducts", authenticate, realTimeProducts);
-app.use("/chat", realTimeChat);
+app.use("/realtimeproducts", checkAdmin, realTimeProducts);
+app.use("/chat", authenticate, realTimeChat);
 app.use("/cookie", cookiesRouter);
 
 app.use("/login", loginRoutes);

@@ -25,7 +25,7 @@ export function connectSocketServer(httpServer) {
     console.log("Cliente conectado " + socket.id);
     socket.on("new-product", async (newProduct) => {
       try {
-        await PServices.create({
+        await PServices.createProduct({
           title: newProduct.title,
           description: newProduct.description,
           price: newProduct.price,
