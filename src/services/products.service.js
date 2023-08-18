@@ -17,24 +17,8 @@ class productServices {
     return products;
   }
 
-  async createProduct({
-    title,
-    description,
-    price,
-    thumbnail,
-    code,
-    stock,
-    category,
-  }) {
-    const productCreated = await productModel.createProduct({
-      title,
-      description,
-      price,
-      thumbnail,
-      code,
-      stock,
-      category,
-    });
+  async createProduct(product) {
+    const productCreated = await productModel.createProduct(product);
     return productCreated;
   }
   async updateProduct(id, title, description, price, thumbnail, code, stock) {

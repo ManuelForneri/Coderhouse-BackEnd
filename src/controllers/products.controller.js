@@ -1,4 +1,5 @@
 import { PServices } from "../services/products.service.js";
+import ProductsDTO from "./DTO/products.DTO.js";
 
 class ProductsController {
   getAll = async (req, res) => {
@@ -98,7 +99,7 @@ class ProductsController {
     try {
       const { title, description, price, thumbnail, code, stock } = req.body;
 
-      const productCreated = PServices.createProduct({
+      let productDTO = new ProductsDTO({
         title,
         description,
         price,
@@ -106,12 +107,13 @@ class ProductsController {
         code,
         stock,
       });
+      console.log("pase poor el dto");
+      const productCreated = PServices.createProduct(productDTO);
 
       return res.status(201).json({
         status: "success",
         msg: "product created",
         payload: {
-          id: productCreated._id,
           title: productCreated.title,
           description: productCreated.description,
           price: productCreated.price,
