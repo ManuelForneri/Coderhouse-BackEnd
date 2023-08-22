@@ -1,13 +1,14 @@
 import { Router } from "express";
 import { CServices } from "../services/carts.service.js";
 import { PServices } from "../services/products.service.js";
+import { userController } from "../controllers/users.controller.js";
 export const viewsRouter = Router();
 
-viewsRouter.get("/cart/:cid", async (req, res) => {
+viewsRouter.get("/user-cart", async (req, res) => {
   try {
-    const { cid } = req.params;
-    console.log(cid);
-    const cartFound = await CServices.getCartById(cid);
+    let { _id } = req.session.user;
+    let userFound = await userController.getUserById(_id);
+    const cartFound = await CServices.getCartById(userFound.cid);
     const plainCart = cartFound.products.map((doc) => doc.toObject());
     console.log(plainCart);
     return res.render("cart", { plainCart });
@@ -35,7 +36,7 @@ viewsRouter.get("/product-details/:pid", async (req, res) => {
     return res.render("error");
   }
 });
-viewsRouter.get("/user-cart", (req, res) => {});
+
 viewsRouter.get("/", (req, res) => {
   return res.render("index");
 });

@@ -23,6 +23,7 @@ class UserController {
     const user = UServices.getOne(username);
     return user;
   };
+
   async getUserById(id) {
     const user = await UServices.getUserById(id);
     return user;
