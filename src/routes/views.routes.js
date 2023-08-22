@@ -35,6 +35,7 @@ viewsRouter.get("/product-details/:pid", async (req, res) => {
     return res.render("error");
   }
 });
+viewsRouter.get("/user-cart", (req, res) => {});
 viewsRouter.get("/", (req, res) => {
   return res.render("index");
 });

@@ -25,7 +25,7 @@ export function connectSocketServer(httpServer) {
     console.log("Cliente conectado " + socket.id);
     socket.on("new-product", async (newProduct) => {
       try {
-        await PServices.createProduct({
+        let productCreated = await PServices.createProduct({
           title: newProduct.title,
           description: newProduct.description,
           price: newProduct.price,
@@ -34,8 +34,8 @@ export function connectSocketServer(httpServer) {
           stock: newProduct.stock,
           category: newProduct.category,
         });
-        const newProductsList = await PServices.getProductRealTime();
-        socketServer.emit("products", newProductsList);
+
+        socketServer.emit("products", productCreated);
       } catch (error) {
         console.log(error);
       }

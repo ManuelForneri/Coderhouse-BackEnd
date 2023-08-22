@@ -10,23 +10,23 @@ const inputThumbnail = document.getElementById("form-thumbnail");
 const inputCategory = document.getElementById("form-category");
 const dinamicListProducts = document.getElementById("dinamic-list-products");
 
-socket.on("products", (newProductsList) => {
-  console.log(newProductsList);
+socket.on("products", (productCreated) => {
+  console.log(productCreated);
   let newProducts = "";
-  newProductsList.map((p) => {
-    newProducts += `<div class="card-realtime">
-        <div>Id: ${p._id} </div>
-        <div>Titulo: ${p.title} </div>
-        <div>Precio: ${p.price} </div>
-        <div>Descripcion: ${p.description} </div>
-        <div>Imagen: ${p.thumbnail} </div>
-        <div>Codigo: ${p.code} </div>
-        <div>Stock: ${p.stock} </div>
-        <div>Stock: ${p.category} </div>
-      </div>
+
+  newProducts += ` <tr>
+    <th scope="row">*</th>
+    <td>${productCreated._id}</td>
+    <td>${productCreated.title}</td>
+    <td>${productCreated.price}</td>
+    <td>${productCreated.description}</td>
+    <td>${productCreated.thumbnail}</td>
+    <td>${productCreated.code}</td>
+    <td>${productCreated.Stock}</td>
+    <td>${productCreated.category}</td>
+  </tr>
       `;
-  });
-  dinamicListProducts.innerHTML = newProducts;
+  dinamicListProducts.innerHTML += newProducts;
 });
 
 formProducts.addEventListener("submit", (e) => {
