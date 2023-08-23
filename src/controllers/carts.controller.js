@@ -1,3 +1,4 @@
+import { checkUserCart } from "../middlewares/authenticate.js";
 import { CServices } from "../services/carts.service.js";
 import { PServices } from "../services/products.service.js";
 
@@ -66,7 +67,7 @@ class CartsController {
       const cid = req.params.cid;
       const pid = req.params.pid;
       const { quantity = 1 } = req.body;
-      console.log(quantity);
+      checkUserCart();
       const productById = PServices.getProductById(pid);
 
       if (productById) {
@@ -100,6 +101,7 @@ class CartsController {
     try {
       const cid = req.params.cid;
       const pid = req.params.pid;
+      checkUserCart();
       const { quantity = 1 } = req.body;
       //cambiar productos a nueva arquitectura
       const productById = PServices.getProductById(pid);
@@ -140,6 +142,7 @@ class CartsController {
   deleteCart = (req, res) => {
     try {
       const cid = req.params.cid;
+      checkUserCart();
       const cartToEmpty = CServices.deleteCart({ cid });
       if (cartToEmpty) {
         return res.status(200).json({
@@ -160,8 +163,6 @@ class CartsController {
     }
   };
   purchase = (req, res) => {
-    //funcion que busque el carrito del usuario, y efectue la compra del contenido del carrito
-    //esta compra tiene que vaciar el carrito y enviar un mail que se efectuo la compra y lo que compro
     try {
       const cid = req.params.cid;
 

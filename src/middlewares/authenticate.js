@@ -12,3 +12,14 @@ export function checkAdmin(req, res, next) {
     return res.render("error");
   }
 }
+export function checkUserCart(req, res, next) {
+  const cartUser = req.session.user.cid;
+  const cartParams = req.params.cid;
+  if (cartUser == cartParams) {
+    return next();
+  } else {
+    const notCart =
+      "El carrito al que quieres acceder no corresponde a tu usuario";
+    return res.status(500).render("error", { notCart });
+  }
+}
