@@ -6,6 +6,7 @@ export default class CartsMemory {
   async getAll() {
     return this.carts;
   }
+
   async createCart() {
     const cartCreated = {
       id: Date(),

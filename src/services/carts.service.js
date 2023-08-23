@@ -1,9 +1,9 @@
-//@ts-check
+import importModels from "../DAO/factory.js";
 import { cartsModel } from "../DAO/models/carts.model.js";
 
 class cartsServices {
   async getAll() {
-    const carts = await cartsModel.getAll();
+    const carts = await importModels.getAll();
     return carts;
   }
 

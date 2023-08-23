@@ -1,4 +1,8 @@
-import { productModel } from "../DAO/models/products.model.js";
+import importModels from "../DAO/factory.js";
+//import { productModel } from "../DAO/models/products.model.js";
+
+const models = await importModels();
+const productModel = models.products;
 
 class productServices {
   async getAll(queryParams) {

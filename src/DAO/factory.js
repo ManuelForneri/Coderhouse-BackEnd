@@ -1,20 +1,25 @@
 import mongoose from "mongoose";
 import env from "../config/enviroment.config.js";
+//mongo
+
+import { cartsModel } from "./models/carts.model.js";
 import { productModel } from "./models/products.model.js";
 import { userModel } from "./models/users.model.js";
-import { cartsModel } from "./models/carts.model.js";
+//memory
+import { cartsMemory } from "./memory/cart.memory.js";
+import { productsMemory } from "./memory/products.memory.js";
+import { userMemory } from "./memory/user.memory.js";
 
 async function importModels() {
   let models;
 
   switch (env.persistence) {
     case "MONGO":
-      mongoose.connect(env.mongoUrl);
       models = {
         products: productModel,
         users: userModel,
         carts: cartsModel,
-        tickets: ticketsModel,
+        //tickets: ticketsModel,
       };
       break;
 
@@ -22,9 +27,9 @@ async function importModels() {
       console.log("Database: Persistencia en memoria");
       models = {
         products: productsMemory,
-        users: usersMemory,
+        users: userMemory,
         carts: cartsMemory,
-        tickets: ticketsMemory,
+        //tickets: ticketsMemory,
       };
       break;
 

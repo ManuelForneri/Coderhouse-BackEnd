@@ -36,6 +36,10 @@ viewsRouter.get("/product-details/:pid", async (req, res) => {
     return res.render("error");
   }
 });
+viewsRouter.get("/current", async (req, res) => {
+  let user = req.session.user;
+  res.send({ message: "user", payload: user });
+});
 
 viewsRouter.get("/", (req, res) => {
   return res.render("index");

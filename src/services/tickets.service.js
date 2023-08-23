@@ -1,4 +1,3 @@
-//@ts-check
 import { format } from "date-fns";
 import importModels from "../DAO/factory.js";
 import { CServices } from "./carts.service.js";
