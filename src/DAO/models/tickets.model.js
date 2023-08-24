@@ -1,6 +1,6 @@
 import { cartsModel } from "./carts.model.js";
 import { ticketsMongoose } from "./mongoose/tickets.mongoose.js";
-import { userModel } from "./users.model.js";
+import { productModel } from "./products.model.js";
 
 class TicketModel {
   async getTicketById(tid) {
@@ -14,11 +14,24 @@ class TicketModel {
   async createTicket(cid, user) {
     //corroborar que el carrito exista y sea del usuario
     const cart = await this.verifyCart(cid, user);
-    console.log(cart);
     const plainCart = cart.products.map((prod) => prod.toObject());
-    console.log(plainCart);
+    //console.log(plainCart);
     //corroborar stock (model de producto)
-    plainCart.map((produc) => {});
+    let cartFilter = [];
+    let cartFilterOutStock = [];
+
+    for (let i = 0; i < plainCart.length; i++) {
+      if (plainCart[i].product.stock < plainCart[i].quantity) {
+        cartFilterOutStock.push(plainCart[i]);
+      } else {
+        cartFilter.push(plainCart[i]);
+
+        productModel.updateProduct({
+          id: plainCart[i].product._id,
+          stock: plainCart[i].product.stock - plainCart[i].quantity,
+        });
+      }
+    }
     //generar el ticket (usar dto al finalizar)
 
     // cuando se genera la compra, filtrar entre los que se compraron y los que no

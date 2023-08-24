@@ -10,7 +10,7 @@ viewsRouter.get("/user-cart", async (req, res) => {
     let userFound = await userController.getUserById(_id);
     const cartFound = await CServices.getCartById(userFound.cid);
     const plainCart = cartFound.products.map((doc) => doc.toObject());
-    console.log(plainCart);
+    //console.log(plainCart);
     return res.render("cart", { plainCart });
   } catch (e) {
     return res.render("error");

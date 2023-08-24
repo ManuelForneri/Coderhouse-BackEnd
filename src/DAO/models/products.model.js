@@ -131,7 +131,7 @@ class ProductModel {
     });
     return productCreated;
   }
-  async updateProduct(
+  async updateProduct({
     id,
     title,
     description,
@@ -139,9 +139,9 @@ class ProductModel {
     thumbnail,
     code,
     stock,
-    category
-  ) {
-    const userUptaded = await ProductMongoose.updateOne(
+    category,
+  }) {
+    const userUptaded = await ProductMongoose.findByIdAndUpdate(
       { _id: id },
       { title, description, price, thumbnail, code, stock, category }
     );
