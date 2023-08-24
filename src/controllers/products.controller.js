@@ -136,15 +136,15 @@ class ProductsController {
       const { id } = req.params;
       const { title, description, price, thumbnail, code, stock } = req.body;
       try {
-        const productUptaded = PServices.updateProduct(
+        const productUptaded = PServices.updateProduct({
           id,
           title,
           description,
           price,
           thumbnail,
           code,
-          stock
-        );
+          stock,
+        });
         if (productUptaded.matchedCount > 0) {
           return res.status(201).json({
             status: "success",

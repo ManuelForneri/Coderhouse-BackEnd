@@ -25,16 +25,26 @@ class productServices {
     const productCreated = await productModel.createProduct(product);
     return productCreated;
   }
-  async updateProduct(id, title, description, price, thumbnail, code, stock) {
-    const userUptaded = await productModel.updateProduct(
+  async updateProduct({
+    id,
+    title,
+    description,
+    price,
+    thumbnail,
+    code,
+    stock,
+    category,
+  }) {
+    const userUptaded = await productModel.updateProduct({
       id,
       title,
       description,
       price,
       thumbnail,
       code,
-      stock
-    );
+      stock,
+      category,
+    });
     return userUptaded;
   }
   async deleteProduct(id) {
