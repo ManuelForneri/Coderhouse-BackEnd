@@ -15,7 +15,7 @@ class TicketModel {
     //corroborar que el carrito exista y sea del usuario
     const cart = await this.verifyCart(cid, user);
     console.log(cart);
-    const plainCart = cart.products.map((doc) => doc.toObject());
+    const plainCart = cart.products.map((prod) => prod.toObject());
     console.log(plainCart);
     //corroborar stock (model de producto)
     plainCart.map((produc) => {});
