@@ -5,6 +5,7 @@ import env from "../config/enviroment.config.js";
 import { cartsModel } from "./models/carts.model.js";
 import { productModel } from "./models/products.model.js";
 import { userModel } from "./models/users.model.js";
+import { ticketsModel } from "./models/tickets.model.js";
 //memory
 import { cartsMemory } from "./memory/cart.memory.js";
 import { productsMemory } from "./memory/products.memory.js";
@@ -19,7 +20,7 @@ async function importModels() {
         products: productModel,
         users: userModel,
         carts: cartsModel,
-        //tickets: ticketsModel,
+        tickets: ticketsModel,
       };
       break;
 

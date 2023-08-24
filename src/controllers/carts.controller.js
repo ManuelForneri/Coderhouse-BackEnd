@@ -67,7 +67,7 @@ class CartsController {
       const cid = req.params.cid;
       const pid = req.params.pid;
       const { quantity = 1 } = req.body;
-      checkUserCart();
+      //checkUserCart();
       const productById = PServices.getProductById(pid);
 
       if (productById) {
@@ -160,16 +160,6 @@ class CartsController {
       return res
         .status(500)
         .json({ status: "error", msg: "Internal Server Error" });
-    }
-  };
-  purchase = (req, res) => {
-    try {
-      const cid = req.params.cid;
-
-      let userCart = CServices.purchase(cid);
-      return res.status(200).json({ status: "succes", playload: userCart });
-    } catch (error) {
-      throw new error();
     }
   };
 }

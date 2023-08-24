@@ -1,5 +1,5 @@
 import express from "express";
-import { ticketsController } from "../controllers/tickets.controller";
+//import { ticketsController } from "../controllers/tickets.controller.js";
 export const ticketRouter = express.Router();
 
-ticketRouter.get("/:tid", ticketsController.readById);
+//ticketRouter.get("/:tid", ticketsController.getTicketById);

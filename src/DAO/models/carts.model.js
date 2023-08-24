@@ -1,4 +1,5 @@
 import { cartMongoose } from "./mongoose/carts.mongoose.js";
+import { productModel } from "./products.model.js";
 
 class CartModel {
   async getAll() {
@@ -38,9 +39,8 @@ class CartModel {
   }
   async addProductToCart(cid, pid, quantityParams) {
     try {
-      const cart = await cartMongoose.getCartById(cid);
-      //cambiar a mongoose (products)
-      const product = await ProductModel.findById(pid);
+      const cart = await cartsModel.getCartById(cid);
+      const product = await productModel.getProductById(pid);
 
       if (!cart) {
         throw new Error("Cart not found");
@@ -48,7 +48,7 @@ class CartModel {
       if (!product) {
         throw new Error("Product not found");
       }
-      const findProdInCart = await cartsModel.findOne({
+      const findProdInCart = await cartMongoose.findOne({
         products: { $elemMatch: { product: pid } },
       });
 

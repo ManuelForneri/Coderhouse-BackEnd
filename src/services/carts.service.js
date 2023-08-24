@@ -2,7 +2,7 @@ import importModels from "../DAO/factory.js";
 //import { cartsModel } from "../DAO/models/carts.model.js";
 
 const models = await importModels();
-cartsModel = models.carts;
+const cartsModel = models.carts;
 
 class cartsServices {
   async getAll() {
@@ -60,8 +60,7 @@ class cartsServices {
     }
   }
   async purchase(cid) {
-    let userCart = await cartsModel.getCartById(cid);
-    console.log(userCart);
+    let userCart = await cartsModel.purchase(cid);
 
     return userCart;
   }

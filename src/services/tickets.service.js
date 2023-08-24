@@ -2,8 +2,14 @@ import importModels from "../DAO/factory.js";
 
 const models = await importModels();
 const ticketsModel = models.tickets;
-const productsModel = models.products;
+//const productsModel = models.products;
 
-class TicketService {}
+class TicketService {
+  async createTicket(cid, user) {
+    const ticketCreated = await ticketsModel.createTicket(cid, user);
 
-export const ticketService = new TicketService();
+    return ticketCreated;
+  }
+}
+
+export const TService = new TicketService();
