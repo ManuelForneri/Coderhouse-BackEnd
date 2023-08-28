@@ -44,18 +44,29 @@ class TicketModel {
     // cuando se genera la compra, filtrar entre los que se compraron y los que no
 
     //en caso de que no hay stock devolver los productos que no se pudieron comprar
-    const ticketCreated = await ticketsMongoose.create({
-      code,
-      purchase_datetime,
-      amount,
-      purchaser: email,
-    });
-    await cartsModel.cartOutStock(cid, cartFilterOutStock);
-    return {
-      message: "Estos productos no se pudieron comprar",
-      payload: cartFilterOutStock,
-      ticket: ticketCreated,
-    };
+    if (cartFilter.length == 0) {
+      const response = {
+        message: "No se pudo comprar ningun producto",
+        payload: [],
+      };
+      return response;
+    } else {
+      const ticketCreated = await ticketsMongoose.create({
+        code,
+        purchase_datetime,
+        amount,
+        purchaser: email,
+      });
+      await cartsModel.cartOutStock(cid, cartFilterOutStock);
+
+      const response = {
+        message: "Estos productos no se pudieron comprar",
+        payload: cartFilterOutStock,
+        ticket: ticketCreated,
+      };
+      console.log(response);
+      return response;
+    }
   }
   async verifyCart(cid, user) {
     const cart = await cartsModel.getCartById(cid);

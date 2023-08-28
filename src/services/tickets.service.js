@@ -6,9 +6,9 @@ const ticketsModel = models.tickets;
 
 class TicketService {
   async createTicket(cid, user) {
-    const ticketCreated = await ticketsModel.createTicket(cid, user);
+    const response = await ticketsModel.createTicket(cid, user);
 
-    return ticketCreated;
+    return response;
   }
 }
 
