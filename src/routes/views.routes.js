@@ -2,6 +2,7 @@ import { Router } from "express";
 import { CServices } from "../services/carts.service.js";
 import { PServices } from "../services/products.service.js";
 import { userController } from "../controllers/users.controller.js";
+import UsersDTO from "../controllers/DTO/users.DTO.js";
 export const viewsRouter = Router();
 
 viewsRouter.get("/user-cart", async (req, res) => {
@@ -38,7 +39,10 @@ viewsRouter.get("/product-details/:pid", async (req, res) => {
 });
 viewsRouter.get("/current", async (req, res) => {
   let user = req.session.user;
-  res.send({ message: "user", payload: user });
+  console.log(user);
+  let userDto = new UsersDTO(user);
+  console.log(userDto);
+  res.send({ message: "user", payload: userDto });
 });
 
 viewsRouter.get("/", (req, res) => {

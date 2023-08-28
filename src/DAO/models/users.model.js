@@ -16,10 +16,7 @@ class UserModel {
     }
   }
   async getOne(username) {
-    const user = await userMongoose.findOne(
-      { username: username },
-      { password: true }
-    );
+    const user = await userMongoose.findOne({ username: username }, {});
     return user;
   }
   async getUserById(id) {

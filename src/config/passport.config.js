@@ -16,6 +16,8 @@ export function iniPassport() {
     new LocalStrategy({}, async (username, password, done) => {
       try {
         const user = await UServices.getOne(username);
+        console.log("soy el usuario");
+        console.log(user);
         if (!user) {
           console.log("User Not Found with username " + username);
           return done(null, false);

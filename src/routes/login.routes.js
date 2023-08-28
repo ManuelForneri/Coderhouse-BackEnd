@@ -12,17 +12,9 @@ loginRoutes.post(
     if (!req.user) {
       return res.render("errorLogin");
     }
+    console.log("saliendo del login");
     console.log(req.user);
-    req.session.user = {
-      _id: req.user._id,
-      email: req.user.email,
-      first_name: req.user.first_name,
-      last_name: req.user.last_name,
-      username: req.user.username,
-      age: req.user.age,
-      role: req.user.role,
-      cid: req.user.cid,
-    };
+    req.session.user = req.user;
     res.redirect("/perfil");
   }
 );

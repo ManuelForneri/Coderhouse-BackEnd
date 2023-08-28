@@ -41,17 +41,8 @@ class TicketModel {
     const purchase_datetime = format(datePurchase, "dd/MM/yyyy HH:mm:ss");
     const email = user.email;
 
-    /*no se si va DTO
-    const newTicket = new TicketsDTO({
-      cid,
-      code,
-      purchase_datetime,
-      amount,
-      email,
-      products: plainCart,
-    });
-    */
     // cuando se genera la compra, filtrar entre los que se compraron y los que no
+
     //en caso de que no hay stock devolver los productos que no se pudieron comprar
     const ticketCreated = await ticketsMongoose.create({
       code,
@@ -59,8 +50,12 @@ class TicketModel {
       amount,
       purchaser: email,
     });
-
-    return ticketCreated;
+    await cartsModel.cartOutStock(cid, cartFilterOutStock);
+    return {
+      message: "Estos productos no se pudieron comprar",
+      payload: cartFilterOutStock,
+      ticket: ticketCreated,
+    };
   }
   async verifyCart(cid, user) {
     const cart = await cartsModel.getCartById(cid);
