@@ -19,6 +19,7 @@ import { realTimeProducts } from "./routes/realtimeproducts.routes.js";
 import { registerRoutes } from "./routes/register.routes.js";
 import { ticketRouter } from "./routes/tickets.routes.js";
 import { viewsRouter } from "./routes/views.routes.js";
+import nodemailer from "nodemailer";
 
 import cors from "cors";
 import env from "./config/enviroment.config.js";
@@ -86,7 +87,35 @@ app.use("/", viewsRouter);
 app.use("/admin", checkAdmin, (req, res) => {
   res.render("admin");
 });
-
+////////////////////////////////////////////////////////
+//--------------------NODEMAILER------------------------
+////////////////////////////////////////////////////////
+/*Mandamos mail*/
+const transport = nodemailer.createTransport({
+  service: "gmail",
+  port: 587,
+  auth: {
+    user: env.gmail,
+    pass: env.pass,
+  },
+});
+app.get("/mail", async (req, res) => {
+  const result = await transport.sendMail({
+    from: env.gmail,
+    to: "abrilcetrola60@gmail.com, Nahuelrey26@gmail.com, fornerimalena@gmail.com, manuelforneri5@gmail.com ",
+    subject: "Esto es una prueba de un mail automatico",
+    html: ` 
+    <div>
+      <h1>Hola como andan</h1>
+      <p>MENTIRA COLGALAAAAA</p>
+      <img src="https://i.postimg.cc/c40QLKdh/meme2.webp"/>
+      <img src="https://i.postimg.cc/jdG1LQkN/meme1.webp" />
+    </div>`,
+  });
+  console.log(result);
+  res.send("Email send successfully");
+});
+/*fin mail */
 app.get("*", (req, res) => {
   return res.status(404).send("not found");
 });
