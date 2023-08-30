@@ -46,5 +46,5 @@ viewsRouter.get("/current", async (req, res) => {
 });
 
 viewsRouter.get("/", (req, res) => {
-  return res.render("index");
+  return res.redirect("/login");
 });

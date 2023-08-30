@@ -20,6 +20,7 @@ import { registerRoutes } from "./routes/register.routes.js";
 import { ticketRouter } from "./routes/tickets.routes.js";
 import { viewsRouter } from "./routes/views.routes.js";
 import nodemailer from "nodemailer";
+import twilio from "twilio";
 
 import cors from "cors";
 import env from "./config/enviroment.config.js";
@@ -116,6 +117,23 @@ app.get("/mail", async (req, res) => {
   res.send("Email send successfully");
 });
 /*fin mail */
+////////////////////////////////////////////////////////
+//--------------------TWILIO----------------------------
+////////////////////////////////////////////////////////
+
+const client = twilio(env.twilioAcountSid, env.twilioToken);
+
+app.get("/sms", async (req, res) => {
+  const result = await client.messages.create({
+    body: "Esto es una prueba",
+    from: env.twilioNumber,
+    to: "+542325479404",
+  });
+
+  console.log(result);
+
+  res.send("SMS sent");
+});
 app.get("*", (req, res) => {
   return res.status(404).send("not found");
 });
