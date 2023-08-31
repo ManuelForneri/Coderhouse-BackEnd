@@ -24,22 +24,25 @@
     <title>title</title>
   </head>
   <body>
-    <nav class="navbar navbar-expand-lg bg-withe">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
       <div class="container-fluid">
-
+        <a class="navbar-brand" href="#">Logo</a>
         <button
           class="navbar-toggler"
           type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarText"
-          aria-controls="navbarText"
+          data-mdb-toggle="collapse"
+          data-mdb-target="#navbarNav"
+          aria-controls="navbarNav"
           aria-expanded="false"
           aria-label="Toggle navigation"
         >
-          <span class="navbar-toggler-icon"></span>
+          <i class="fas fa-bars"></i>
         </button>
-        <div class="collapse navbar-collapse" id="navbarText">
-          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <div
+          class="collapse navbar-collapse justify-content-between"
+          id="navbarNav"
+        >
+          <ul class="navbar-nav align-items-center justify-content-around">
             <li class="nav-item">
               <a class="nav-link active" aria-current="page" href="/">Home</a>
             </li>
@@ -47,27 +50,28 @@
               <a class="nav-link" href="/products">Productos</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="/chat">chat</a>
+              <a class="nav-link" href="/chat">Pricing</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="/realtimeproducts">realtimeproducts</a>
+              <a class="nav-link" href="/realtimeproducts">Pricing</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="/admin">Admin</a>
+              <a class="nav-link" href="/admin">Pricing</a>
             </li>
+
           </ul>
-          <span class="navbar-text m-2">
-            <a href="/user-cart">
-              <i class="fas fa-cart-shopping"></i>
-            </a>
-          </span>
-          <span class="navbar-text m-2">
-            <a class="nav-link" href="/perfil">
-              <i class="far fa-circle-user"></i>
-            </a>
-
-          </span>
-
+          <div class="d-flex">
+            <div class="navbar-text m-2">
+              <a href="/user-cart">
+                <i class="fas fa-cart-shopping"></i>
+              </a>
+            </div>
+            <div class="navbar-text m-2">
+              <a class="nav-link" href="/perfil">
+                <i class="far fa-circle-user"></i>
+              </a>
+            </div>
+          </div>
         </div>
       </div>
     </nav>
