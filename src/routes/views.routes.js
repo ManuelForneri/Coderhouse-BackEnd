@@ -3,6 +3,9 @@ import { CServices } from "../services/carts.service.js";
 import { PServices } from "../services/products.service.js";
 import { userController } from "../controllers/users.controller.js";
 import UsersDTO from "../controllers/DTO/users.DTO.js";
+import CustomError from "../services/errors/custom-error.js";
+import EError from "../services/errors/enums.js";
+import { generateProduct } from "../utils/productFaker.js";
 export const viewsRouter = Router();
 
 viewsRouter.get("/user-cart", async (req, res) => {
@@ -43,6 +46,24 @@ viewsRouter.get("/current", async (req, res) => {
   let userDto = new UsersDTO(user);
   console.log(userDto);
   res.send({ message: "user", payload: userDto });
+});
+
+viewsRouter.get("/mockingproducts", async (req, res) => {
+  try {
+    const products = [];
+
+    for (let i = 0; i < 100; i++) {
+      products.push(generateProduct());
+    }
+    res.send({ status: "success", payload: products });
+  } catch (e) {
+    CustomError.createError({
+      name: "error-mockingproducts",
+      cause: "No se pudieron crear los 100 productos",
+      message: "Intentelo otra vez, si el error persiste lo solucionaremos",
+      code: EError.ADD_PRODUCT_ERROR,
+    });
+  }
 });
 
 viewsRouter.get("/", (req, res) => {

@@ -21,16 +21,20 @@ import { ticketRouter } from "./routes/tickets.routes.js";
 import { viewsRouter } from "./routes/views.routes.js";
 import nodemailer from "nodemailer";
 import twilio from "twilio";
-
+import compression from "express-compression";
 import cors from "cors";
 import env from "./config/enviroment.config.js";
 import { usersRouter } from "./routes/users.routes.js";
 import { connectMongo } from "./utils/dbConnection.js";
 import { connectSocketServer } from "./utils/socketServer.js";
-
-console.log(env);
+import errorHandle from "./middlewares/error.js";
 
 const app = express();
+app.use(
+  compression({
+    brotli: { enabled: true, zlib: {} },
+  })
+);
 const port = env.port;
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -137,3 +141,4 @@ app.get("/sms", async (req, res) => {
 app.get("*", (req, res) => {
   return res.status(404).send("not found");
 });
+app.use(errorHandle);
