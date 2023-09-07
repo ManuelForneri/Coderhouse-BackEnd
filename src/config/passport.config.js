@@ -16,14 +16,10 @@ export function iniPassport() {
     new LocalStrategy({}, async (username, password, done) => {
       try {
         const user = await UServices.getOne(username);
-        console.log("soy el usuario");
-        console.log(user);
         if (!user) {
-          console.log("User Not Found with username " + username);
           return done(null, false);
         }
         if (!isValidPassword(password, user.password)) {
-          console.log("Invalid Password");
           return done(null, false);
         }
 
@@ -45,13 +41,11 @@ export function iniPassport() {
           const { first_name, last_name, email, age, role } = req.body;
           let user = await UServices.getOne(username);
           if (user) {
-            console.log("User already exists");
             return done(null, false);
           }
           let userCart = await cartsController.createCart();
 
           if (!userCart) {
-            console.log("Error en crear  un carrito para el usuario");
             return done(null, false);
           }
 
@@ -66,12 +60,9 @@ export function iniPassport() {
             cid: userCart._id.toString(),
           };
           let userCreated = await userController.create(newUser);
-          console.log(userCreated);
-          console.log("User Registration succesful");
+
           return done(null, userCreated);
         } catch (e) {
-          console.log("Error in register");
-          console.log(e);
           return done(e);
         }
       }
@@ -107,7 +98,6 @@ export function iniPassport() {
           if (!user) {
             let userCart = await CServices.createCart();
             if (!userCart) {
-              console.log("Error en crear  un carrito para el usuario");
               return done(null, false);
             }
             const newUser = {
@@ -119,15 +109,12 @@ export function iniPassport() {
               cid: userCart._id.toString(),
             };
             let userCreated = await userController.create(newUser);
-            console.log("User Registration succesful");
+
             return done(null, userCreated);
           } else {
-            console.log("User already exists");
             return done(null, user);
           }
         } catch (e) {
-          console.log("Error en auth github");
-          console.log(e);
           return done(e);
         }
       }

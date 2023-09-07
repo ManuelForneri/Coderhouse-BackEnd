@@ -11,7 +11,6 @@ const inputCategory = document.getElementById("form-category");
 const dinamicListProducts = document.getElementById("dinamic-list-products");
 
 socket.on("products", (productCreated) => {
-  console.log(productCreated);
   let newProducts = "";
 
   newProducts += ` <tr>

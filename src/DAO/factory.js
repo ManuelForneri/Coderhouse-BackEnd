@@ -25,7 +25,6 @@ async function importModels() {
       break;
 
     case "MEMORY":
-      console.log("Database: Persistencia en memoria");
       models = {
         products: productsMemory,
         users: userMemory,

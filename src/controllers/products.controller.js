@@ -5,12 +5,11 @@ class ProductsController {
   getAll = async (req, res) => {
     try {
       const queryParams = req.query;
-      console.log(queryParams);
+
       const response = await PServices.getAll(queryParams);
 
       return res.json(response);
     } catch (error) {
-      console.log(error);
       return res.render("error");
     }
   };
@@ -40,7 +39,6 @@ class ProductsController {
         stock,
       });
     } catch (e) {
-      console.log(e);
       return res.status(500).json({
         status: "error",
         msg: "something went wrong :(",
@@ -67,7 +65,6 @@ class ProductsController {
         });
       }
     } catch (error) {
-      console.log(error);
       return res
         .status(500)
         .json({ status: "error", msg: "Internal Server Error" });
@@ -77,7 +74,7 @@ class ProductsController {
     try {
       let title = "Listado de productos en tiempo real";
       const response = await PServices.getProductRealTime();
-      console.log(response);
+
       const products = response.map((product) => {
         return {
           _id: product._id.toString(),
@@ -107,7 +104,7 @@ class ProductsController {
         code,
         stock,
       });
-      console.log("pase poor el dto");
+
       const productCreated = PServices.createProduct(productDTO);
 
       return res.status(201).json({
@@ -123,7 +120,6 @@ class ProductsController {
         },
       });
     } catch (e) {
-      console.log(e);
       return res.status(500).json({
         status: "error",
         msg: "something went wrong :(",
@@ -166,7 +162,6 @@ class ProductsController {
         });
       }
     } catch (e) {
-      console.log(e);
       return res.status(500).json({
         status: "error",
         msg: "something went wrong :(",
@@ -192,7 +187,6 @@ class ProductsController {
         });
       }
     } catch (e) {
-      console.log(e);
       return res.status(500).json({
         status: "error",
         msg: "something went wrong :(",

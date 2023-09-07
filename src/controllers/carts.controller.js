@@ -6,7 +6,7 @@ class CartsController {
   getAll = async (req, res) => {
     try {
       const limit = req.query;
-      console.log(limit);
+
       if (!!limit) {
         const carts = await CServices.getLimit(limit);
         return res.status(200).json({
@@ -16,7 +16,7 @@ class CartsController {
         });
       } else {
         const carts = await CServices.getAll();
-        console.log(carts);
+
         return res.status(200).json({
           status: "success",
           msg: "listado de Carritos",
@@ -24,7 +24,6 @@ class CartsController {
         });
       }
     } catch (e) {
-      console.log(e);
       res.status(500).json({
         status: "error",
         msg: "something went wrong :(",
@@ -50,7 +49,6 @@ class CartsController {
         });
       }
     } catch (error) {
-      console.log(error);
       return res.status.json({ status: "error", msg: "Internal Server Error" });
     }
   };
@@ -156,7 +154,6 @@ class CartsController {
           .json({ status: "error", msg: "The indicated cart was not found" });
       }
     } catch (error) {
-      console.log(error);
       return res
         .status(500)
         .json({ status: "error", msg: "Internal Server Error" });

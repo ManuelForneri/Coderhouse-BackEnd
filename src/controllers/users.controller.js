@@ -10,7 +10,6 @@ class UserController {
         payload: users,
       });
     } catch (e) {
-      console.log(e);
       return res.status(500).json({
         status: "error",
         msg: "something went wrong :(",
@@ -31,8 +30,6 @@ class UserController {
 
   create = (newUser) => {
     try {
-      console.log("usuario nuevo en controller");
-      console.log(newUser);
       const { first_name, last_name, username, email, age, password, cid } =
         newUser;
 
@@ -79,7 +76,6 @@ class UserController {
         });
       }
     } catch (e) {
-      console.log(e);
       return res.status(500).json({
         status: "error",
         msg: "something went wrong :(",
@@ -105,7 +101,6 @@ class UserController {
         });
       }
     } catch (e) {
-      console.log(e);
       return res.status(500).json({
         status: "error",
         msg: "something went wrong :(",

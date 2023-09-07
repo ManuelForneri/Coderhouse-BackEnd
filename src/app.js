@@ -117,7 +117,7 @@ app.get("/mail", async (req, res) => {
       <img src="https://i.postimg.cc/jdG1LQkN/meme1.webp" />
     </div>`,
   });
-  console.log(result);
+
   res.send("Email send successfully");
 });
 /*fin mail */
@@ -133,9 +133,6 @@ app.get("/sms", async (req, res) => {
     from: env.twilioNumber,
     to: "+542325479404",
   });
-
-  console.log(result);
-
   res.send("SMS sent");
 });
 app.get("*", (req, res) => {

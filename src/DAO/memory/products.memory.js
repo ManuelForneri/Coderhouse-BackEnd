@@ -36,7 +36,7 @@ export default class ProductsMemory {
       (product) => product.id == idSearch
     );
     if (searchedProduct === undefined) {
-      console.log("No se encontro ningun producto con esas caracteristicas");
+      return "No se encontro ningun producto con esas caracteristicas";
     } else {
       Object.assign(searchedProduct, updateProduct);
       return searchedProduct;

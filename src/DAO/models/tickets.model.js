@@ -13,11 +13,8 @@ class TicketModel {
     }
   }
   async createTicket(cid, user) {
-    //corroborar que el carrito exista y sea del usuario
     const cart = await this.verifyCart(cid, user);
     const plainCart = cart.products.map((prod) => prod.toObject());
-    //console.log(plainCart);
-    //corroborar stock (model de producto)
     let cartFilter = [];
     let cartFilterOutStock = [];
     let amount = 0;
@@ -64,7 +61,7 @@ class TicketModel {
         payload: cartFilterOutStock,
         ticket: ticketCreated,
       };
-      console.log(response);
+
       return response;
     }
   }
