@@ -10,7 +10,6 @@ cookiesRouter.get("/set", (req, res) => {
       })
       .send({});
   } catch (error) {
-    console.log(error);
     return res
       .status(500)
       .json({ status: "error", msg: "Error getting the products" });
@@ -21,7 +20,6 @@ cookiesRouter.get("/get", async (req, res) => {
   try {
     return res.send(req.signedCookies);
   } catch (error) {
-    console.log(error);
     return res
       .status(500)
       .json({ status: "error", msg: "Error getting the products" });
@@ -32,7 +30,6 @@ cookiesRouter.get("/delete", async (req, res) => {
   try {
     return res.clearCookie("cookie-test").send("Cookie Removed");
   } catch (error) {
-    console.log(error);
     return res
       .status(500)
       .json({ status: "error", msg: "Error getting the products" });
@@ -49,7 +46,6 @@ cookiesRouter.get("/session", async (req, res) => {
       res.send("bienvenido");
     }
   } catch (error) {
-    console.log(error);
     return res
       .status(500)
       .json({ status: "error", msg: "Error getting the products" });

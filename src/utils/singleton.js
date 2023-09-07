@@ -13,12 +13,10 @@ export default class MongoSingleton {
 
   static getInstance() {
     if (this.instance) {
-      console.log("Already connected!");
       return this.instance;
     }
 
     this.instance = new MongoSingleton();
-    console.log("Connected!");
 
     return this.instance;
   }

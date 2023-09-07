@@ -11,7 +11,6 @@ registerRoutes.post(
   passport.authenticate("register", { failureRedirect: "/errorLogin" }),
   async (req, res) => {
     let newUser = req.body;
-    console.log(req.body);
     if (!newUser) {
       res.render("errorRegister");
     }
@@ -26,7 +25,6 @@ registerRoutes.post(
       role: "user",
       cid: req.user.cid,
     };
-    console.log(req.session.user);
 
     res.redirect("/perfil");
   }

@@ -12,8 +12,6 @@ loginRoutes.post(
     if (!req.user) {
       return res.render("errorLogin");
     }
-    console.log("saliendo del login");
-    console.log(req.user);
     req.session.user = req.user;
     res.redirect("/perfil");
   }

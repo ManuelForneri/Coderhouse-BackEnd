@@ -8,21 +8,16 @@ export function connectSocketServer(httpServer) {
     socket.on("msg_front_to_back", async (msg) => {
       try {
         await MessageModel.create(msg);
-      } catch (e) {
-        console.log(e);
-      }
+      } catch (e) {}
 
       try {
         const msgs = await MessageModel.find({});
         socketServer.emit("new_msgs", msgs);
-      } catch (e) {
-        console.log(e);
-      }
+      } catch (e) {}
     });
   });
   //Recibiendo los datos del nuevo producto
   socketServer.on("connection", (socket) => {
-    console.log("Cliente conectado " + socket.id);
     socket.on("new-product", async (newProduct) => {
       try {
         let productCreated = await PServices.createProduct({
@@ -36,9 +31,7 @@ export function connectSocketServer(httpServer) {
         });
 
         socketServer.emit("products", productCreated);
-      } catch (error) {
-        console.log(error);
-      }
+      } catch (error) {}
     });
   });
 }
