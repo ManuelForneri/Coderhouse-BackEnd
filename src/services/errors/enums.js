@@ -1,9 +1,10 @@
-const EError = {
-  ADD_PRODUCT_ERROR: 1,
-  ADD_PRODUCT_IN_CART: 2,
-  DATABASE_ERRRO: 3,
-  LOGIN_ERROR: 4,
-  REGISTER_ERROR: 5,
+const Errors = {
+  ROUTING_ERROR: 1,
+  ID_ERROR: 2,
+  DATABASES_ERROR: 3,
+  AUTH_VALIDATION: 4,
+  MONGO_SCHEMA_VALIDATION: 5,
+  UNEXPECTED_ERROR: 6,
 };
 
-export default EError;
+export default Errors;
