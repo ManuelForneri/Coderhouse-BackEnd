@@ -28,10 +28,8 @@ import { usersRouter } from "./routes/users.routes.js";
 import { connectMongo } from "./utils/dbConnection.js";
 import { connectSocketServer } from "./utils/socketServer.js";
 import errorHandle from "./middlewares/error.js";
-import { importLogger } from "./DAO/factory.js";
-//import { logger } from "./utils/logs/logger.js";
 
-const logger = await importLogger();
+import { logger } from "./utils/logs/logger.js";
 
 const app = express();
 app.use(

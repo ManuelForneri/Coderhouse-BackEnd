@@ -25,20 +25,3 @@ const colors = {
 };
 
 winston.addColors(colors);
-
-export const loggerDev = winston.createLogger({
-  levels,
-  format: combine(
-    colorize({ all: true }),
-    timestamp({
-      format: "YYYY-MM-DD HH:mm:ss",
-    }),
-    myFormat
-  ),
-  transports: [
-    new winston.transports.Console({
-      level: env.loggerLevel, // Este nivel se mostrará en la consola
-      format: winston.format.colorize({ all: true }),
-    }),
-  ],
-});

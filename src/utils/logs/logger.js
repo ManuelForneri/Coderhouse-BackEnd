@@ -26,23 +26,49 @@ const colors = {
 
 winston.addColors(colors);
 
-export const logger = winston.createLogger({
-  levels,
-  format: combine(
-    colorize({ all: true }),
-    timestamp({
-      format: "YYYY-MM-DD HH:mm:ss",
-    }),
-    myFormat
-  ),
-  transports: [
-    new winston.transports.Console({
-      level: env.loggerLevel, // Este nivel se mostrará en la consola
-      format: winston.format.colorize({ all: true }),
-    }),
-    new winston.transports.File({
-      filename: "./errors.log",
-      level: "error", // Este nivel se registrará en el archivo
-    }),
-  ],
-});
+export let logger;
+
+switch (env.loggerLevel) {
+  case "debug":
+    logger = winston.createLogger({
+      levels,
+      format: combine(
+        colorize({ all: true }),
+        timestamp({
+          format: "YYYY-MM-DD HH:mm:ss",
+        }),
+        myFormat
+      ),
+      transports: [
+        new winston.transports.Console({
+          level: env.loggerLevel, // Este nivel se mostrará en la consola
+          format: winston.format.colorize({ all: true }),
+        }),
+      ],
+    });
+    break;
+  case "info":
+    logger = winston.createLogger({
+      levels,
+      format: combine(
+        colorize({ all: true }),
+        timestamp({
+          format: "YYYY-MM-DD HH:mm:ss",
+        }),
+        myFormat
+      ),
+      transports: [
+        new winston.transports.Console({
+          level: env.loggerLevel, // Este nivel se mostrará en la consola
+          format: winston.format.colorize({ all: true }),
+        }),
+        new winston.transports.File({
+          filename: "./errors.log",
+          level: "error", // Este nivel se registrará en el archivo
+        }),
+      ],
+    });
+    break;
+
+  default:
+}
