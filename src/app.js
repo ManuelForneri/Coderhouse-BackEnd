@@ -28,7 +28,10 @@ import { usersRouter } from "./routes/users.routes.js";
 import { connectMongo } from "./utils/dbConnection.js";
 import { connectSocketServer } from "./utils/socketServer.js";
 import errorHandle from "./middlewares/error.js";
-import { logger } from "./utils/logs/logger.js";
+import { importLogger } from "./DAO/factory.js";
+//import { logger } from "./utils/logs/logger.js";
+
+const logger = await importLogger();
 
 const app = express();
 app.use(
@@ -88,6 +91,16 @@ app.use("/login", loginRoutes);
 app.use("/register", registerRoutes);
 app.use("/perfil", authenticate, profileRoutes);
 app.use("/logout", authenticate, logoutRoutes);
+
+app.use("/test-logger", (req, res) => {
+  logger.error("soy un error");
+  logger.warn("soy un warn");
+  logger.info("soy un info");
+  logger.http("soy un http");
+  logger.verbose("soy un verbose");
+  logger.debug("soy un debug");
+  res.send("probando");
+});
 
 app.use("/", viewsRouter);
 app.use("/admin", checkAdmin, (req, res) => {

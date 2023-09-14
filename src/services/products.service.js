@@ -1,4 +1,4 @@
-import importModels from "../DAO/factory.js";
+import { importModels } from "../DAO/factory.js";
 //import { productModel } from "../DAO/models/products.model.js";
 
 const models = await importModels();

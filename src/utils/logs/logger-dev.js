@@ -26,7 +26,7 @@ const colors = {
 
 winston.addColors(colors);
 
-export const logger = winston.createLogger({
+export const loggerDev = winston.createLogger({
   levels,
   format: combine(
     colorize({ all: true }),
@@ -39,10 +39,6 @@ export const logger = winston.createLogger({
     new winston.transports.Console({
       level: env.loggerLevel, // Este nivel se mostrará en la consola
       format: winston.format.colorize({ all: true }),
-    }),
-    new winston.transports.File({
-      filename: "./errors.log",
-      level: "error", // Este nivel se registrará en el archivo
     }),
   ],
 });

@@ -23,4 +23,5 @@ export default {
   twilioAcountSid: process.env.TWILIO_ACCOUNT_SID,
   twilioToken: process.env.TWILIO_AUTH_TOKEN,
   twilioNumber: process.env.TWILIO_PHONE_NUMBER,
+  loggerLevel: process.env.LOGGER_LEVEL,
 };

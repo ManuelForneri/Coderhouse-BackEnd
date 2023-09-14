@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+//import mongoose from "mongoose";
 import env from "../config/enviroment.config.js";
 //mongo
 
@@ -11,7 +11,11 @@ import { cartsMemory } from "./memory/cart.memory.js";
 import { productsMemory } from "./memory/products.memory.js";
 import { userMemory } from "./memory/user.memory.js";
 
-async function importModels() {
+//logger
+import { logger } from "../utils/logs/logger.js";
+import { loggerDev } from "../utils/logs/logger-dev.js";
+
+export async function importModels() {
   let models;
 
   switch (env.persistence) {
@@ -42,4 +46,17 @@ async function importModels() {
   return models;
 }
 
-export default importModels;
+export async function importLogger() {
+  switch (env.loggerLevel) {
+    case "info":
+      logger;
+      break;
+
+    case "debug":
+      loggerDev;
+      break;
+
+    default:
+      throw new Error(`El tipo de logger no es válido.`);
+  }
+}
