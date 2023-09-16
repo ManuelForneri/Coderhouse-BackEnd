@@ -63,7 +63,7 @@ switch (env.loggerLevel) {
           format: winston.format.colorize({ all: true }),
         }),
         new winston.transports.File({
-          filename: "./errors.log",
+          filename: "./src/utils/logs/errors.log",
           level: "error", // Este nivel se registrará en el archivo
         }),
       ],
