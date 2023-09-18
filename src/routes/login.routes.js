@@ -16,6 +16,10 @@ loginRoutes.post(
     res.redirect("/perfil");
   }
 );
+loginRoutes.post("/recover-pass", (req, res) => {
+  const { code, email } = req.params;
+  res.send(code + email);
+});
 loginRoutes.get(
   "/github",
   passport.authenticate("github", { scope: ["user : email"] })

@@ -23,6 +23,17 @@
         aria-selected="false"
       >Registrarse</a>
     </li>
+    <li class="nav-item" role="presentation">
+      <a
+        class="nav-link"
+        id="tab-login"
+        data-mdb-toggle="pill"
+        href="#pills-recovery"
+        role="tab"
+        aria-controls="pills-recovery"
+        aria-selected="false"
+      >Olvide mi contraseña</a>
+    </li>
   </ul>
   <!-- Pills navs -->
 
@@ -68,7 +79,6 @@
           />
           <label class="form-label" for="loginPassword">Password</label>
         </div>
-
         <!-- Submit button -->
         <button type="submit" class="btn btn-primary btn-block mb-4">Inicia
           Sesion</button>
@@ -134,23 +144,25 @@
           <label class="form-label" for="registerPassword">Password</label>
         </div>
 
-        <!-- Checkbox -->
-        <div class="form-check d-flex justify-content-center mb-4">
-          <input
-            class="form-check-input me-2"
-            type="checkbox"
-            value=""
-            id="registerCheck"
-            checked
-            aria-describedby="registerCheckHelpText"
-          />
-          <label class="form-check-label" for="registerCheck">
-            Acepto los terminos y condiciones
-          </label>
-        </div>
-
         <!-- Submit button -->
         <button type="submit" class="btn btn-primary btn-block mb-3">Sign in</button>
+      </form>
+    </div>
+    <!--Tab recovery pass-->
+    <div
+      class="tab-pane fade"
+      id="pills-recovery"
+      role="tabpanel"
+      aria-labelledby="tab-recovery"
+    >
+      <form class="w-100" action="/login/recover-pass" method="post">
+        <!-- Email input -->
+        <div class="form-outline mb-4">
+          <input type="email" name="email" required class="form-control" />
+          <label class="form-label" for="registerEmail">Email</label>
+        </div>
+        <!-- Submit button -->
+        <button type="submit" class="btn btn-primary btn-block mb-3">Send mail</button>
       </form>
     </div>
   </div>
