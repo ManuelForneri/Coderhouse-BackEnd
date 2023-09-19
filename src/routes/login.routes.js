@@ -1,5 +1,6 @@
 import express from "express";
 import passport from "passport";
+import { userController } from "../controllers/users.controller.js";
 export const loginRoutes = express.Router();
 
 loginRoutes.get("/", (req, res) => {
@@ -16,10 +17,7 @@ loginRoutes.post(
     res.redirect("/perfil");
   }
 );
-loginRoutes.post("/recover-pass", (req, res) => {
-  const { code, email } = req.params;
-  res.send(code + email);
-});
+
 loginRoutes.get(
   "/github",
   passport.authenticate("github", { scope: ["user : email"] })
@@ -38,3 +36,8 @@ loginRoutes.get(
 loginRoutes.get("/show", (req, res) => {
   return res.send(JSON.stringify(req.session));
 });
+
+//recovery-password
+loginRoutes.post("/recover-pass", userController.recoveryPass);
+
+loginRoutes.post("/recover-pass", userController.checkCode);

@@ -1,4 +1,5 @@
 import { UServices } from "../services/users.service.js";
+import { logger } from "../utils/logs/logger.js";
 
 class UserController {
   getAll = (req, res) => {
@@ -107,6 +108,24 @@ class UserController {
         payload: {},
       });
     }
+  };
+  recoveryPass = async (req, res) => {
+    try {
+      const { email } = req.body;
+
+      const user = await UServices.getEmail(email.toLowerCase());
+      if (user) {
+        res.send("el mail existe");
+      } else {
+        res.send("ese mail no existe");
+      }
+    } catch (e) {
+      logger.error(e);
+    }
+  };
+  checkCode = (req, res) => {
+    const { code, email } = req.params;
+    res.send(code + email);
   };
 }
 export const userController = new UserController();

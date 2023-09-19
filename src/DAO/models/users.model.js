@@ -19,6 +19,10 @@ class UserModel {
     const user = await userMongoose.findOne({ username: username }, {});
     return user;
   }
+  async getEmail(email) {
+    const user = await userMongoose.findOne({ email: email }, {});
+    return user;
+  }
   async getUserById(id) {
     const user = await userMongoose.findById({ _id: id });
     return user;

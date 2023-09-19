@@ -11,6 +11,10 @@ class userServices {
     const user = await userModel.getOne(username);
     return user;
   }
+  async getEmail(email) {
+    const user = await userModel.getEmail(email);
+    return user;
+  }
   async getUserById(id) {
     const user = userModel.getUserById(id);
     return user;
