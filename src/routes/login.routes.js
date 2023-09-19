@@ -40,4 +40,4 @@ loginRoutes.get("/show", (req, res) => {
 //recovery-password
 loginRoutes.post("/recover-pass", userController.recoveryPass);
 
-loginRoutes.post("/recover-pass", userController.checkCode);
+loginRoutes.get("/recover-pass", userController.checkCode);

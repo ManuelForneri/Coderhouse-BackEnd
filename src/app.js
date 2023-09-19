@@ -104,61 +104,7 @@ app.use("/", viewsRouter);
 app.use("/admin", checkAdmin, (req, res) => {
   res.render("admin");
 });
-////////////////////////////////////////////////////////
-//--------------------NODEMAILER------------------------
-////////////////////////////////////////////////////////
-/*Mandamos mail*/
-const transport = nodemailer.createTransport({
-  service: "gmail",
-  port: 587,
-  auth: {
-    user: env.gmail,
-    pass: env.pass,
-  },
-});
-//abrilcetrola60@gmail.com, Nahuelrey26@gmail.com, fornerimalena@gmail.com,
-app.get("/mail", async (req, res) => {
-  try {
-    const result = await transport.sendMail({
-      from: env.gmail,
-      to: " manuelforneri5@gmail.com ",
-      subject: "Esto es una prueba de un mail automatico",
-      html: ` 
-      <div>
-        <h1>Hola como andan</h1>
-        <p>MENTIRA COLGALAAAAA</p>
-        <img src="https://i.postimg.cc/c40QLKdh/meme2.webp"/>
-        <img src="https://i.postimg.cc/jdG1LQkN/meme1.webp" />
-      </div>`,
-    });
-    logger.info("Email enviado correctamente");
-    res.send("Email send successfully");
-  } catch (e) {
-    logger.error("No se pudo enviar el email");
-    return res.send("Error al Enviar el Email");
-  }
-});
-/*fin mail */
-////////////////////////////////////////////////////////
-//--------------------TWILIO----------------------------
-////////////////////////////////////////////////////////
 
-const client = twilio(env.twilioAcountSid, env.twilioToken);
-
-app.get("/sms", async (req, res) => {
-  try {
-    const result = await client.messages.create({
-      body: "Esto es una prueba",
-      from: env.twilioNumber,
-      to: "+542325479404",
-    });
-    logger.info("Se envio el mensaje correctamente", result);
-    res.send("SMS sent");
-  } catch (e) {
-    logger.error("No se pudo enviar el mensaje");
-    return res.send("Error al enviar el mensaje");
-  }
-});
 app.get("*", (req, res) => {
   return res.status(404).send("not found");
 });

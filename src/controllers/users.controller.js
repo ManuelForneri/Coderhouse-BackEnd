@@ -1,5 +1,8 @@
+import env from "../config/enviroment.config.js";
 import { UServices } from "../services/users.service.js";
 import { logger } from "../utils/logs/logger.js";
+import { randomBytes } from "crypto";
+import { transport } from "../utils/nodemailer.js";
 
 class UserController {
   getAll = (req, res) => {
@@ -115,7 +118,21 @@ class UserController {
 
       const user = await UServices.getEmail(email.toLowerCase());
       if (user) {
-        res.send("el mail existe");
+        //generando codigo de recuperacion
+        const code = randomBytes(20).toString("hex");
+        //enviar un mail con el link de recuperacion
+        const result = await transport.sendMail({
+          from: env.gmail,
+          to: email,
+          subject: "Restablecer contraseña",
+          html: ` 
+          <div>
+            <h1 style="color: "red"">Restablecer contraseña</h1>
+            <p>Si desea restablecer la contraseña haga click</p>
+            <a href="http://localhost:8080/login/recover-pass?code=${code}&email=${email}" >Aqui</a>
+          </div>`,
+        });
+        res.send("Revise su casilla de mail");
       } else {
         res.send("ese mail no existe");
       }
@@ -124,8 +141,30 @@ class UserController {
     }
   };
   checkCode = (req, res) => {
-    const { code, email } = req.params;
+    const { code, email } = req.query;
     res.send(code + email);
   };
 }
 export const userController = new UserController();
+
+/*
+try {
+  const result = await transport.sendMail({
+    from: env.gmail,
+    to: " manuelforneri5@gmail.com ",
+    subject: "Esto es una prueba de un mail automatico",
+    html: ` 
+    <div>
+      <h1>Hola como andan</h1>
+      <p>MENTIRA COLGALAAAAA</p>
+      <img src="https://i.postimg.cc/c40QLKdh/meme2.webp"/>
+      <img src="https://i.postimg.cc/jdG1LQkN/meme1.webp" />
+    </div>`,
+  });
+  logger.info("Email enviado correctamente");
+  res.send("Email send successfully");
+} catch (e) {
+  logger.error("No se pudo enviar el email");
+  return res.send("Error al Enviar el Email");
+}
+*/
