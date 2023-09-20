@@ -86,7 +86,7 @@ app.use("/ticket", ticketRouter);
 
 app.use("/login", loginRoutes);
 app.use("/register", registerRoutes);
-app.use("recover-pass", recoverPassRoutes);
+app.use("/recover-pass", recoverPassRoutes);
 app.use("/perfil", authenticate, profileRoutes);
 app.use("/logout", authenticate, logoutRoutes);
 

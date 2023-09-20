@@ -47,7 +47,7 @@ class RecoverPassController {
     const { code, email } = req.query;
     //llamar al services para chekear el codigo
 
-    res.send(code + email);
+    res.render("recoverpass");
   };
 }
 export const recoverPassController = new RecoverPassController();

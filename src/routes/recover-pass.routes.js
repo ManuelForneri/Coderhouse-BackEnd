@@ -4,4 +4,4 @@ export const recoverPassRoutes = express.Router();
 
 //recovery-password
 recoverPassRoutes.post("/", recoverPassController.recoveryPass);
-loginRoutes.get("/", recoverPassController.checkCode);
+recoverPassRoutes.get("/", recoverPassController.checkCode);
