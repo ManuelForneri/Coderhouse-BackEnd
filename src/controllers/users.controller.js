@@ -3,6 +3,7 @@ import { UServices } from "../services/users.service.js";
 import { logger } from "../utils/logs/logger.js";
 import { randomBytes } from "crypto";
 import { transport } from "../utils/nodemailer.js";
+import { RecoverCodeMongoose } from "../DAO/models/mongoose/recover-code.mongoose.js";
 
 class UserController {
   getAll = (req, res) => {
@@ -120,8 +121,14 @@ class UserController {
       if (user) {
         //generando codigo de recuperacion
         const code = randomBytes(20).toString("hex");
+        const expire = Date.now() + 3600000;
+        await RecoverCodeMongoose.create({
+          email,
+          code,
+          expire,
+        });
         //enviar un mail con el link de recuperacion
-        const result = await transport.sendMail({
+        await transport.sendMail({
           from: env.gmail,
           to: email,
           subject: "Restablecer contraseña",
@@ -133,15 +140,20 @@ class UserController {
           </div>`,
         });
         res.send("Revise su casilla de mail");
+        //hacer un render
       } else {
         res.send("ese mail no existe");
+        //hacer un render
       }
     } catch (e) {
       logger.error(e);
     }
   };
+
   checkCode = (req, res) => {
     const { code, email } = req.query;
+    //llamar al services para chekear el codigo
+
     res.send(code + email);
   };
 }

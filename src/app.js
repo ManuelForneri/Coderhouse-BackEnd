@@ -1,12 +1,16 @@
 import MongoStore from "connect-mongo";
 import cookieParser from "cookie-parser";
+import cors from "cors";
 import express from "express";
+import compression from "express-compression";
 import handlebars from "express-handlebars";
 import session from "express-session";
 import passport from "passport";
 import { __dirname } from "./config.js";
+import env from "./config/enviroment.config.js";
 import { iniPassport } from "./config/passport.config.js";
 import { authenticate, checkAdmin } from "./middlewares/authenticate.js";
+import errorHandle from "./middlewares/error.js";
 import { cartRouter } from "./routes/carts.routes.js";
 import { cookiesRouter } from "./routes/cookies.routes.js";
 import { home } from "./routes/home.routes.js";
@@ -18,17 +22,12 @@ import { realTimeChat } from "./routes/realtimechat.routes.js";
 import { realTimeProducts } from "./routes/realtimeproducts.routes.js";
 import { registerRoutes } from "./routes/register.routes.js";
 import { ticketRouter } from "./routes/tickets.routes.js";
-import { viewsRouter } from "./routes/views.routes.js";
-import nodemailer from "nodemailer";
-import twilio from "twilio";
-import compression from "express-compression";
-import cors from "cors";
-import env from "./config/enviroment.config.js";
 import { usersRouter } from "./routes/users.routes.js";
+import { viewsRouter } from "./routes/views.routes.js";
 import { connectMongo } from "./utils/dbConnection.js";
 import { connectSocketServer } from "./utils/socketServer.js";
-import errorHandle from "./middlewares/error.js";
 
+import { recoverPassRoutes } from "./routes/recover-pass.routes.js";
 import { logger } from "./utils/logs/logger.js";
 
 const app = express();
@@ -87,6 +86,7 @@ app.use("/ticket", ticketRouter);
 
 app.use("/login", loginRoutes);
 app.use("/register", registerRoutes);
+app.use("recover-pass", recoverPassRoutes);
 app.use("/perfil", authenticate, profileRoutes);
 app.use("/logout", authenticate, logoutRoutes);
 
@@ -97,7 +97,7 @@ app.use("/test-logger", (req, res) => {
   logger.http("soy un http");
   logger.verbose("soy un verbose");
   logger.debug("soy un debug");
-  res.send("probando");
+  res.send("probando loggers");
 });
 
 app.use("/", viewsRouter);

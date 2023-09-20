@@ -1,6 +1,5 @@
 import express from "express";
 import passport from "passport";
-import { userController } from "../controllers/users.controller.js";
 export const loginRoutes = express.Router();
 
 loginRoutes.get("/", (req, res) => {
@@ -36,8 +35,3 @@ loginRoutes.get(
 loginRoutes.get("/show", (req, res) => {
   return res.send(JSON.stringify(req.session));
 });
-
-//recovery-password
-loginRoutes.post("/recover-pass", userController.recoveryPass);
-
-loginRoutes.get("/recover-pass", userController.checkCode);
