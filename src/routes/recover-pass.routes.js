@@ -5,3 +5,4 @@ export const recoverPassRoutes = express.Router();
 //recovery-password
 recoverPassRoutes.post("/", recoverPassController.recoveryPass);
 recoverPassRoutes.get("/", recoverPassController.checkCode);
+recoverPassRoutes.post("/new-password", recoverPassController.updatePassword);

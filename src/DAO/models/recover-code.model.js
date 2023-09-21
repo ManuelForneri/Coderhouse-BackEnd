@@ -10,10 +10,10 @@ class RecoverCodeModel {
     return result;
   }
   async checkCode({ code, email }) {
-    const result = false;
+    let result = false;
     const codeCheck = await RecoverCodeMongoose.findOne({ code, email }, {});
 
-    if (checkCode.expire > Date.now()) {
+    if (codeCheck.expire > Date.now()) {
       result = true;
     }
 

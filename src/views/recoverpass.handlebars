@@ -2,13 +2,23 @@
   <form class="m-auto h-80" method="post" action="/">
     <!-- Name input -->
     <div class="form-outline mb-4">
-      <input type="text" id="form5Example1" class="form-control" />
+      <input
+        type="password"
+        id="newpass1"
+        class="form-control"
+        onchange="verificarPassword()"
+      />
       <label class="form-label" for="form5Example1">Nueva contraseña</label>
     </div>
 
     <!-- Email input -->
     <div class="form-outline mb-4">
-      <input type="email" id="form5Example2" class="form-control" />
+      <input
+        type="password"
+        id="newpass2"
+        class="form-control"
+        onchange="verificarPassword()"
+      />
       <label class="form-label" for="form5Example2">Repetir contraseña</label>
     </div>
 
@@ -16,6 +26,9 @@
     <button
       type="submit"
       class="btn btn-primary btn-block mb-4"
-    >Cambiar</button>
+      id="boton-submit-password"
+      disabled
+    >Cambiar contraseña</button>
   </form>
+  <script src="../utils/cheackPassword.js"></script>
 </div>

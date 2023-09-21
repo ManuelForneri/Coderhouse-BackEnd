@@ -51,5 +51,9 @@ class RecoverPassController {
       res.render("error");
     }
   };
+  updatePassword = async (req, res) => {
+    const newPassword = req.body;
+    res.send(newPassword);
+  };
 }
 export const recoverPassController = new RecoverPassController();
