@@ -1,4 +1,5 @@
 import { RecoverCodeMongoose } from "./mongoose/recover-code.mongoose.js";
+import { userMongoose } from "./mongoose/users.mongoose.js";
 
 class RecoverCodeModel {
   async create({ email, code, expire }) {
@@ -17,6 +18,13 @@ class RecoverCodeModel {
       result = true;
     }
 
+    return result;
+  }
+  async updatePassword({ email, passwordHashed }) {
+    const result = await userMongoose.findOneAndUpdate(
+      { email: email },
+      { password: passwordHashed }
+    );
     return result;
   }
 }

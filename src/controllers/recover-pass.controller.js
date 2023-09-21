@@ -12,7 +12,7 @@ class RecoverPassController {
       if (user) {
         //generando codigo de recuperacion
         const result = await RPServise.create(email);
-        console.log(result);
+
         //enviar un mail con el link de recuperacion
         await transport.sendMail({
           from: env.gmail,
@@ -33,6 +33,7 @@ class RecoverPassController {
       }
     } catch (error) {
       console.log(error);
+      //verificar logger
     }
   };
 
@@ -40,10 +41,9 @@ class RecoverPassController {
     try {
       const { code, email } = req.query;
 
-      //llamar al services para chekear el codigo
       const result = await RPServise.checkCode({ code, email });
       if (result) {
-        res.render("recoverpass");
+        res.render("recoverpass", { email: email });
       } else {
         res.send("El codigo expiro o es invalido");
       }
@@ -52,8 +52,17 @@ class RecoverPassController {
     }
   };
   updatePassword = async (req, res) => {
-    const newPassword = req.body;
-    res.send(newPassword);
+    try {
+      const { email, newPassword } = req.body;
+      const result = await RPServise.updatePassword({ email, newPassword });
+      if (result) {
+        res.redirect("/login");
+      } else {
+        res.send("error algo fallo");
+      }
+    } catch (e) {
+      res.send("error hacer un handle");
+    }
   };
 }
 export const recoverPassController = new RecoverPassController();

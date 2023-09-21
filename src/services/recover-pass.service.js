@@ -1,5 +1,6 @@
 import { recoverCodeModel } from "../DAO/models/recover-code.model.js";
 import { randomBytes } from "crypto";
+import { createHash } from "../utils/hashPassword.js";
 
 class recoverPassServices {
   async create(email) {
@@ -18,8 +19,16 @@ class recoverPassServices {
       return result;
     } catch (e) {
       console.log(e);
+      //verificar logger
     }
   }
-  async updatePassword() {}
+  async updatePassword({ email, newPassword }) {
+    const passwordHashed = createHash(newPassword);
+    const result = await recoverCodeModel.updatePassword({
+      email,
+      passwordHashed,
+    });
+    return result;
+  }
 }
 export const RPServise = new recoverPassServices();
