@@ -12,6 +12,7 @@ class RecoverCodeModel {
   async checkCode({ code, email }) {
     const result = false;
     const codeCheck = await RecoverCodeMongoose.findOne({ code, email }, {});
+
     if (checkCode.expire > Date.now()) {
       result = true;
     }
