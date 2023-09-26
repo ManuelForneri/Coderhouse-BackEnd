@@ -33,7 +33,7 @@ switch (env.loggerLevel) {
     logger = winston.createLogger({
       levels,
       format: combine(
-        colorize({ all: true }),
+        colorize({ colors: true }),
         timestamp({
           format: "YYYY-MM-DD HH:mm:ss",
         }),
@@ -42,7 +42,7 @@ switch (env.loggerLevel) {
       transports: [
         new winston.transports.Console({
           level: env.loggerLevel, // Este nivel se mostrará en la consola
-          format: winston.format.colorize({ all: true }),
+          format: winston.format.colorize({ colors: true }),
         }),
       ],
     });
@@ -51,7 +51,7 @@ switch (env.loggerLevel) {
     logger = winston.createLogger({
       levels,
       format: combine(
-        colorize({ all: true }),
+        colorize({ colors: true }),
         timestamp({
           format: "YYYY-MM-DD HH:mm:ss",
         }),
@@ -60,10 +60,10 @@ switch (env.loggerLevel) {
       transports: [
         new winston.transports.Console({
           level: env.loggerLevel, // Este nivel se mostrará en la consola
-          format: winston.format.colorize({ all: true }),
+          format: winston.format.colorize({ colors: true }),
         }),
         new winston.transports.File({
-          filename: "./src/utils/logs/errors.log",
+          filename: "./errors.log",
           level: "error", // Este nivel se registrará en el archivo
         }),
       ],

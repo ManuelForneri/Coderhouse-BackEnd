@@ -66,5 +66,34 @@ class UserModel {
       throw error;
     }
   }
+  async userUpdateRole(uid) {
+    try {
+      let result = false;
+      let user = await userMongoose.findById({ _id: uid }, {});
+      if (user.role === "user") {
+        let userUpdate = await userMongoose.findByIdAndUpdate(
+          { _id: uid },
+          { role: "premium" }
+        );
+        if (userUpdate) {
+          result = true;
+        }
+      } else if (user.role === "premium") {
+        let userUpdate = await userMongoose.findByIdAndUpdate(
+          { _id: uid },
+          { role: "user" }
+        );
+        if (userUpdate) {
+          result = true;
+        }
+      }
+
+      return result;
+    } catch (e) {
+      logger.error(
+        "No se pudo completar la operacion de actualizar a premium fallo en el model"
+      );
+    }
+  }
 }
 export const userModel = new UserModel();

@@ -1,9 +1,9 @@
 import env from "../config/enviroment.config.js";
 import { UServices } from "../services/users.service.js";
-import { logger } from "../utils/logs/logger.js";
 import { randomBytes } from "crypto";
 import { transport } from "../utils/nodemailer.js";
 import { RecoverCodeMongoose } from "../DAO/models/mongoose/recover-code.mongoose.js";
+import { logger } from "../utils/logs/logger.js";
 
 class UserController {
   getAll = (req, res) => {
@@ -113,48 +113,26 @@ class UserController {
       });
     }
   };
-  recoveryPass = async (req, res) => {
+  userUpdateRole = async (req, res) => {
     try {
-      const { email } = req.body;
-
-      const user = await UServices.getEmail(email.toLowerCase());
-      if (user) {
-        //generando codigo de recuperacion
-        const code = randomBytes(20).toString("hex");
-        const expire = Date.now() + 3600000;
-        await RecoverCodeMongoose.create({
-          email,
-          code,
-          expire,
+      const { uid } = req.params;
+      const result = await UServices.userUpdateRole(uid);
+      if (result) {
+        return res.status(200).json({
+          status: "succes",
+          msg: "Se actualizo el rol del usuario",
         });
-        //enviar un mail con el link de recuperacion
-        await transport.sendMail({
-          from: env.gmail,
-          to: email,
-          subject: "Restablecer contraseña",
-          html: ` 
-          <div>
-            <h1 style="color: "red"">Restablecer contraseña</h1>
-            <p>Si desea restablecer la contraseña haga click</p>
-            <a href="http://localhost:8080/login/recover-pass?code=${code}&email=${email}" >Aqui</a>
-          </div>`,
-        });
-        res.send("Revise su casilla de mail");
-        //hacer un render
       } else {
-        res.send("ese mail no existe");
-        //hacer un render
+        return res.status(200).json({
+          status: "succes",
+          msg: "usted es admin",
+        });
       }
     } catch (e) {
-      logger.error(e);
+      logger.error(
+        "No se pudo completar la operacion de actualizar a premium fallo en el controller"
+      );
     }
-  };
-
-  checkCode = (req, res) => {
-    const { code, email } = req.query;
-    //llamar al services para chekear el codigo
-
-    res.send(code + email);
   };
 }
 export const userController = new UserController();

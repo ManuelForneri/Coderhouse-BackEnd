@@ -10,3 +10,5 @@ usersRouter.post("/", userController.create);
 usersRouter.put("/:id", userController.update);
 
 usersRouter.delete("/:id", userController.delete);
+
+usersRouter.get("/premium/:uid", userController.userUpdateRole);

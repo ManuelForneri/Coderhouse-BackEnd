@@ -1,4 +1,5 @@
 import { userModel } from "../DAO/models/users.model.js";
+import { logger } from "../utils/logs/logger.js";
 
 class userServices {
   async getAll() {
@@ -50,6 +51,16 @@ class userServices {
     } catch (error) {
       console.error("Error authenticating user:", error);
       throw error;
+    }
+  }
+  async userUpdateRole(uid) {
+    try {
+      const result = await userModel.userUpdateRole(uid);
+      return result;
+    } catch (e) {
+      logger.error(
+        "No se pudo completar la operacion de actualizar a premium fallo en el services"
+      );
     }
   }
 }
