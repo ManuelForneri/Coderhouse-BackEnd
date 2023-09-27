@@ -1,11 +1,11 @@
-<h2>Perfil</h2>
-<div>
-  <div>{{_id}}</div>
-  <div>{{first_name}} {{last_name}}</div>
-  <div>{{email}}</div>
-  <div>edad: {{age}}</div>
-  <div>Rol: {{role}}</div>
-  <a href="/products" style="text-decoration: none;">Volver </a>
-
-  <a href="/logout">Cerrar sesion</a>
+<div class="card p-3 m-3">
+  <h2 class="card-title">Perfil</h2>
+  <div class="card-body">
+    <h5 class="card-title">{{first_name}} {{last_name}}</h5>
+    <h6 class="card-subtitle mb-2 text-muted">{{email}}</h6>
+    <p class="card-text">edad: {{age}}</p>
+    <p class="card-text">Rol: {{role}}</p>
+    <a href="/products" class="btn btn-primary">Volver </a>
+    <a href="/logout" class="btn btn-danger">Cerrar sesion</a>
+  </div>
 </div>
