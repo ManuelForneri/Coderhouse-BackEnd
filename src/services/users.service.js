@@ -59,7 +59,7 @@ class userServices {
       return result;
     } catch (e) {
       logger.error(
-        "No se pudo completar la operacion de actualizar a premium fallo en el services"
+        "No se pudo completar la operacion de actualizar fallo en el services"
       );
     }
   }
