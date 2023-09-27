@@ -9,7 +9,9 @@ export function checkAdmin(req, res, next) {
   if (req.session?.user && req.session.user.role == "admin") {
     return next();
   } else {
-    return res.render("error");
+    return res.render("error", {
+      title: "Usted no tiene permiso de administrador",
+    });
   }
 }
 export function checkUserCart(req, res, next) {
