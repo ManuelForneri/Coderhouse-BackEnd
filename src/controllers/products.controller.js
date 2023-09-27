@@ -10,7 +10,11 @@ class ProductsController {
 
       return res.json(response);
     } catch (error) {
-      return res.render("error");
+      let data = {
+        title: "Error inesperado",
+        text: "intentelo otra vez",
+      };
+      return res.render("error", data);
     }
   };
   getAllRender = async (req, res) => {
@@ -89,7 +93,11 @@ class ProductsController {
       });
       return res.status(200).render("realtimeproducts", { title, products });
     } catch (error) {
-      return res.render("error");
+      let data = {
+        title: "Error inesperado",
+        text: "intentelo otra vez",
+      };
+      return res.render("error", data);
     }
   };
   createProduct = (req, res) => {

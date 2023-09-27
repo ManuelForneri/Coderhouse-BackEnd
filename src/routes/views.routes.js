@@ -16,7 +16,11 @@ viewsRouter.get("/user-cart", async (req, res) => {
     const plainCart = cartFound.products.map((doc) => doc.toObject());
     return res.render("cart", { plainCart });
   } catch (e) {
-    return res.render("error");
+    let data = {
+      title: "Error inesperado",
+      text: "intentelo otra vez",
+    };
+    return res.render("error", data);
   }
 });
 viewsRouter.get("/product-details/:pid", async (req, res) => {
@@ -35,7 +39,11 @@ viewsRouter.get("/product-details/:pid", async (req, res) => {
     };
     return res.render("product-detail", { plainProduct });
   } catch (e) {
-    return res.render("error");
+    let data = {
+      title: "Error inesperado",
+      text: "intentelo otra vez",
+    };
+    return res.render("error", data);
   }
 });
 viewsRouter.get("/current", async (req, res) => {

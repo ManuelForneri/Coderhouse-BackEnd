@@ -48,7 +48,11 @@ class RecoverPassController {
         res.send("El codigo expiro o es invalido");
       }
     } catch (error) {
-      res.render("error");
+      let data = {
+        title: "Error inesperado",
+        text: "intentelo otra vez",
+      };
+      res.render("error", data);
     }
   };
   updatePassword = async (req, res) => {

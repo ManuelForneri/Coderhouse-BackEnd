@@ -9,7 +9,11 @@ import passport from "passport";
 import { __dirname } from "./config.js";
 import env from "./config/enviroment.config.js";
 import { iniPassport } from "./config/passport.config.js";
-import { authenticate, checkAdmin } from "./middlewares/authenticate.js";
+import {
+  authenticate,
+  checkAdmin,
+  checkingRolePermissions,
+} from "./middlewares/authenticate.js";
 import errorHandle from "./middlewares/error.js";
 import { cartRouter } from "./routes/carts.routes.js";
 import { cookiesRouter } from "./routes/cookies.routes.js";
@@ -79,7 +83,7 @@ app.use("/products", authenticate, home);
 app.use("/api/products", authenticate, productsRouter);
 app.use("/api/carts", cartRouter);
 app.use("/api/users", authenticate, usersRouter);
-app.use("/realtimeproducts", checkAdmin, realTimeProducts);
+app.use("/realtimeproducts", checkingRolePermissions, realTimeProducts);
 app.use("/chat", authenticate, realTimeChat);
 app.use("/cookie", cookiesRouter);
 app.use("/ticket", ticketRouter);

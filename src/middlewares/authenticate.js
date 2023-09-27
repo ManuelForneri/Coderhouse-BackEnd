@@ -9,9 +9,11 @@ export function checkAdmin(req, res, next) {
   if (req.session?.user && req.session.user.role == "admin") {
     return next();
   } else {
-    return res.render("error", {
-      title: "Usted no tiene permiso de administrador",
-    });
+    let data = {
+      title: "Error no tiene permiso para entrar aqui",
+      text: "Usted no es un administrador o premium",
+    };
+    return res.render("error", data);
   }
 }
 export function checkUserCart(req, res, next) {
@@ -23,5 +25,12 @@ export function checkUserCart(req, res, next) {
     const notCart =
       "El carrito al que quieres acceder no corresponde a tu usuario";
     return res.status(500).render("error", { notCart });
+  }
+}
+export function checkingRolePermissions() {
+  if (req.session.user.role == "admin" || "premium") {
+    return next();
+  } else {
+    return res.render("error");
   }
 }
