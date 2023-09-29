@@ -30,6 +30,8 @@ import { usersRouter } from "./routes/users.routes.js";
 import { viewsRouter } from "./routes/views.routes.js";
 import { connectMongo } from "./utils/dbConnection.js";
 import { connectSocketServer } from "./utils/socketServer.js";
+import swaggerJSDoc from "swagger-jsdoc";
+import swaggerUiExpress from "swagger-ui-express";
 
 import { recoverPassRoutes } from "./routes/recover-pass.routes.js";
 import { logger } from "./utils/logs/logger.js";
@@ -78,6 +80,19 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.use(cors());
+
+//Documentacion
+const specs = swaggerJSDoc({
+  definition: {
+    openapi: "3.0.1",
+    info: {
+      title: "Documentacion my-ecommerce",
+      description: "Este proyecto es un ecommerce",
+    },
+  },
+  apis: [`${__dirname}/docs/**/*.yaml`],
+});
+app.use("/apidocs", swaggerUiExpress.serve, swaggerUiExpress.setup(specs));
 
 app.use("/products", authenticate, home);
 app.use("/api/products", authenticate, productsRouter);
