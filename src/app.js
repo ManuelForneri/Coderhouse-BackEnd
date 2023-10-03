@@ -95,9 +95,9 @@ const specs = swaggerJSDoc({
 app.use("/apidocs", swaggerUiExpress.serve, swaggerUiExpress.setup(specs));
 
 app.use("/products", authenticate, home);
-app.use("/api/products", authenticate, productsRouter);
+app.use("/api/products", productsRouter);
 app.use("/api/carts", cartRouter);
-app.use("/api/users", authenticate, usersRouter);
+app.use("/api/users", usersRouter);
 app.use("/realtimeproducts", checkingRolePermissions, realTimeProducts);
 app.use("/chat", authenticate, realTimeChat);
 app.use("/cookie", cookiesRouter);
