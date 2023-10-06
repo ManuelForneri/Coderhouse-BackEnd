@@ -6,6 +6,8 @@ import compression from "express-compression";
 import handlebars from "express-handlebars";
 import session from "express-session";
 import passport from "passport";
+import swaggerJSDoc from "swagger-jsdoc";
+import swaggerUiExpress from "swagger-ui-express";
 import { __dirname } from "./config.js";
 import env from "./config/enviroment.config.js";
 import { iniPassport } from "./config/passport.config.js";
@@ -30,11 +32,8 @@ import { usersRouter } from "./routes/users.routes.js";
 import { viewsRouter } from "./routes/views.routes.js";
 import { connectMongo } from "./utils/dbConnection.js";
 import { connectSocketServer } from "./utils/socketServer.js";
-import swaggerJSDoc from "swagger-jsdoc";
-import swaggerUiExpress from "swagger-ui-express";
 
 import { recoverPassRoutes } from "./routes/recover-pass.routes.js";
-import { logger } from "./utils/logs/logger.js";
 
 const app = express();
 app.use(
@@ -108,17 +107,6 @@ app.use("/register", registerRoutes);
 app.use("/recover-pass", recoverPassRoutes);
 app.use("/perfil", authenticate, profileRoutes);
 app.use("/logout", authenticate, logoutRoutes);
-
-app.use("/test-logger", (req, res) => {
-  logger.error("soy un error");
-  logger.warn("soy un warn");
-  logger.info("soy un info");
-  logger.http("soy un http");
-  logger.verbose("soy un verbose");
-  logger.debug("soy un debug");
-  res.send("probando loggers");
-});
-
 app.use("/", viewsRouter);
 app.use("/admin", checkAdmin, (req, res) => {
   res.render("admin");
