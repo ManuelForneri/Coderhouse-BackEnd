@@ -63,5 +63,15 @@ class userServices {
       );
     }
   }
+  async lastConection(uid) {
+    try {
+      let result = await userModel.lastConection(uid);
+      return result;
+    } catch (e) {
+      logger.error(
+        "No se pudo guardar la ultima conexion, error en el services"
+      );
+    }
+  }
 }
 export const UServices = new userServices();

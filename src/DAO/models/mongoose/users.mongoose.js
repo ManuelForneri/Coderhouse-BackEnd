@@ -49,6 +49,10 @@ const userSchema = new Schema({
     ref: "carts",
     required: true,
   },
+  last_connection: {
+    type: Number,
+    default: 0,
+  },
 });
 
 export const userMongoose = model("users", userSchema);

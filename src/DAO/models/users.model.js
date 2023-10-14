@@ -95,5 +95,12 @@ class UserModel {
       );
     }
   }
+  async lastConection(uid) {
+    let result = await userMongoose.updateOne(
+      { _id: uid },
+      { last_connection: Date.now() }
+    );
+    return result;
+  }
 }
 export const userModel = new UserModel();

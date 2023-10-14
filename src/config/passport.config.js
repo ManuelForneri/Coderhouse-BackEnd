@@ -22,7 +22,7 @@ export function iniPassport() {
         if (!isValidPassword(password, user.password)) {
           return done(null, false);
         }
-
+        await UServices.lastConection(user._id);
         return done(null, user);
       } catch (err) {
         return done(err);
@@ -60,7 +60,7 @@ export function iniPassport() {
             cid: userCart._id.toString(),
           };
           let userCreated = await userController.create(newUser);
-
+          await UServices.lastConection(user._id);
           return done(null, userCreated);
         } catch (e) {
           return done(e);
@@ -109,9 +109,10 @@ export function iniPassport() {
               cid: userCart._id.toString(),
             };
             let userCreated = await userController.create(newUser);
-
+            await UServices.lastConection(userCreated._id);
             return done(null, userCreated);
           } else {
+            await UServices.lastConection(user._id);
             return done(null, user);
           }
         } catch (e) {

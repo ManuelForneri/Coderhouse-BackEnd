@@ -11,8 +11,6 @@ import { cartsMemory } from "./memory/cart.memory.js";
 import { productsMemory } from "./memory/products.memory.js";
 import { userMemory } from "./memory/user.memory.js";
 
-//logger
-
 export async function importModels() {
   let models;
 
