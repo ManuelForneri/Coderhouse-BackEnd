@@ -29,6 +29,7 @@ import { realTimeProducts } from "./routes/realtimeproducts.routes.js";
 import { registerRoutes } from "./routes/register.routes.js";
 import { ticketRouter } from "./routes/tickets.routes.js";
 import { usersRouter } from "./routes/users.routes.js";
+import { adminRouter } from "./routes/admin.routes.js";
 import { viewsRouter } from "./routes/views.routes.js";
 import { connectMongo } from "./utils/dbConnection.js";
 import { connectSocketServer } from "./utils/socketServer.js";
@@ -108,9 +109,7 @@ app.use("/recover-pass", recoverPassRoutes);
 app.use("/perfil", authenticate, profileRoutes);
 app.use("/logout", authenticate, logoutRoutes);
 app.use("/", viewsRouter);
-app.use("/admin", checkAdmin, (req, res) => {
-  res.render("admin");
-});
+app.use("/admin", checkAdmin, adminRouter);
 
 app.get("*", (req, res) => {
   return res.status(404).send("not found");

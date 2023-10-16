@@ -27,8 +27,8 @@ export function checkUserCart(req, res, next) {
     return res.status(500).render("error", { notCart });
   }
 }
-export function checkingRolePermissions() {
-  if (req.session.user.role == "admin" || "premium") {
+export function checkingRolePermissions(req, res, next) {
+  if (req.session.user.role === "admin" || "premium") {
     return next();
   } else {
     return res.render("error");
