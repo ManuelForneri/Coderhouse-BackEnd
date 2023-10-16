@@ -102,5 +102,13 @@ class UserModel {
     );
     return result;
   }
+  async userManager() {
+    const dosHorasAtras = Date.now() - 2 * 60 * 60 * 1000;
+    const result = await userMongoose.deleteMany({
+      last_conection: { $lt: dosHorasAtras },
+      role: { $ne: "admin" },
+    });
+    return result;
+  }
 }
 export const userModel = new UserModel();

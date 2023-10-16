@@ -60,7 +60,7 @@ export function iniPassport() {
             cid: userCart._id.toString(),
           };
           let userCreated = await userController.create(newUser);
-          await UServices.lastConection(user._id);
+          await UServices.lastConection(userCreated._id.toString());
           return done(null, userCreated);
         } catch (e) {
           return done(e);
