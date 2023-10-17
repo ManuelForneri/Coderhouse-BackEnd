@@ -4,3 +4,4 @@ export const adminRouter = express.Router();
 
 adminRouter.get("/", adminController.adminView);
 adminRouter.get("/user-manager", adminController.userManager);
+adminRouter.get("/clear-list", adminController.clearListUsers);

@@ -8,6 +8,11 @@ class UserModel {
         {},
         {
           __v: false,
+          _id: false,
+          cid: false,
+          last_connection: false,
+          password: false,
+          username: false,
         }
       );
       return user;
@@ -102,10 +107,12 @@ class UserModel {
     );
     return result;
   }
-  async userManager() {
-    const dosHorasAtras = Date.now() - 2 * 60 * 60 * 1000;
+  async clearListUsers() {
+    const ahora = new Date();
+    const dosDiasAtras = new Date(ahora - 2 * 24 * 60 * 60 * 1000);
+
     const result = await userMongoose.deleteMany({
-      last_conection: { $lt: dosHorasAtras },
+      last_connection: { $lt: dosDiasAtras },
       role: { $ne: "admin" },
     });
     return result;

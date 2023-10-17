@@ -2,9 +2,10 @@ import { UServices } from "../services/users.service.js";
 import { logger } from "../utils/logs/logger.js";
 
 class UserController {
-  getAll = (req, res) => {
+  getAll = async (req, res) => {
     try {
-      const users = UServices.getAll();
+      const users = await UServices.getAll();
+      console.log(users);
       return res.status(200).json({
         status: "success",
         msg: "listado de usuarios",

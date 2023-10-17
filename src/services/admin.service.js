@@ -2,9 +2,9 @@ import { userModel } from "../DAO/models/users.model.js";
 import { logger } from "../utils/logs/logger.js";
 
 class adminServices {
-  async userManager() {
+  async clearListUsers() {
     try {
-      let result = await userModel.userManager();
+      let result = await userModel.clearListUsers();
       return result;
     } catch (e) {
       logger.error(
