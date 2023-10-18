@@ -15,7 +15,7 @@ class AdminController {
     try {
       let result = await AServices.clearListUsers();
       console.log(result);
-      res.send("usuarios eliminados correctamente");
+      res.render("user-succes-delete");
     } catch (e) {
       logger.error(
         "error en controller de administrador, funcion de userManager"

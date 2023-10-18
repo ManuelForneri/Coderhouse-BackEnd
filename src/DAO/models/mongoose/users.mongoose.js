@@ -46,7 +46,7 @@ const userSchema = new Schema({
   cid: {
     type: Schema.Types.ObjectId,
     ref: "carts",
-    required: true,
+    // required: true,
   },
   last_connection: {
     type: Number,

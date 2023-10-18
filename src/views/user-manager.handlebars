@@ -1,4 +1,6 @@
 <div class="card">
+  <a class="btn btn-primary" href="/admin/clear-list">Limpiar lista de usuarios
+    (2 días)</a>
   <table id="dinamic-list-products" class="table">
     <thead>
       <tr>
@@ -28,18 +30,14 @@
               href="/api/users/premium/{{this._id}}"
             >Cambiar rol</a>
             <button
-              id="delete_user"
-              class="deleteButton"
+              class="deleteButton btn btn-danger"
               data-uid="{{this._id}}"
             >Eliminar</button>
           </td>
         </tr>
-
       {{/each}}
     </tbody>
   </table>
-  <a class="btn btn-primary" href="/admin/clear-list">Limpiar lista de usuarios
-    (2 dias)</a>
 
 </div>
 <script src="/js/adminMethod.js"></script>

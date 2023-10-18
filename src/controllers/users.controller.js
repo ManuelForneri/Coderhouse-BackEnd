@@ -85,10 +85,10 @@ class UserController {
       });
     }
   };
-  delete = (req, res) => {
+  delete = async (req, res) => {
     try {
       const { id } = req.params;
-      const result = UServices.delete(id);
+      const result = await UServices.delete(id);
       if (result?.deletedCount > 0) {
         return res.status(200).json({
           status: "success",
