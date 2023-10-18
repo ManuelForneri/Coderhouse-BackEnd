@@ -22,12 +22,17 @@
           <td>{{this.email}}</td>
           <td>{{this.age}}</td>
           <td>{{this.role}}</td>
-          <td><a
+          <td>
+            <a
               class="btn btn-primary"
-              id="{{this._id}}"
-              href="/edit-user/{{this.id}}"
-            >Editar</a>
-            <a class="btn btn-primary" href="/">Eliminar</a></td>
+              href="/api/users/premium/{{this._id}}"
+            >Cambiar rol</a>
+            <button
+              id="delete_user"
+              class="deleteButton"
+              data-uid="{{this._id}}"
+            >Eliminar</button>
+          </td>
         </tr>
 
       {{/each}}
@@ -37,3 +42,4 @@
     (2 dias)</a>
 
 </div>
+<script src="/js/adminMethod.js"></script>
