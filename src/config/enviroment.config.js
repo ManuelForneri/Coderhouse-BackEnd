@@ -24,4 +24,7 @@ export default {
   twilioToken: process.env.TWILIO_AUTH_TOKEN,
   twilioNumber: process.env.TWILIO_PHONE_NUMBER,
   loggerLevel: process.env.LOGGER_LEVEL,
+  clientID: process.env.CLIENT_GITHUB_ID,
+  clientSecret: process.env.CLIENT_GITHUB_SECRET,
+  callbackURL: process.env.CALLBACK_URL,
 };

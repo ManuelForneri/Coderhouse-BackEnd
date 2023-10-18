@@ -8,6 +8,7 @@ import { CServices } from "../services/carts.service.js";
 import { userController } from "../controllers/users.controller.js";
 import { userMongoose } from "../DAO/models/mongoose/users.mongoose.js";
 import { cartsController } from "../controllers/carts.controller.js";
+import env from "./enviroment.config.js";
 const LocalStrategy = local.Strategy;
 
 export function iniPassport() {
@@ -73,9 +74,9 @@ export function iniPassport() {
     "github",
     new GitHubStrategy(
       {
-        clientID: "Iv1.2d103252830c337b",
-        clientSecret: "fcc8a8c56d41da58ee2ecbe8e57a9ad8d07fdc1e",
-        callbackURL: "http://localhost:8080/login/githubcallback",
+        clientID: env.clientID,
+        clientSecret: env.clientSecret,
+        callbackURL: env.callbackURL,
       },
       async (accesToken, _, profile, done) => {
         try {
