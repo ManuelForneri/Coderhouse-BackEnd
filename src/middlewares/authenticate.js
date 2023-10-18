@@ -31,6 +31,10 @@ export function checkingRolePermissions(req, res, next) {
   if (req.session.user.role === "admin" || "premium") {
     return next();
   } else {
-    return res.render("error");
+    let data = {
+      title: "Error no tiene permiso para entrar aqui",
+      text: "Usted no es un administrador o premium",
+    };
+    return res.render("error", data);
   }
 }
