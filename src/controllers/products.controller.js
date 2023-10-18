@@ -92,7 +92,7 @@ class ProductsController {
           category: product.category,
         };
       });
-      return res.status(200).render("realtimeproducts", { title, products });
+      return res.status(200).render("real-time-products", { title, products });
     } catch (error) {
       logger.error("error en el controller de realtimeproducts");
 
