@@ -1,4 +1,5 @@
 import { PServices } from "../services/products.service.js";
+import { logger } from "../utils/logs/logger.js";
 import ProductsDTO from "./DTO/products.DTO.js";
 
 class ProductsController {
@@ -93,6 +94,7 @@ class ProductsController {
       });
       return res.status(200).render("realtimeproducts", { title, products });
     } catch (error) {
+      logger.error("error en el controller de realtimeproducts");
       let data = {
         title: "Error inesperado",
         text: "intentelo otra vez",
