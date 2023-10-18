@@ -4,6 +4,9 @@
   "description": "",
   "main": "ProductManager.js",
   "type": "module",
+  "engines": {
+    "node": "20.x"
+  },
   "scripts": {
     "dev": "nodemon -e yaml,js ./src/app.js --mode DEVELOPMENT",
     "start": "node ./src/app.js --mode PRODUCTION"
