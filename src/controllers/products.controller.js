@@ -95,11 +95,8 @@ class ProductsController {
       return res.status(200).render("realtimeproducts", { title, products });
     } catch (error) {
       logger.error("error en el controller de realtimeproducts");
-      let data = {
-        title: "Error inesperado",
-        text: "intentelo otra vez",
-      };
-      return res.render("error", data);
+
+      return res.render("error-products");
     }
   };
   createProduct = (req, res) => {
