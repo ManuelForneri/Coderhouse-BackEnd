@@ -1,12 +1,15 @@
 import { AServices } from "../services/admin.service.js";
+import { UServices } from "../services/users.service.js";
 import { logger } from "../utils/logs/logger.js";
 
 class AdminController {
   adminView = (req, res) => {
     res.render("admin");
   };
-  userManager = (req, res) => {
-    res.render("user-manager");
+  userManager = async (req, res) => {
+    let users = await UServices.getAllInfo();
+    let plainUsers = users.map((doc) => doc.toObject());
+    res.render("user-manager", { users: plainUsers });
   };
   clearListUsers = async (req, res) => {
     try {

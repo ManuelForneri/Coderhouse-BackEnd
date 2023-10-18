@@ -1,5 +1,6 @@
 import { userMongoose } from "./mongoose/users.mongoose.js";
 import { isValidPassword } from "../../utils/hashPassword.js";
+import { logger } from "../../utils/logs/logger.js";
 
 class UserModel {
   async getAll() {
@@ -18,6 +19,14 @@ class UserModel {
       return user;
     } catch (e) {
       throw e;
+    }
+  }
+  async getAllInfo() {
+    try {
+      const allUsers = await userMongoose.find({}, { __v: false });
+      return allUsers;
+    } catch (e) {
+      logger.error("No se pueden obtener todos los usuarios, error en model");
     }
   }
   async getOne(username) {

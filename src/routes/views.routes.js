@@ -14,7 +14,8 @@ viewsRouter.get("/user-cart", async (req, res) => {
     let userFound = await userController.getUserById(_id);
     const cartFound = await CServices.getCartById(userFound.cid);
     const plainCart = cartFound.products.map((doc) => doc.toObject());
-    return res.render("cart", { plainCart });
+
+    return res.render("cart", { plainCart, cid: cartFound._id.toString() });
   } catch (e) {
     let data = {
       title: "Error inesperado",
@@ -26,6 +27,8 @@ viewsRouter.get("/user-cart", async (req, res) => {
 viewsRouter.get("/product-details/:pid", async (req, res) => {
   try {
     const { pid } = req.params;
+    const cid = req.session.user.cid;
+
     const productFound = await PServices.getProductById(pid);
     const plainProduct = {
       _id: productFound._id.toString(),
@@ -36,6 +39,7 @@ viewsRouter.get("/product-details/:pid", async (req, res) => {
       code: productFound.code,
       stock: productFound.stock,
       category: productFound.category,
+      cid: cid,
     };
     return res.render("product-detail", { plainProduct });
   } catch (e) {

@@ -8,6 +8,11 @@ class userServices {
     return users;
   }
 
+  async getAllInfo() {
+    const allUsers = await userModel.getAllInfo();
+    return allUsers;
+  }
+
   async getOne(username) {
     const user = await userModel.getOne(username);
     return user;

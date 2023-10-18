@@ -1,6 +1,6 @@
 <h1>Cart</h1>
 {{#if plainCart}}
-  <table class="table">
+  <table class="table bg-light">
     <thead>
       <tr>
 
@@ -21,6 +21,7 @@
       {{/each}}
     </tbody>
   </table>
+  <a class="btn btn-primary" href="/api/carts/{{cid}}/purchase">Realizar compra</a>
 {{else}}
   <h1>Su carrito esta vacio</h1>
 {{/if}}

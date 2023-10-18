@@ -3,8 +3,8 @@
 
   {{#if plainProduct}}
 
-    <div id={{plainProduct._id}} class="card">
-
+    <div id="card-product" class="card">
+      <div id="pid">{{plainProduct._id}}</div>
       <div>Titulo: {{plainProduct.title}} </div>
       <div>Precio: {{plainProduct.price}} </div>
       <div>Imagen: {{plainProduct.thumbnail}}</div>
@@ -12,27 +12,18 @@
       <div>Codigo: {{plainProduct.code}} </div>
       <div>Stock: <span id="stockProduct">{{plainProduct.stock}}</span></div>
       <div>Categoria: {{plainProduct.category}}</div>
-
+      <div id="cid" class="d-none">{{plainProduct.cid}}</div>
     </div>
 
     <button id="btn-decrease" class="btn">-</button>
     <span id="product-count" class="product-count">0</span>
     <button id="btn-increase" class="btn">+</button>
     <br />
-    <a><button type="submit" class="btn btn-primary">Agregar al carrito</button></a>
+    <a><button id="add-to-cart" type="submit" class="btn btn-primary">Agregar al
+        carrito</button></a>
 
   {{else}}
     <p>El producto no existe o no se encontró.</p>
   {{/if}}
 </div>
-<script>
-  const productCountElement = document.getElementById("product-count"); const
-  btnIncrease = document.getElementById("btn-increase"); const btnDecrease =
-  document.getElementById("btn-decrease"); const stock =
-  document.getElementById("stockProduct").textContent; let productCount = 0; let
-  stockProduct = parseInt(stock); btnIncrease.addEventListener("click", () => {
-  if (productCount < stockProduct) { productCount++; updateProductCount(); } });
-  btnDecrease.addEventListener("click", () => { if (productCount > 0) {
-  productCount--; updateProductCount(); } }); function updateProductCount() {
-  productCountElement.textContent = productCount; }
-</script>
+<script src="/js/addProductToCart.js"></script>
