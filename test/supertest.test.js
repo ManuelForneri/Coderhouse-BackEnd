@@ -130,8 +130,8 @@ describe("TEST API", () => {
       expect(_body.payload).to.be.an.instanceof(Array);
     });
     it("POST", async () => {
-      const cartId = "ToIthONHr1Xm07DlvaADPma9b";
-      const prodId = "647b6a402a2deaefe1fc2848";
+      const cartId = "6530366d8d70b1d4dbad07d0";
+      const prodId = "652c74fa19850f0a3f19c62d";
       const response = await requester
         .post(`api/carts/${cartId}/products/${prodId}`)
         .set("x-test-request", "true");
@@ -143,16 +143,12 @@ describe("TEST API", () => {
       expect(_body.payload.cart).to.have.property("_id");
     });
     it("PUT", async () => {
-      const cartId = "ToIthONHr1Xm07DlvaADPma9b";
+      const cartId = "6530366d8d70b1d4dbad07d0";
       const updatedCartData = {
         products: [
           {
-            product: "647b6a152a2deaefe1fc283e",
+            product: "652c74fa19850f0a3f19c62d",
             quantity: 2,
-          },
-          {
-            product: "647b6a362a2deaefe1fc2846",
-            quantity: 8,
           },
         ],
       };
