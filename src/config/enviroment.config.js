@@ -27,4 +27,5 @@ export default {
   clientID: process.env.CLIENT_GITHUB_ID,
   clientSecret: process.env.CLIENT_GITHUB_SECRET,
   callbackURL: process.env.CALLBACK_URL,
+  dbName: process.env.DB_NAME,
 };

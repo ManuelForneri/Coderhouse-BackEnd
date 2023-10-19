@@ -4,7 +4,7 @@ import env from "../config/enviroment.config.js";
 export async function connectMongo() {
   try {
     await connect(env.mongoUrl, {
-      dbName: "ecommerce",
+      dbName: env.dbName,
     });
     console.log("plug to mongo!");
   } catch (e) {

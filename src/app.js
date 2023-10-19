@@ -66,7 +66,7 @@ app.use(
     saveUninitialized: true,
     store: MongoStore.create({
       mongoUrl: env.mongoUrl,
-      dbName: "ecommerce",
+      dbName: env.dbName,
       mongoOptions: { useNewUrlParser: true, useUnifiedTopology: true },
       ttl: 15 * 60,
     }),
