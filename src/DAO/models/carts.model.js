@@ -49,6 +49,7 @@ class CartModel {
         throw new Error("Product not found");
       }
       const findProdInCart = await cartMongoose.findOne({
+        _id: cid,
         products: { $elemMatch: { product: pid } },
       });
 
