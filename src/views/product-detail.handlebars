@@ -7,7 +7,12 @@
       <div id="pid">{{plainProduct._id}}</div>
       <div>Titulo: {{plainProduct.title}} </div>
       <div>Precio: {{plainProduct.price}} </div>
-      <div>Imagen: {{plainProduct.thumbnail}}</div>
+      <img
+        src={{plainProduct.thumbnail}}
+        class="img-fluid"
+        style="max-width: 100px;"
+        alt={{plainProduct.title}}
+      />
       <div>Descripcion: {{plainProduct.description}}</div>
       <div>Codigo: {{plainProduct.code}} </div>
       <div>Stock: <span id="stockProduct">{{plainProduct.stock}}</span></div>
